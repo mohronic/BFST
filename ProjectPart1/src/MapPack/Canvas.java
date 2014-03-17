@@ -44,7 +44,7 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     AffineTransform transformer;
     double originalX;
     double originalY;
-    
+
     int currentX;
     int currentY;
     boolean mouseDragged;
@@ -100,6 +100,43 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
         scale = (c / d.height);
     }
 
+    public void mouseZoom()
+    {
+        current = jf.getSize();
+        int width = (int) current.getWidth();
+
+        int tmp;
+
+        if (mouseXStart > mouseXEnd)
+        {
+            tmp = mouseXStart;
+            mouseXStart = mouseXEnd;
+            mouseXEnd = tmp;
+        }
+        if (mouseYStart > mouseYEnd)
+        {
+            tmp = mouseYStart;
+            mouseYStart = mouseYEnd;
+            mouseYEnd = tmp;
+        }
+
+        if (mouseXStart == mouseXEnd || mouseYStart == mouseYEnd)
+        {
+            mouseXStart = 1;
+            mouseYStart = 1;
+            mouseXEnd = 1000000;
+            mouseYEnd = 1000000;
+            transformer.setToTranslation(originalX, originalY);
+            transformer.scale(1, 1);
+        } else
+        {
+            transformer.scale((width / (mouseXEnd - mouseXStart)), (width / (mouseXEnd - mouseXStart)));
+            transformer.translate(-mouseXStart, -mouseYStart);
+        }
+
+        repaint();
+    }
+
     /**
      * Paints the map. Called by repaint
      *
@@ -112,7 +149,7 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
         g2.transform(transformer);
 
         calScale();
-        
+
         for (EdgeData ed : e)
         {
             double x1, x2, y1, y2;
@@ -164,9 +201,9 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     {
         mouseXStart = me.getX();
         mouseYStart = me.getY();
-        
+
         mousePressed = true;
-        
+
         drawZoomArea(me);
     }
 
@@ -180,39 +217,7 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     {
         mouseXEnd = me.getX();
         mouseYEnd = me.getY();
-        current = jf.getSize();
-        int width = (int) current.getWidth();
-        
-        int tmp;
-
-        if (mouseXStart > mouseXEnd)
-        {
-            tmp = mouseXStart;
-            mouseXStart = mouseXEnd;
-            mouseXEnd = tmp;
-        }
-        if (mouseYStart > mouseYEnd)
-        {
-            tmp = mouseYStart;
-            mouseYStart = mouseYEnd;
-            mouseYEnd = tmp;
-        }
-
-        if (mouseXStart == mouseXEnd || mouseYStart == mouseYEnd)
-        {
-            mouseXStart = 1;
-            mouseYStart = 1;
-            mouseXEnd = 1000000;
-            mouseYEnd = 1000000;
-            transformer.setToTranslation(originalX, originalY);
-            transformer.scale(1, 1);
-        } else
-        {
-            transformer.scale((width / (mouseXEnd - mouseXStart)), (width / (mouseXEnd - mouseXStart)));
-            transformer.translate(-mouseXStart, -mouseYStart);
-        }
-
-        repaint();
+        this.mouseZoom();
     }
 
     @Override
@@ -231,12 +236,12 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     public void mouseDragged(MouseEvent e)
     {
         currentX = e.getX();
-        currentY = e.getY();        
-        
+        currentY = e.getY();
+
         mouseDragged = true;
-        
+
         drawZoomArea(e);
-        
+
         e.consume();//Stops the event when not in use, makes program run faster
     }
 
@@ -245,22 +250,22 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     {
         currentX = e.getX();
         currentY = e.getY();
-        
+
         mouseDragged = false;
-        
+
         System.out.println("X-coordinate: " + e.getX() + ", Y-coodinate: " + e.getY());
         e.consume();//Stops the event when not in use, makes program run faster
     }
-    
+
     public void drawZoomArea(MouseEvent e)
     {
         Graphics g = getGraphics();
-        
-        if(mousePressed)
+
+        if (mousePressed)
         {
             g.drawRect(mouseXStart, mouseYStart, currentX - mouseXStart, currentY - mouseYStart);
         }
-        
+
         repaint();
     }
 
