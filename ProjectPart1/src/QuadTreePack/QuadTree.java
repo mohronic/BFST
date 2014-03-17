@@ -21,6 +21,8 @@ public class QuadTree {
     private final int sizeLimit = 100;
     public NodeData[] nodeList;
     public int currentNodes = -1;
+    
+    //test
 
 
     public QuadTree(NSEW direction) {
