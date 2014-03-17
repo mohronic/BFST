@@ -6,8 +6,8 @@
 
 package QuadTreePack;
 
-import krakloader.EdgeData;
 import krakloader.NodeData;
+import krakloader.EdgeData;
 
 /**
  *
