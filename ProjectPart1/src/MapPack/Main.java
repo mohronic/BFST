@@ -49,7 +49,7 @@ public class Main {
             public void
                     processEdge(EdgeData ed) {
                 edges.add(ed);
-                Road rd = new Road(ed, nodes.get(ed.FNODE), nodes.get(ed.TNODE));
+                Road rd = new Road(ed, nodes.get(ed.FNODE-1), nodes.get(ed.TNODE-1));
                 qt.insert(rd);
             }
         };
