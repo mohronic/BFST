@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package data;
+package QuadTreePack;
 
 import krakloader.EdgeData;
 import krakloader.NodeData;
