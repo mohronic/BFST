@@ -61,7 +61,7 @@ public class QuadTree {
     
     private boolean checkBounds(Road rd){
         
-        boundary.containsPoint(rd.getMidX(), rd.getMidY());
+        boundary.containsPoint(rd.midX, rd.midY);
         return false;
         
     }
