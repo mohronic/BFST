@@ -47,9 +47,14 @@ public class Boundary {
                 break;
 
         }
+    }
         
-        xdim = 0.5 * bd.xdim;
-        ydim = 0.5 * bd.ydim;
+        public Boundary(NSEW direction) {
+                center = new Center();
+                center.xc = MapPack.Main.xmax/2;
+                center.yc = MapPack.Main.ymax/2;
+                xdim = MapPack.Main.xmax;
+                ydim = MapPack.Main.ymax;
 
     }
 

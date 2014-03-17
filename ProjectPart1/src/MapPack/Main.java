@@ -5,6 +5,7 @@
  */
 package MapPack;
 
+
 import static QuadTreePack.NSEW.ROOT;
 import QuadTreePack.QuadTree;
 import QuadTreePack.Road;
@@ -25,6 +26,7 @@ public class Main {
 
     public static final double xmax = 892658.21706;
     public static final double ymax = 6402050.98297;
+    
     public static ArrayList<NodeData> nodes = new ArrayList<>();
     public static ArrayList<EdgeData> edges = new ArrayList<>();
     //public static QuadTree qt = new QuadTree(ROOT);
@@ -47,7 +49,8 @@ public class Main {
             public void
                     processEdge(EdgeData ed) {
                 edges.add(ed);
-               // Road rd = new Road(ed, nodes.get(ed.FNODE), nodes.get(ed.TNODE));
+
+                //Road rd = new Road(ed, nodes.get(ed.FNODE-1), nodes.get(ed.TNODE-1));
                 //qt.insert(rd);
             }
         };
