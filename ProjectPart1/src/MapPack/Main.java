@@ -28,7 +28,6 @@ public class Main {
     public static ArrayList<NodeData> nodes = new ArrayList<>();
     public static ArrayList<EdgeData> edges = new ArrayList<>();
     public static QuadTree qt = new QuadTree(ROOT);
-
     public static void main(String[] args) throws IOException {
         String dir = "./data/";
 
