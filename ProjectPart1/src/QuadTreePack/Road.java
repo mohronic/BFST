@@ -15,19 +15,11 @@ import krakloader.NodeData;
  */
 public class Road {
     private EdgeData ed;
-    private double midX, midY;
+    public final double midX, midY;
     
     public Road(EdgeData ed, NodeData fn, NodeData tn){
         this.ed = ed;
         midX = (fn.X_COORD+tn.X_COORD)/2;
         midY = (fn.Y_COORD+tn.Y_COORD)/2;
-    }
-
-    public double getMidX() {
-        return midX;
-    }
-
-    public double getMidY() {
-        return midY;
     }
 }
