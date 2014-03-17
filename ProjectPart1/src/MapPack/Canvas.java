@@ -157,7 +157,7 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
             y1 = (-n.get(ed.FNODE - 1).Y_COORD + 6402050.98297) / 800;
             x2 = (n.get(ed.TNODE - 1).X_COORD - 442254.35659) / 800;
             y2 = (-n.get(ed.TNODE - 1).Y_COORD + 6402050.98297) / 800;
-            //checks whether the whole map or a dragged rectangle should be showed.
+            //checks whether the whole map or a dragged rectangle should be showed.            
             if (x1 * scale > mouseXStart && x2 * scale < mouseXEnd && y1 * scale > mouseYStart && y2 * scale < mouseYEnd)
             {
                 Shape road = new Line2D.Double(x1 * scale, y1 * scale, x2 * scale, y2 * scale);
@@ -203,8 +203,6 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
         mouseYStart = me.getY();
 
         mousePressed = true;
-
-        drawZoomArea(me);
     }
 
     /**
@@ -217,7 +215,9 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     {
         mouseXEnd = me.getX();
         mouseYEnd = me.getY();
+        mousePressed = false;
         this.mouseZoom();
+        
     }
 
     @Override
