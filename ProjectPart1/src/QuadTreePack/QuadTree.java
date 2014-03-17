@@ -1,6 +1,7 @@
 package QuadTreePack;
 
 
+import java.util.ArrayList;
 import krakloader.NodeData;
 
 /*
@@ -25,15 +26,16 @@ public class QuadTree {
         if(direction == NSEW.ROOT) {
             boundary = new Boundary(direction);
             roadList = new Road[sizeLimit];
-            return;
-        }
+            
+        } else{
         boundary = new Boundary(direction, boundary);
         roadList = new Road[sizeLimit];
+        }
     }
 
     public void insert(Road rd) {
         if (checkBounds(rd)) {
-            if (!(northeast == null)) {
+            if (!(northeast == null) || !(northwest == null) || !(southeast == null) || !(southwest == null)) {
                 if (checkBounds(rd)) {
                     northeast.insert(rd);
                 } else if (checkBounds(rd)) {
@@ -52,13 +54,29 @@ public class QuadTree {
 
         }
     }
-    
-//    public Road[][] getRoads(double x1, double x2, double y1, double y2){
-//        if (!(northeast == null)){
-//            
+    //todo
+//    public ArrayList<Road> getRoads(double x1, double x2, double y1, double y2){
+//        ArrayList<Road> roads = new ArrayList<>();
+//        if (!(northeast == null) || !(northwest == null) || !(southeast == null) || !(southwest == null)){
+//            if (checkBounds(x1, y1, x2, y2)) {
+//                    northeast.getRoads(x1, x2, y1, y2);
+//                }
+//            if (checkBounds(x1, y1, x2, y2)) {
+//                    northwest.getRoads(x1, x2, y1, y2);
+//                }
+//            if (checkBounds(x1, y1, x2, y2)) {
+//                    southeast.getRoads(x1, x2, y1, y2);
+//                }
+//            if (checkBounds(x1, y1, x2, y2)) {
+//                    southwest.getRoads(x1, x2, y1, y2);
+//                }
+//        } else{
+//            for(Road rd: roadList){
+//                roads.add(rd);
+//            }
 //        }
 //        
-//        return;
+//        return roads;
 //    }
 
     private void divide() {
@@ -72,11 +90,12 @@ public class QuadTree {
         }
     }
     
-    private boolean checkBounds(Road rd){
-        
-        return boundary.containsPoint(rd.midX, rd.midY);
-        
-        
+    private boolean checkBounds(Road rd){        
+        return boundary.containsPoint(rd.midX, rd.midY); 
+    }
+    
+    private boolean checkBounds(double x1, double x2, double y1, double y2){
+            return boundary.containsPoint(x1, y1) || boundary.containsPoint(x2, y2);
     }
 
 }
