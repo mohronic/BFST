@@ -27,7 +27,7 @@ public class Main {
     public static final double ymax = 6402050.98297;
     public static ArrayList<NodeData> nodes = new ArrayList<>();
     public static ArrayList<EdgeData> edges = new ArrayList<>();
-    public static QuadTree qt = new QuadTree(ROOT);
+    //public static QuadTree qt = new QuadTree(ROOT);
     public static void main(String[] args) throws IOException {
         String dir = "./data/";
 
@@ -47,8 +47,8 @@ public class Main {
             public void
                     processEdge(EdgeData ed) {
                 edges.add(ed);
-                Road rd = new Road(ed, nodes.get(ed.FNODE), nodes.get(ed.TNODE));
-                qt.insert(rd);
+               // Road rd = new Road(ed, nodes.get(ed.FNODE), nodes.get(ed.TNODE));
+                //qt.insert(rd);
             }
         };
 

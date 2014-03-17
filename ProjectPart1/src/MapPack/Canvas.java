@@ -76,7 +76,6 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     {
         n = nt;
         e = et;
-
         repaint();
     }
 
@@ -158,7 +157,7 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
             if (x1 * scale > mouseStart.getX() && x2 * scale < mouseEnd.getX() && y1 * scale > mouseStart.getY() && y2 * scale < mouseEnd.getY())
             {
                 Shape road = new Line2D.Double(x1 * scale, y1 * scale, x2 * scale, y2 * scale);
-
+               
                 //Road colering:
                 switch (ed.TYP)
                 {
@@ -175,10 +174,8 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
                         g2.setColor(Color.BLACK); //Other
                         break;
                 }
-
                 g2.draw(road);
             }
-
         }
     }
 
@@ -211,7 +208,6 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
         mouseEnd = me.getPoint();
         mousePressed = false;
         this.mouseZoom();
-
     }
 
     @Override
@@ -231,9 +227,7 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     {
         currentMouse = e.getPoint();
         mouseDragged = true;
-
         drawZoomArea(e);
-
         e.consume();//Stops the event when not in use, makes program run faster
     }
 
@@ -241,9 +235,7 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     public void mouseMoved(MouseEvent e)
     {
         currentMouse = e.getPoint();
-
         mouseDragged = false;
-
         System.out.println("X-coordinate: " + e.getX() + ", Y-coodinate: " + e.getY());
         e.consume();//Stops the event when not in use, makes program run faster
     }
@@ -251,7 +243,6 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     public void drawZoomArea(MouseEvent e)
     {
         Graphics g = getGraphics();
-
         if (mousePressed)
         {
             int width = (int) currentMouse.getX() - (int) mouseStart.getX();
@@ -259,5 +250,4 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
         }
         repaint();
     }
-
 }
