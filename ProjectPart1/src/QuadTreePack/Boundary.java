@@ -40,10 +40,10 @@ public class Boundary {
                 center.yc = 1.5 * bd.center.yc;
                 break;
             case ROOT:
-                center.xc = krakloader.KrakLoader.xmax/2;
-                center.yc = krakloader.KrakLoader.ymax/2;
-                xdim = krakloader.KrakLoader.xmax;
-                ydim = krakloader.KrakLoader.ymax;
+                center.xc = MapPack.Main.xmax/2;
+                center.yc = MapPack.Main.ymax/2;
+                xdim = MapPack.Main.xmax;
+                ydim = MapPack.Main.ymax;
                 break;
 
         }

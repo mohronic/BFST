@@ -20,14 +20,16 @@ import krakloader.NodeData;
  */
 public class Main {
 
+    public static final double xmax = 892658.21706;
+    public static final double ymax = 6402050.98297;
+    public static ArrayList<NodeData> nodes = new ArrayList<>();
+    public static ArrayList<EdgeData> edges = new ArrayList<>();
+
     public static void main(String[] args) throws IOException {
         String dir = "./data/";
 
         // For this example, we'll simply load the raw data into
         // ArrayLists.
-        final ArrayList<NodeData> nodes = new ArrayList<>();
-        final ArrayList<EdgeData> edges = new ArrayList<>();
-
         // For that, we need to inherit from KrakLoader and override
         // processNode and processEdge. We do that with an 
         // anonymous class. 

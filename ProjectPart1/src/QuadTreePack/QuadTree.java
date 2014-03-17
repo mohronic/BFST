@@ -1,9 +1,7 @@
 package QuadTreePack;
 
-
+import krakloader.EdgeData;
 import krakloader.NodeData;
-
-
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,34 +17,33 @@ public class QuadTree {
     public QuadTree northeast, northwest, southeast, southwest;
     public Boundary boundary;
     private final int sizeLimit = 100;
-    public NodeData[] nodeList;
-    public int currentNodes = -1;
-    
+    public EdgeData[] edgeList;
+    public int currentEdges = -1;
+
     //test
-
-
     public QuadTree(NSEW direction) {
         boundary = new Boundary(direction, boundary);
-        nodeList = new NodeData[sizeLimit];
+        edgeList = new EdgeData[sizeLimit];
     }
 
-    public void insert(NodeData nd) {
-        if (boundary.containsPoint(nd.X_COORD, nd.Y_COORD)) {
+    public void insert(EdgeData ed) {
+        if (checkBounds(ed)) {
             if (!(northeast == null)) {
-                if (northeast.boundary.containsPoint(nd.X_COORD, nd.Y_COORD)) {
-                    northeast.insert(nd);
-                } else if (northwest.boundary.containsPoint(nd.X_COORD, nd.Y_COORD)) {
-                    northwest.insert(nd);
-                } else if (southeast.boundary.containsPoint(nd.X_COORD, nd.Y_COORD)) {
-                    southeast.insert(nd);
-                } else if (southwest.boundary.containsPoint(nd.X_COORD, nd.Y_COORD)) {
-                    southwest.insert(nd);
+                if (checkBounds(ed)) {
+                    northeast.insert(ed);
+                } else if (checkBounds(ed)) {
+                    northwest.insert(ed);
+                } else if (checkBounds(ed)) {
+                    southeast.insert(ed);
+                } else if (checkBounds(ed)) {
+                    southwest.insert(ed);
                 }
-            } else if (currentNodes == sizeLimit - 1) {
+                MapPack.Main.nodes.get(ed.FNODE - 1);
+            } else if (currentEdges == sizeLimit - 1) {
                 divide();
-            } else if (currentNodes < sizeLimit) {
-                nodeList[currentNodes + 1] = nd;
-                currentNodes++;
+            } else if (currentEdges < sizeLimit) {
+                edgeList[currentEdges + 1] = ed;
+                currentEdges++;
             }
 
         }
@@ -57,10 +54,17 @@ public class QuadTree {
         northwest = new QuadTree(NSEW.NORTHWEST);
         southeast = new QuadTree(NSEW.SOUTHEAST);
         southwest = new QuadTree(NSEW.SOUTHWEST);
-        
-        for(NodeData nd: nodeList){
-            insert(nd);
+
+        for (EdgeData ed : edgeList) {
+            insert(ed);
         }
+    }
+    
+    private boolean checkBounds(EdgeData ed){
+        
+        //todo
+        return false;
+        
     }
 
 }
