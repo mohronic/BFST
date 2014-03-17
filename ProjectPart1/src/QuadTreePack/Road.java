@@ -14,7 +14,7 @@ import krakloader.NodeData;
  * @author KristianMohr
  */
 public class Road {
-    private EdgeData ed;
+    public final EdgeData ed;
     public final double midX, midY;
     
     public Road(EdgeData ed, NodeData fn, NodeData tn){
