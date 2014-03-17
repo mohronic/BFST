@@ -137,13 +137,14 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
      * @param g
      */
     @Override
-    public void paint(Graphics g)
+    public void paintComponent(Graphics g)
     {
         Graphics2D g2 = (Graphics2D) g;
 
         g2.transform(transformer);
 
         calScale();
+        calRatio();
 
         for (EdgeData ed : e)
         {
