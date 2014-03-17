@@ -5,6 +5,7 @@
  */
 package MapPack;
 
+
 import static QuadTreePack.NSEW.ROOT;
 import QuadTreePack.QuadTree;
 import QuadTreePack.Road;
@@ -25,6 +26,7 @@ public class Main {
 
     public static final double xmax = 892658.21706;
     public static final double ymax = 6402050.98297;
+    
     public static ArrayList<NodeData> nodes = new ArrayList<>();
     public static ArrayList<EdgeData> edges = new ArrayList<>();
     public static QuadTree qt = new QuadTree(ROOT);

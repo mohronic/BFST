@@ -22,6 +22,11 @@ public class QuadTree {
 
     //test
     public QuadTree(NSEW direction) {
+        if(direction == NSEW.ROOT) {
+            boundary = new Boundary(direction);
+            roadList = new Road[sizeLimit];
+            return;
+        }
         boundary = new Boundary(direction, boundary);
         roadList = new Road[sizeLimit];
     }
@@ -47,6 +52,14 @@ public class QuadTree {
 
         }
     }
+    
+//    public Road[][] getRoads(double x1, double x2, double y1, double y2){
+//        if (!(northeast == null)){
+//            
+//        }
+//        
+//        return;
+//    }
 
     private void divide() {
         northeast = new QuadTree(NSEW.NORTHEAST);
@@ -61,8 +74,8 @@ public class QuadTree {
     
     private boolean checkBounds(Road rd){
         
-        boundary.containsPoint(rd.midX, rd.midY);
-        return false;
+        return boundary.containsPoint(rd.midX, rd.midY);
+        
         
     }
 
