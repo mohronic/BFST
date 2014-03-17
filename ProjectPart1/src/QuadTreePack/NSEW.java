@@ -11,7 +11,5 @@ package QuadTreePack;
  * @author Archigo
  */
 public enum NSEW {
-    NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST, ROOT
-    
-    
+    NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST, ROOT  
 }

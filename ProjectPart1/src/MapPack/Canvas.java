@@ -231,8 +231,7 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     {
         currentMouse = e.getPoint();
         mouseDragged = true;
-
-        drawZoomArea(e);
+        drawZoomArea();
 
         e.consume();//Stops the event when not in use, makes program run faster
     }
@@ -241,14 +240,11 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     public void mouseMoved(MouseEvent e)
     {
         currentMouse = e.getPoint();
-
         mouseDragged = false;
-
-        System.out.println("X-coordinate: " + e.getX() + ", Y-coodinate: " + e.getY());
         e.consume();//Stops the event when not in use, makes program run faster
     }
 
-    public void drawZoomArea(MouseEvent e)
+    public void drawZoomArea()
     {
         Graphics g = getGraphics();
 
