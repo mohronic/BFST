@@ -50,8 +50,8 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     boolean mouseDragged;
     boolean mousePressed;
     
-    double ratio;
-
+    double ratio = d.getWidth()/d.getHeight();
+    
     public Canvas()
     {
         jf = new JFrame();
@@ -63,8 +63,6 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
         jf.pack();
 
         scale = 1.0;
-        
-        ratio = d.getWidth()/d.getHeight();
 
         jf.addMouseListener(this);
         jf.addMouseMotionListener(this);
@@ -102,11 +100,6 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
         current = jf.getSize();
         double c = current.getHeight();
         scale = (c / d.height);
-    }
-    
-    public void calRatio()
-    {
-        ratio = current.getWidth()/current.getHeight();
     }
 
     public void mouseZoom()
@@ -158,7 +151,6 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
         g2.transform(transformer);
 
         calScale();
-        calRatio();
 
         for (EdgeData ed : e)
         {
@@ -275,6 +267,7 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
         if (mousePressed)
         {
             int width = currentX - mouseXStart;
+            int height = currentY - mouseYStart;
             g.drawRect(mouseXStart, mouseYStart, width, width/(int) ratio);
         }
         repaint();
