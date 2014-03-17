@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -30,46 +31,33 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
 
     ArrayList<NodeData> n;
     ArrayList<EdgeData> e;
+
     public JFrame jf;
-
-    Dimension current;
-    double scale;
-    Dimension d = new Dimension(700, 500);
-
-    int mouseXStart;
-    int mouseYStart;
-    int mouseXEnd;
-    int mouseYEnd;
-
+    Dimension currentWindowSize, originalWindowSize;
     AffineTransform transformer;
-    double originalX;
-    double originalY;
 
-    int currentX;
-    int currentY;
-    boolean mouseDragged;
-    boolean mousePressed;
-    
-    double ratio = d.getWidth()/d.getHeight();
-    
+    double scale, originalX, originalY, ratio;
+    boolean mouseDragged, mousePressed;
+    Point mouseStart, mouseEnd, currentMouse;
+
     public Canvas()
     {
         jf = new JFrame();
-
-        current = d;
-        jf.setPreferredSize(d);
+        originalWindowSize = new Dimension(700, 500);
+        currentWindowSize = originalWindowSize;
+        jf.addMouseListener(this);
+        jf.addMouseMotionListener(this);
+        jf.setPreferredSize(originalWindowSize);
         jf.setVisible(true);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.pack();
 
         scale = 1.0;
 
-        jf.addMouseListener(this);
-        jf.addMouseMotionListener(this);
-        mouseXStart = 1;
-        mouseYStart = 1;
-        mouseXEnd = 1000000;
-        mouseYEnd = 1000000;
+        ratio = originalWindowSize.getWidth() / originalWindowSize.getHeight();
+
+        mouseStart = new Point(1, 1);
+        mouseEnd = new Point(10000, 10000);
 
         transformer = new AffineTransform();
 
@@ -97,43 +85,48 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
      */
     public void calScale()
     {
-        current = jf.getSize();
-        double c = current.getHeight();
-        scale = (c / d.height);
+        currentWindowSize = jf.getSize();
+        scale = (currentWindowSize.getHeight() / originalWindowSize.height);
+    }
+
+    /**
+     * Calculates the ratio between the windows heigh and width
+     */
+    public void calRatio()
+    {
+        ratio = currentWindowSize.getWidth() / currentWindowSize.getHeight();
     }
 
     public void mouseZoom()
     {
-        current = jf.getSize();
-        int width = (int) current.getWidth();
+        currentWindowSize = jf.getSize();
 
-        int tmp;
+        int width = (int) currentWindowSize.getWidth();
 
-        if (mouseXStart > mouseXEnd)
+        Point tmpStart = new Point(mouseStart);
+        Point tmpEnd = new Point(mouseEnd);
+
+        if (mouseStart.getX() > mouseEnd.getX())
         {
-            tmp = mouseXStart;
-            mouseXStart = mouseXEnd;
-            mouseXEnd = tmp;
+            mouseStart.setLocation(tmpEnd.getX(), tmpStart.getY());
+            mouseEnd.setLocation(tmpStart.getX(), tmpEnd.getY());
         }
-        if (mouseYStart > mouseYEnd)
+        if (mouseStart.getY() > mouseEnd.getY())
         {
-            tmp = mouseYStart;
-            mouseYStart = mouseYEnd;
-            mouseYEnd = tmp;
+            mouseStart.setLocation(mouseStart.getX(), tmpEnd.getY());
+            mouseEnd.setLocation(mouseEnd.getX(), tmpStart.getY());
         }
 
-        if (mouseXStart == mouseXEnd || mouseYStart == mouseYEnd)
+        if (mouseStart.equals(mouseEnd))
         {
-            mouseXStart = 1;
-            mouseYStart = 1;
-            mouseXEnd = 1000000;
-            mouseYEnd = 1000000;
+            mouseStart.setLocation(1, 1);
+            mouseEnd.setLocation(100000, 100000);
             transformer.setToTranslation(originalX, originalY);
             transformer.scale(1, 1);
         } else
         {
-            transformer.scale((width / (mouseXEnd - mouseXStart)), (width / (mouseXEnd - mouseXStart)));
-            transformer.translate(-mouseXStart, -mouseYStart);
+            transformer.scale((width / (mouseEnd.getX() - mouseStart.getX())), (width / (mouseEnd.getX() - mouseStart.getX())));
+            transformer.translate(-mouseStart.getX(), -mouseStart.getY());
         }
 
         repaint();
@@ -144,6 +137,7 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
      *
      * @param g
      */
+    @Override
     public void paint(Graphics g)
     {
         Graphics2D g2 = (Graphics2D) g;
@@ -159,9 +153,9 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
             y1 = (-n.get(ed.FNODE - 1).Y_COORD + 6402050.98297) / 800;
             x2 = (n.get(ed.TNODE - 1).X_COORD - 442254.35659) / 800;
             y2 = (-n.get(ed.TNODE - 1).Y_COORD + 6402050.98297) / 800;
-            
+
             //checks whether the whole map or a dragged rectangle should be showed.            
-            if (x1 * scale > mouseXStart && x2 * scale < mouseXEnd && y1 * scale > mouseYStart && y2 * scale < mouseYEnd)
+            if (x1 * scale > mouseStart.getX() && x2 * scale < mouseEnd.getX() && y1 * scale > mouseStart.getY() && y2 * scale < mouseEnd.getY())
             {
                 Shape road = new Line2D.Double(x1 * scale, y1 * scale, x2 * scale, y2 * scale);
 
@@ -202,9 +196,7 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     @Override
     public void mousePressed(MouseEvent me)
     {
-        mouseXStart = me.getX();
-        mouseYStart = me.getY();
-
+        mouseStart = me.getPoint();
         mousePressed = true;
     }
 
@@ -216,11 +208,10 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     @Override
     public void mouseReleased(MouseEvent me)
     {
-        mouseXEnd = me.getX();
-        mouseYEnd = me.getY();
+        mouseEnd = me.getPoint();
         mousePressed = false;
         this.mouseZoom();
-        
+
     }
 
     @Override
@@ -238,9 +229,7 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     @Override
     public void mouseDragged(MouseEvent e)
     {
-        currentX = e.getX();
-        currentY = e.getY();
-
+        currentMouse = e.getPoint();
         mouseDragged = true;
 
         drawZoomArea(e);
@@ -251,8 +240,7 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
     @Override
     public void mouseMoved(MouseEvent e)
     {
-        currentX = e.getX();
-        currentY = e.getY();
+        currentMouse = e.getPoint();
 
         mouseDragged = false;
 
@@ -266,9 +254,8 @@ public class Canvas extends JComponent implements MouseListener, MouseMotionList
 
         if (mousePressed)
         {
-            int width = currentX - mouseXStart;
-            int height = currentY - mouseYStart;
-            g.drawRect(mouseXStart, mouseYStart, width, width/(int) ratio);
+            int width = (int) currentMouse.getX() - (int) mouseStart.getX();
+            g.drawRect((int) mouseStart.getX(), (int) mouseStart.getY(), width, width / (int) ratio); // Tager ikke Double.. Laves om til java2d???????????????????????????????????
         }
         repaint();
     }

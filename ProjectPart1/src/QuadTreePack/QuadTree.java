@@ -1,6 +1,6 @@
 package QuadTreePack;
 
-import krakloader.EdgeData;
+
 import krakloader.NodeData;
 
 /*
@@ -17,33 +17,32 @@ public class QuadTree {
     public QuadTree northeast, northwest, southeast, southwest;
     public Boundary boundary;
     private final int sizeLimit = 100;
-    public EdgeData[] edgeList;
-    public int currentEdges = -1;
+    public Road[] roadList;
+    public int currentRoads = -1;
 
     //test
     public QuadTree(NSEW direction) {
         boundary = new Boundary(direction, boundary);
-        edgeList = new EdgeData[sizeLimit];
+        roadList = new Road[sizeLimit];
     }
 
-    public void insert(EdgeData ed) {
-        if (checkBounds(ed)) {
+    public void insert(Road rd) {
+        if (checkBounds(rd)) {
             if (!(northeast == null)) {
-                if (checkBounds(ed)) {
-                    northeast.insert(ed);
-                } else if (checkBounds(ed)) {
-                    northwest.insert(ed);
-                } else if (checkBounds(ed)) {
-                    southeast.insert(ed);
-                } else if (checkBounds(ed)) {
-                    southwest.insert(ed);
+                if (checkBounds(rd)) {
+                    northeast.insert(rd);
+                } else if (checkBounds(rd)) {
+                    northwest.insert(rd);
+                } else if (checkBounds(rd)) {
+                    southeast.insert(rd);
+                } else if (checkBounds(rd)) {
+                    southwest.insert(rd);
                 }
-                MapPack.Main.nodes.get(ed.FNODE - 1);
-            } else if (currentEdges == sizeLimit - 1) {
+                
+            } else if (currentRoads == sizeLimit - 1) {
                 divide();
-            } else if (currentEdges < sizeLimit) {
-                edgeList[currentEdges + 1] = ed;
-                currentEdges++;
+            } else if (currentRoads < sizeLimit) {
+                roadList[++currentRoads] = rd;
             }
 
         }
@@ -55,14 +54,14 @@ public class QuadTree {
         southeast = new QuadTree(NSEW.SOUTHEAST);
         southwest = new QuadTree(NSEW.SOUTHWEST);
 
-        for (EdgeData ed : edgeList) {
-            insert(ed);
+        for (Road rd : roadList) {
+            insert(rd);
         }
     }
     
-    private boolean checkBounds(EdgeData ed){
+    private boolean checkBounds(Road rd){
         
-        //todo
+        boundary.containsPoint(rd.midX, rd.midY);
         return false;
         
     }

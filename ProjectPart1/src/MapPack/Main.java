@@ -5,6 +5,9 @@
  */
 package MapPack;
 
+import static QuadTreePack.NSEW.ROOT;
+import QuadTreePack.QuadTree;
+import QuadTreePack.Road;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -24,6 +27,7 @@ public class Main {
     public static final double ymax = 6402050.98297;
     public static ArrayList<NodeData> nodes = new ArrayList<>();
     public static ArrayList<EdgeData> edges = new ArrayList<>();
+    public static QuadTree qt = new QuadTree(ROOT);
 
     public static void main(String[] args) throws IOException {
         String dir = "./data/";
@@ -44,6 +48,8 @@ public class Main {
             public void
                     processEdge(EdgeData ed) {
                 edges.add(ed);
+                Road rd = new Road(ed, nodes.get(ed.FNODE), nodes.get(ed.TNODE));
+                qt.insert(rd);
             }
         };
 
