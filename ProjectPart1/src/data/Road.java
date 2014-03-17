@@ -22,4 +22,12 @@ public class Road {
         midX = (fn.X_COORD+tn.X_COORD)/2;
         midY = (fn.Y_COORD+tn.Y_COORD)/2;
     }
+
+    public double getMidX() {
+        return midX;
+    }
+
+    public double getMidY() {
+        return midY;
+    }
 }
