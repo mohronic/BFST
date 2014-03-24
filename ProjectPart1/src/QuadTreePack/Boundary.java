@@ -37,10 +37,12 @@ public class Boundary {
                 center.yc = 1.5 * bd.center.yc;
                 break;
             case ROOT:
-                center.xc = MapPack.Main.xmax/2;
-                center.yc = MapPack.Main.ymax/2;
-                xdim = MapPack.Main.xmax;
-                ydim = MapPack.Main.ymax;
+                
+                System.out.println("Should not happen");
+//                center.xc = MapPack.Main.xmax/2;
+//                center.yc = MapPack.Main.ymax/2;
+//                xdim = MapPack.Main.xmax;
+//                ydim = MapPack.Main.ymax;
                 break;
 
         }
@@ -48,21 +50,16 @@ public class Boundary {
         
         public Boundary(NSEW direction) {
                 center = new Center();
-                center.xc = MapPack.Main.xmax/2;
-                center.yc = MapPack.Main.ymax/2;
-                xdim = MapPack.Main.xmax;
-                ydim = MapPack.Main.ymax;
+                center.xc = ctrl.StartMap.xmax/2;
+                center.yc = ctrl.StartMap.ymax/2;
+                xdim = ctrl.StartMap.xmax;
+                ydim = ctrl.StartMap.ymax;
 
     }
 
     public boolean containsPoint(double x, double y) {
-        
-        if((center.xc - xdim) < x && x < (center.xc + xdim)
-                && (center.yc - ydim) < y && y < (center.yc + ydim))
-        {
-            return true;
-        }
-        else return false;
+        return (center.xc - xdim) < x && x < (center.xc + xdim)
+                && (center.yc - ydim) < y && y < (center.yc + ydim);
     }
     
     public boolean containsBox(double x1, double y1, double x2, double y2){

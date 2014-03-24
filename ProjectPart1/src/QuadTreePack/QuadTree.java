@@ -2,6 +2,7 @@ package QuadTreePack;
 
 import java.util.ArrayList;
 import krakloader.NodeData;
+import model.Road;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,7 +13,7 @@ import krakloader.NodeData;
  *
  * @author Archigo
  */
-public class QuadTree {
+public class QuadTree implements QuadTreeInterace {
 
     public QuadTree northeast, northwest, southeast, southwest;
     public Boundary boundary;
@@ -30,7 +31,9 @@ public class QuadTree {
         boundary = new Boundary(direction, boundary);
         roadList = new Road[sizeLimit];
     }
-
+    
+    
+    @Override
     public void insert(Road rd) {
         if (checkBounds(rd)) {
             if (!(northeast == null)) {
@@ -53,6 +56,7 @@ public class QuadTree {
         }
     }
 
+    @Override
     public ArrayList<Road> getRoads(double x1, double x2, double y1, double y2) {
         if (!(northeast == null)) {
             

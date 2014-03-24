@@ -5,6 +5,7 @@
  */
 package ctrl;
 
+import static QuadTreePack.NSEW.ROOT;
 import javax.swing.JFrame;
 import java.awt.Rectangle;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import krakloader.EdgeData;
 import krakloader.KrakLoader;
 import krakloader.NodeData;
-import model.Quadtree;
+import QuadTreePack.QuadTree;
 import model.Road;
 import model.CurrentData;
 import view.Canvas;
@@ -22,7 +23,8 @@ import view.Canvas;
  * @author KristianMohr
  */
 public class StartMap {
-
+    
+    public static double xmax, ymax;
     private JFrame frame;
     private CurrentData cd;
 
@@ -46,7 +48,7 @@ public class StartMap {
         final ArrayList<NodeData> nodes = new ArrayList<>();
         final ArrayList<EdgeData> edges = new ArrayList<>();
         final ArrayList<Road> roads = new ArrayList<>();
-        final Quadtree qt;
+        final QuadTree qt;
         String dir = "./data/";
 
         KrakLoader kl = new KrakLoader() {
@@ -67,16 +69,20 @@ public class StartMap {
         for(NodeData n : nodes){
             n.recalc(kl.ymax, kl.xmin);
         }
-
-        qt = Quadtree.getInstance(0, new Rectangle((int) (kl.xmax - kl.xmin + 1), (int) (kl.ymax-kl.ymin + 1)));
-        cd = CurrentData.getInstance();
-        cd.setXmax(kl.xmax - kl.xmin);
-        cd.setYmax(kl.ymax - kl.ymin);
-        cd.setXmin(kl.xmin);
+        xmax = kl.xmax;
+        ymax = kl.ymax;
+        qt = new QuadTree(ROOT);
+        
+        
+//        qt = Quadtree.getInstance(0, new Rectangle((int) (kl.xmax - kl.xmin + 1), (int) (kl.ymax-kl.ymin + 1)));
+//        cd = CurrentData.getInstance();
+//        cd.setXmax(kl.xmax - kl.xmin);
+//        cd.setYmax(kl.ymax - kl.ymin);
+//        cd.setXmin(kl.xmin);
         for (Road r : roads) {
             qt.insert(r);
         }
-        cd.updateArea(new Rectangle((int) (kl.xmax - kl.xmin + 1), (int) (kl.ymax-kl.ymin + 1)));
+        //cd.updateArea(new Rectangle((int) (kl.xmax - kl.xmin + 1), (int) (kl.ymax-kl.ymin + 1)));
     }
 
     public static void main(String[] args) throws IOException {
