@@ -22,26 +22,32 @@ import model.Road;
  *
  * @author KristianMohr
  */
-public class Canvas extends JPanel implements Observer {
+public class Canvas extends JPanel implements Observer
+{
 
     private List<Road> rd;
     private CurrentData cd;
     private double xmax, ymax, xmin;
     private double scale = 1, offset = 30;
+    private DrawInterface j2d;
 
-    public Canvas(CurrentData cd) {
+    public Canvas(CurrentData cd)
+    {
         this.cd = cd;
         xmax = cd.getXmax();
         ymax = cd.getYmax();
         xmin = cd.getXmin();
         rd = cd.getRoads();
+        j2d = new Java2DDraw();
     }
 
-    private void drawMap(Graphics g) {
+    private void drawMap(Graphics g)
+    {
         Graphics2D g2 = (Graphics2D) g;
         scale = ymax / (double) this.getHeight();
 
-        for (Road r : rd) {
+        for (Road r : rd)
+        {
             double x1, x2, y1, y2;
             NodeData n1 = r.getFn();
             NodeData n2 = r.getTn();
@@ -51,7 +57,8 @@ public class Canvas extends JPanel implements Observer {
             y2 = n2.getY_COORD() / scale + offset;
             Shape road = new Line2D.Double(x1, y1, x2, y2);
             //Road colering:
-            switch (r.getEd().TYP) {
+            switch (r.getEd().TYP)
+            {
                 case 1:
                     g2.setColor(Color.RED); //Highway
                     break;
@@ -69,14 +76,48 @@ public class Canvas extends JPanel implements Observer {
         }
     }
 
+    private void drawMapInterface()
+    {
+        scale = ymax / (double) this.getHeight();
+        for (Road r : rd)
+        {
+            double x1, x2, y1, y2;
+            NodeData n1 = r.getFn();
+            NodeData n2 = r.getTn();
+            x1 = n1.getX_COORD() / scale + offset;
+            y1 = n1.getY_COORD() / scale + offset;
+            x2 = n2.getX_COORD() / scale + offset;
+            y2 = n2.getY_COORD() / scale + offset;
+            //Road colering:
+            switch (r.getEd().TYP)
+            {
+                case 1:
+                    j2d.setRed(); //Highway
+                    break;
+                case 3:
+                    j2d.setBlue(); //Main roads
+                    break;
+                case 8:
+                    j2d.setGreen(); //Path
+                    break;
+                default:
+                    j2d.setBlack(); //Other
+                    break;
+            }
+            j2d.drawLine(x1, y1, x2, y2);
+        }
+    }
+
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g)
+    {
         super.paintComponent(g);
         drawMap(g);
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Observable o, Object arg)
+    {
         System.out.println("Here");
         rd = cd.getRoads();
         xmax = cd.getXmax();
@@ -85,11 +126,13 @@ public class Canvas extends JPanel implements Observer {
         repaint();
     }
 
-    public double getScale() {
+    public double getScale()
+    {
         return scale;
     }
 
-    public double getOffset() {
+    public double getOffset()
+    {
         return offset;
     }
 
