@@ -53,7 +53,7 @@ public class QuadTree implements QuadTreeInterace {
                 }
 
             } else if (currentRoads == sizeLimit - 1) {
-                System.out.println("divide");
+                //System.out.println("divide");
                 divide();
             } else if (currentRoads < sizeLimit) {
                 roadList[++currentRoads] = rd;
@@ -94,7 +94,7 @@ public class QuadTree implements QuadTreeInterace {
             if(roadList[0] != null){
             rl.addAll(Arrays.asList(roadList));
             for(Road road: rl){
-                System.out.println(road.midX);
+                //System.out.println(road.midX);
             }
             }
         }
