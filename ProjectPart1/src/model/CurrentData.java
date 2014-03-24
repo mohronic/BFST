@@ -22,7 +22,7 @@ public class CurrentData extends Observable {
     private static CurrentData instance = null;
     private final QuadTree qt;
     private double xmax = 0, ymax = 0, xmin = 0;
-    private List<Road> roads = new ArrayList<>();
+    private List<Road> roads = new ArrayList<Road>();
 
     public static CurrentData getInstance() {
         if (instance == null) {

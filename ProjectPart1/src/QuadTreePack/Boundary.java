@@ -19,28 +19,30 @@ public class Boundary {
 
     public Boundary(NSEW direction, Boundary bd) {
         
+        xdim = bd.xdim/2;
+        ydim = bd.ydim/2;
         
         switch (direction) {
             case NORTHEAST:
                 //System.out.println("ne");
-                center.xc = 1.5 * bd.center.xc;
-                center.yc = 0.5 * bd.center.yc;
+                center.xc = bd.center.xc + xdim;
+                center.yc = bd.center.yc - ydim;
                 
                 break;
             case NORTHWEST:
                 //System.out.println("nw");
-                center.xc = 0.5 * bd.center.xc;
-                center.yc = 0.5 * bd.center.yc;
+                center.xc = bd.center.xc - xdim;
+                center.yc = bd.center.yc - ydim;
                 break;
             case SOUTHEAST:
                 //System.out.println("se");
-                center.xc = 1.5 * bd.center.xc;
-                center.yc = 1.5 * bd.center.xc;
+                center.xc = bd.center.xc + xdim;
+                center.yc = bd.center.yc + ydim;
                 break;
             case SOUTHWEST:
                 //System.out.println("sw");
-                center.xc = 0.5 * bd.center.xc;
-                center.yc = 1.5 * bd.center.yc;
+                center.xc = bd.center.xc - xdim;
+                center.yc = bd.center.yc + ydim;
                 break;
             case ROOT:
                 
@@ -52,12 +54,10 @@ public class Boundary {
                 break;
 
         }
-        xdim = bd.xdim/2;
-        ydim = bd.ydim/2;
+        
     }
         
         public Boundary(NSEW direction) {
-                center = new Center();
                 center.xc = ctrl.StartMap.xmax/2;
                 center.yc = ctrl.StartMap.ymax/2;
                 xdim = ctrl.StartMap.xmax/2;
@@ -66,8 +66,8 @@ public class Boundary {
     }
 
     public boolean containsPoint(double x, double y) {
-        return ((center.xc - xdim) <= x || x <= (center.xc + xdim))
-                && ((center.yc - ydim) <= y || y <= (center.yc + ydim));
+        return ((center.xc - xdim) <= x && x <= (center.xc + xdim))
+                && ((center.yc - ydim) <= y && y <= (center.yc + ydim));
     }
     
     public boolean containsBox(double x1, double y1, double x2, double y2){

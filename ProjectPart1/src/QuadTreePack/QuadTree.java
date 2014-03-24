@@ -19,7 +19,7 @@ public class QuadTree implements QuadTreeInterace {
 
     public QuadTree northeast, northwest, southeast, southwest;
     public Boundary boundary;
-    private final int sizeLimit = 10000;
+    private final int sizeLimit = 100;
     public Road[] roadList;
     public int currentRoads = -1;
 
@@ -93,9 +93,9 @@ public class QuadTree implements QuadTreeInterace {
         } else{
             if(roadList[0] != null){
             rl.addAll(Arrays.asList(roadList));
-            for(Road road: rl){
-                System.out.println(road.midX);
-            }
+//            for(Road road: rl){
+//                System.out.println(road.midX);
+//            }
             }
         }
         
