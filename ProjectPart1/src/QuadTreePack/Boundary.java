@@ -15,14 +15,17 @@ import java.awt.geom.Rectangle2D;
 public class Boundary {
 
     public double xdim, ydim;
-    Center center;
+    Center center = new Center();
 
     public Boundary(NSEW direction, Boundary bd) {
+        
+        
         switch (direction) {
             case NORTHEAST:
                 //System.out.println("ne");
                 center.xc = 1.5 * bd.center.xc;
                 center.yc = 0.5 * bd.center.yc;
+                
                 break;
             case NORTHWEST:
                 //System.out.println("nw");
@@ -49,26 +52,30 @@ public class Boundary {
                 break;
 
         }
+        xdim = bd.xdim/2;
+        ydim = bd.ydim/2;
     }
         
         public Boundary(NSEW direction) {
                 center = new Center();
                 center.xc = ctrl.StartMap.xmax/2;
                 center.yc = ctrl.StartMap.ymax/2;
-                xdim = ctrl.StartMap.xmax;
-                ydim = ctrl.StartMap.ymax;
+                xdim = ctrl.StartMap.xmax/2;
+                ydim = ctrl.StartMap.ymax/2;
 
     }
 
     public boolean containsPoint(double x, double y) {
-        return (center.xc - xdim) < x && x < (center.xc + xdim)
-                && (center.yc - ydim) < y && y < (center.yc + ydim);
+        return ((center.xc - xdim) <= x || x <= (center.xc + xdim))
+                && ((center.yc - ydim) <= y || y <= (center.yc + ydim));
     }
     
     public boolean containsBox(double x1, double y1, double x2, double y2){
-        Rectangle2D rt1 = new Rectangle2D.Double(x1 ,y1, x2-x1, y2-y1);
-        Rectangle2D rt2 = new Rectangle2D.Double(center.xc-xdim ,center.yc-ydim, center.xc+xdim ,center.yc+ydim);
-        return rt2.intersects(rt1);
+        //Rectangle2D rt1 = new Rectangle2D.Double(x1 ,y1, x2-x1, y2-y1);
+        Rectangle2D rt2 = new Rectangle2D.Double(center.xc-xdim ,center.yc-ydim, 2*xdim ,2*ydim);
+        return rt2.intersects(x1 ,y1, x2-x1, y2-y1);
+        
+        //return rt1.contains(rt2);
     }
 
 }

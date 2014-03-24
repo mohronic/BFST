@@ -5,7 +5,10 @@
  */
 package model;
 
+import QuadTreePack.QuadTree;
+import ctrl.StartMap;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -17,7 +20,7 @@ import java.util.Observable;
 public class CurrentData extends Observable {
 
     private static CurrentData instance = null;
-    private final Quadtree qt;
+    private final QuadTree qt;
     private double xmax = 0, ymax = 0, xmin = 0;
     private List<Road> roads = new ArrayList<>();
 
@@ -29,16 +32,16 @@ public class CurrentData extends Observable {
     }
 
     private CurrentData() {
-        this.qt = Quadtree.getInstance(0, new Rectangle(0, 0));
+        qt = StartMap.getQuadTree();
     }
 
     public List<Road> getRoads() {
         return roads;
     }
 
-    public void updateArea(Rectangle r) {
+    public void updateArea(Rectangle2D r) {
         roads.clear();
-        roads = qt.retrieve(roads, r);
+        roads = qt.search(r.getX(), r.getX()+r.getWidth(), r.getY(), r.getY()+r.getHeight());
         setChanged();
         notifyObservers();
     }

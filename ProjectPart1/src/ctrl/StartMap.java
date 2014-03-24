@@ -14,6 +14,7 @@ import krakloader.EdgeData;
 import krakloader.KrakLoader;
 import krakloader.NodeData;
 import QuadTreePack.QuadTree;
+import java.awt.geom.Rectangle2D;
 import model.Road;
 import model.CurrentData;
 import view.Canvas;
@@ -27,6 +28,7 @@ public class StartMap {
     public static double xmax, ymax;
     private JFrame frame;
     private CurrentData cd;
+    private static QuadTree qt;
 
     public StartMap() throws IOException {
         setData();
@@ -48,7 +50,7 @@ public class StartMap {
         final ArrayList<NodeData> nodes = new ArrayList<>();
         final ArrayList<EdgeData> edges = new ArrayList<>();
         final ArrayList<Road> roads = new ArrayList<>();
-        final QuadTree qt;
+        
         String dir = "./data/";
 
         KrakLoader kl = new KrakLoader() {
@@ -71,18 +73,22 @@ public class StartMap {
         }
         xmax = kl.xmax;
         ymax = kl.ymax;
-        qt = new QuadTree(ROOT);
+        qt = new QuadTree(ROOT, null);
         
         
 //        qt = Quadtree.getInstance(0, new Rectangle((int) (kl.xmax - kl.xmin + 1), (int) (kl.ymax-kl.ymin + 1)));
-//        cd = CurrentData.getInstance();
-//        cd.setXmax(kl.xmax - kl.xmin);
-//        cd.setYmax(kl.ymax - kl.ymin);
-//        cd.setXmin(kl.xmin);
+        cd = CurrentData.getInstance();
+        cd.setXmax(kl.xmax - kl.xmin);
+        cd.setYmax(kl.ymax - kl.ymin);
+        cd.setXmin(kl.xmin);
         for (Road r : roads) {
             qt.insert(r);
         }
-        //cd.updateArea(new Rectangle((int) (kl.xmax - kl.xmin + 1), (int) (kl.ymax-kl.ymin + 1)));
+        cd.updateArea(new Rectangle2D.Double( 0, 0, kl.xmax, kl.ymax));
+    }
+    
+    public static QuadTree getQuadTree(){
+        return qt;
     }
 
     public static void main(String[] args) throws IOException {

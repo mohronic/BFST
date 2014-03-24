@@ -11,6 +11,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Rectangle2D;
 import model.CurrentData;
 import view.Canvas;
 //import view.Canvas;
@@ -52,8 +53,8 @@ public class ML implements MouseListener, MouseMotionListener{
     public void mouseReleased(MouseEvent me)
     {
         mouseEnd = me.getPoint();
-        Rectangle r = createRect(mouseStart, mouseEnd);
-        System.out.println(r.height+" "+r.width);
+        Rectangle2D r = new Rectangle2D.Double(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
+        //System.out.println(r.height+" "+r.width);
         cd.updateArea(r);
         mousePressed = false;
     }
@@ -86,10 +87,10 @@ public class ML implements MouseListener, MouseMotionListener{
         e.consume();//Stops the event when not in use, makes program run faster
     }
     
-    private Rectangle createRect(Point start, Point end){
-        return new Rectangle((int)((start.x-c.getOffset())*c.getScale()), 
-                (int)((start.y-c.getOffset())*c.getScale()), 
-                (int)((end.x-start.x)*c.getScale()), 
-                (int)((end.y-start.y)*c.getScale()));
-    }
+//    private Rectangle createRect(Point start, Point end){
+//        return new Rectangle((int)((start.x-c.getOffset())*c.getScale()), 
+//                (int)((start.y-c.getOffset())*c.getScale()), 
+//                (int)((end.x-start.x)*c.getScale()), 
+//                (int)((end.y-start.y)*c.getScale()));
+//    }
 }

@@ -1,5 +1,6 @@
 package QuadTreePack;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import krakloader.NodeData;
@@ -18,18 +19,21 @@ public class QuadTree implements QuadTreeInterace {
 
     public QuadTree northeast, northwest, southeast, southwest;
     public Boundary boundary;
-    private final int sizeLimit = 100;
+    private final int sizeLimit = 10000;
     public Road[] roadList;
     public int currentRoads = -1;
 
     //test
-    public QuadTree(NSEW direction) {
+    
+   
+    
+    public QuadTree(NSEW direction, Boundary bd) {
         if (direction == NSEW.ROOT) {
             boundary = new Boundary(direction);
             roadList = new Road[sizeLimit];
             return;
         }
-        boundary = new Boundary(direction, boundary);
+        boundary = new Boundary(direction, bd);
         roadList = new Road[sizeLimit];
     }
     
@@ -37,7 +41,7 @@ public class QuadTree implements QuadTreeInterace {
     @Override
     public void insert(Road rd) {
         if (checkBounds(rd)) {
-            if (!(northeast == null)) {
+            if (northeast != null) {
                 if (northeast.checkBounds(rd)) {
                     northeast.insert(rd);
                 } else if (northwest.checkBounds(rd)) {
@@ -49,9 +53,11 @@ public class QuadTree implements QuadTreeInterace {
                 }
 
             } else if (currentRoads == sizeLimit - 1) {
+                System.out.println("divide");
                 divide();
             } else if (currentRoads < sizeLimit) {
                 roadList[++currentRoads] = rd;
+                //System.out.println(roadList[currentRoads].midX);
             }
 
         }
@@ -85,7 +91,12 @@ public class QuadTree implements QuadTreeInterace {
         }
             
         } else{
+            if(roadList[0] != null){
             rl.addAll(Arrays.asList(roadList));
+            for(Road road: rl){
+                System.out.println(road.midX);
+            }
+            }
         }
         
         
@@ -93,14 +104,15 @@ public class QuadTree implements QuadTreeInterace {
     }
 
     private void divide() {
-        northeast = new QuadTree(NSEW.NORTHEAST);
-        northwest = new QuadTree(NSEW.NORTHWEST);
-        southeast = new QuadTree(NSEW.SOUTHEAST);
-        southwest = new QuadTree(NSEW.SOUTHWEST);
+        northeast = new QuadTree(NSEW.NORTHEAST, boundary);
+        northwest = new QuadTree(NSEW.NORTHWEST, boundary);
+        southeast = new QuadTree(NSEW.SOUTHEAST, boundary);
+        southwest = new QuadTree(NSEW.SOUTHWEST, boundary);
 
         for (Road rd : roadList) {
             insert(rd);
         }
+        roadList = null;
     }
 
     private boolean checkBounds(Road rd) {
