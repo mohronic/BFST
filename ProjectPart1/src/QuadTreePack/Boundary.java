@@ -5,6 +5,9 @@
  */
 package QuadTreePack;
 
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
+
 /**
  *
  * @author Archigo
@@ -63,7 +66,9 @@ public class Boundary {
     }
     
     public boolean containsBox(double x1, double y1, double x2, double y2){
-        return false;
+        Rectangle2D rt1 = new Rectangle2D.Double(x1 ,y1, x2-x1, y2-y1);
+        Rectangle2D rt2 = new Rectangle2D.Double(center.xc-xdim ,center.yc-ydim, center.xc+xdim ,center.yc+ydim);
+        return rt2.intersects(rt1);
     }
 
 }

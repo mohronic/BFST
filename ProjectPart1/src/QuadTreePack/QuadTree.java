@@ -1,6 +1,7 @@
 package QuadTreePack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import krakloader.NodeData;
 import model.Road;
 
@@ -55,14 +56,40 @@ public class QuadTree implements QuadTreeInterace {
 
         }
     }
-
+    
     @Override
-    public ArrayList<Road> getRoads(double x1, double x2, double y1, double y2) {
-        if (!(northeast == null)) {
-            
-        }
+    public ArrayList<Road> search(double x1, double x2, double y1, double y2){
+        
+        ArrayList<Road> rl = new ArrayList<>();
+        getRoads(x1, x2, y1, y2, rl);
+        return rl;
+    }
 
-        return null;
+    
+    private void getRoads(double x1, double x2, double y1, double y2, ArrayList<Road> rl) {
+        
+        
+        if (northeast != null) {
+            
+            if(northeast.boundary.containsBox(x1, y1, x2, y2)){
+                northeast.getRoads(x1, x2, y1, y2, rl);    
+        }
+            if(northwest.boundary.containsBox(x1, y1, x2, y2)){
+                northeast.getRoads(x1, x2, y1, y2, rl);    
+        }
+            if(southeast.boundary.containsBox(x1, y1, x2, y2)){
+                northeast.getRoads(x1, x2, y1, y2, rl);    
+        }
+            if(southwest.boundary.containsBox(x1, y1, x2, y2)){
+                northeast.getRoads(x1, x2, y1, y2, rl);    
+        }
+            
+        } else{
+            rl.addAll(Arrays.asList(roadList));
+        }
+        
+        
+        
     }
 
     private void divide() {
@@ -80,8 +107,8 @@ public class QuadTree implements QuadTreeInterace {
         return boundary.containsPoint(rd.midX, rd.midY);
     }
     
-    private boolean checkBounds(double x1, double y1, double x2, double y2){
-        
-        return false;
-    }
+//    private boolean checkBounds(double x1, double y1, double x2, double y2){
+//        
+//        return false;
+//    }
 }

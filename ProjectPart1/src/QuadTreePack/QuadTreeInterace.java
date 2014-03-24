@@ -17,6 +17,6 @@ public interface QuadTreeInterace {
     
      public void insert(Road rd);
      
-     public ArrayList<Road> getRoads(double x1, double x2, double y1, double y2);
+     public ArrayList<Road> search(double x1, double x2, double y1, double y2);
     
 }
