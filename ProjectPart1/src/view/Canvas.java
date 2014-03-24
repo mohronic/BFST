@@ -40,43 +40,8 @@ public class Canvas extends JPanel implements Observer
         rd = cd.getRoads();
         j2d = new Java2DDraw();
     }
-
-    private void drawMap(Graphics g)
-    {
-        Graphics2D g2 = (Graphics2D) g;
-        scale = ymax / (double) this.getHeight();
-
-        for (Road r : rd)
-        {
-            double x1, x2, y1, y2;
-            NodeData n1 = r.getFn();
-            NodeData n2 = r.getTn();
-            x1 = n1.getX_COORD() / scale + offset;
-            y1 = n1.getY_COORD() / scale + offset;
-            x2 = n2.getX_COORD() / scale + offset;
-            y2 = n2.getY_COORD() / scale + offset;
-            Shape road = new Line2D.Double(x1, y1, x2, y2);
-            //Road colering:
-            switch (r.getEd().TYP)
-            {
-                case 1:
-                    g2.setColor(Color.RED); //Highway
-                    break;
-                case 3:
-                    g2.setColor(Color.BLUE); //Main Roads
-                    break;
-                case 8:
-                    g2.setColor(Color.GREEN); //Path
-                    break;
-                default:
-                    g2.setColor(Color.BLACK); //Other
-                    break;
-            }
-            g2.draw(road);
-        }
-    }
-
-    private void drawMapInterface()
+    
+    private void drawMap()
     {
         scale = ymax / (double) this.getHeight();
         for (Road r : rd)
@@ -112,7 +77,8 @@ public class Canvas extends JPanel implements Observer
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        drawMap(g);
+        j2d.setGraphics(g);
+        drawMap();
     }
 
     @Override

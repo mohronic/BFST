@@ -6,6 +6,8 @@
 
 package view;
 
+import java.awt.Graphics;
+
 /**
  *
  * @author Adam Engsig (adae@itu.dk)
@@ -18,4 +20,5 @@ public interface DrawInterface
     public void setBlue();
     public void setGreen();
     public void setBlack();
+    public void setGraphics(Graphics g);
 }

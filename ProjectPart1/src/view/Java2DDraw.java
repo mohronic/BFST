@@ -17,18 +17,17 @@ import javax.swing.JComponent;
  *
  * @author Adam Engsig (adae@itu.dk)
  */
-public class Java2DDraw extends JComponent implements DrawInterface
+public class Java2DDraw implements DrawInterface
 {
 
-    Graphics2D g2;
+    private Graphics2D g2;
 
     public Java2DDraw()
     {
-        repaint();
+        g2 = null;
     }
     
-    @Override
-    public void paintComponent(Graphics g)
+    public void setGraphics(Graphics g)
     {
         g2 = (Graphics2D) g;
     }
