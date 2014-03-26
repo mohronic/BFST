@@ -15,7 +15,8 @@ import model.Road;
  *
  * @author Archigo
  */
-public class QuadTree implements QuadTreeInterace {
+public class QuadTree implements QuadTreeInterace
+{
 
     public QuadTree northeast, northwest, southeast, southwest;
     public Boundary boundary;
@@ -24,11 +25,10 @@ public class QuadTree implements QuadTreeInterace {
     public int currentRoads = -1;
 
     //test
-    
-   
-    
-    public QuadTree(NSEW direction, Boundary bd) {
-        if (direction == NSEW.ROOT) {
+    public QuadTree(NSEW direction, Boundary bd)
+    {
+        if (direction == NSEW.ROOT)
+        {
             boundary = new Boundary(direction);
             roadList = new Road[sizeLimit];
             return;
@@ -36,89 +36,105 @@ public class QuadTree implements QuadTreeInterace {
         boundary = new Boundary(direction, bd);
         roadList = new Road[sizeLimit];
     }
-    
-    
+
     @Override
-    public void insert(Road rd) {
-        if (checkBounds(rd)) {
-            if (northeast != null) {
-                if (northeast.checkBounds(rd)) {
+    public void insert(Road rd)
+    {
+        if (checkBounds(rd))
+        {
+            if (northeast != null)
+            {
+                if (northeast.checkBounds(rd))
+                {
                     northeast.insert(rd);
-                } else if (northwest.checkBounds(rd)) {
+                } else if (northwest.checkBounds(rd))
+                {
                     northwest.insert(rd);
-                } else if (southeast.checkBounds(rd)) {
+                } else if (southeast.checkBounds(rd))
+                {
                     southeast.insert(rd);
-                } else if (southwest.checkBounds(rd)) {
+                } else if (southwest.checkBounds(rd))
+                {
                     southwest.insert(rd);
                 }
 
-            } else if (currentRoads == sizeLimit - 1) {
+            } else if (currentRoads == sizeLimit - 1)
+            {
                 //System.out.println("divide");
                 divide();
-            } else if (currentRoads < sizeLimit) {
+            } else if (currentRoads < sizeLimit)
+            {
                 roadList[++currentRoads] = rd;
                 //System.out.println(roadList[currentRoads].midX);
             }
 
         }
     }
-    
+
     @Override
-    public ArrayList<Road> search(double x1, double x2, double y1, double y2){
-        
+    public ArrayList<Road> search(double x1, double x2, double y1, double y2)
+    {
+
         ArrayList<Road> rl = new ArrayList<>();
         getRoads(x1, x2, y1, y2, rl);
         return rl;
     }
 
-    
-    private void getRoads(double x1, double x2, double y1, double y2, ArrayList<Road> rl) {
-        
-        
-        if (northeast != null) {
-            
-            if(northeast.boundary.containsBox(x1, y1, x2, y2)){
-                northeast.getRoads(x1, x2, y1, y2, rl);    
-        }
-            if(northwest.boundary.containsBox(x1, y1, x2, y2)){
-                northeast.getRoads(x1, x2, y1, y2, rl);    
-        }
-            if(southeast.boundary.containsBox(x1, y1, x2, y2)){
-                northeast.getRoads(x1, x2, y1, y2, rl);    
-        }
-            if(southwest.boundary.containsBox(x1, y1, x2, y2)){
-                northeast.getRoads(x1, x2, y1, y2, rl);    
-        }
-            
-        } else{
-            if(roadList[0] != null){
-            rl.addAll(Arrays.asList(roadList));
+    private void getRoads(double x1, double x2, double y1, double y2, ArrayList<Road> rl)
+    {
+
+        if (northeast != null)
+        {
+
+            if (northeast.boundary.containsBox(x1, y1, x2, y2))
+            {
+                northeast.getRoads(x1, x2, y1, y2, rl);
+            }
+            if (northwest.boundary.containsBox(x1, y1, x2, y2))
+            {
+                northeast.getRoads(x1, x2, y1, y2, rl);
+            }
+            if (southeast.boundary.containsBox(x1, y1, x2, y2))
+            {
+                northeast.getRoads(x1, x2, y1, y2, rl);
+            }
+            if (southwest.boundary.containsBox(x1, y1, x2, y2))
+            {
+                northeast.getRoads(x1, x2, y1, y2, rl);
+            }
+
+        } else
+        {
+            if (roadList[0] != null)
+            {
+                rl.addAll(Arrays.asList(roadList));
 //            for(Road road: rl){
 //                System.out.println(road.midX);
 //            }
             }
         }
-        
-        
-        
+
     }
 
-    private void divide() {
+    private void divide()
+    {
         northeast = new QuadTree(NSEW.NORTHEAST, boundary);
         northwest = new QuadTree(NSEW.NORTHWEST, boundary);
         southeast = new QuadTree(NSEW.SOUTHEAST, boundary);
         southwest = new QuadTree(NSEW.SOUTHWEST, boundary);
 
-        for (Road rd : roadList) {
+        for (Road rd : roadList)
+        {
             insert(rd);
         }
         roadList = null;
     }
 
-    private boolean checkBounds(Road rd) {
+    private boolean checkBounds(Road rd)
+    {
         return boundary.containsPoint(rd.midX, rd.midY);
     }
-    
+
 //    private boolean checkBounds(double x1, double y1, double x2, double y2){
 //        
 //        return false;

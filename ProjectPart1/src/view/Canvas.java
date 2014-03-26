@@ -20,6 +20,7 @@ import model.Road;
  */
 public class Canvas extends JComponent implements Observer
 {
+
     private List<Road> rd;
     private CurrentData cd;
     private double xmax, ymax, xmin;
@@ -35,7 +36,7 @@ public class Canvas extends JComponent implements Observer
         rd = cd.getRoads();
         j2d = new Java2DDraw();
     }
-    
+
     private void drawMap()
     {
         scale = ymax / (double) this.getHeight();

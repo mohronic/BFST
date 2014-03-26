@@ -11,7 +11,6 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import javax.swing.JComponent;
 
 /**
  *
@@ -26,7 +25,8 @@ public class Java2DDraw implements DrawInterface
     {
         g2 = null;
     }
-    
+
+    @Override
     public void setGraphics(Graphics g)
     {
         g2 = (Graphics2D) g;
