@@ -92,15 +92,15 @@ public class QuadTree implements QuadTreeInterace
             }
             if (northwest.boundary.containsBox(x1, y1, x2, y2))
             {
-                northeast.getRoads(x1, x2, y1, y2, rl);
+                northwest.getRoads(x1, x2, y1, y2, rl);
             }
             if (southeast.boundary.containsBox(x1, y1, x2, y2))
             {
-                northeast.getRoads(x1, x2, y1, y2, rl);
+                southeast.getRoads(x1, x2, y1, y2, rl);
             }
             if (southwest.boundary.containsBox(x1, y1, x2, y2))
             {
-                northeast.getRoads(x1, x2, y1, y2, rl);
+                southwest.getRoads(x1, x2, y1, y2, rl);
             }
 
         } else
