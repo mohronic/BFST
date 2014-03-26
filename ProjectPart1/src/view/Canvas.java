@@ -5,15 +5,11 @@
  */
 package view;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.Line2D;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 import krakloader.*;
 import model.CurrentData;
 import model.Road;
@@ -22,9 +18,8 @@ import model.Road;
  *
  * @author KristianMohr
  */
-public class Canvas extends JPanel implements Observer
+public class Canvas extends JComponent implements Observer
 {
-
     private List<Road> rd;
     private CurrentData cd;
     private double xmax, ymax, xmin;
