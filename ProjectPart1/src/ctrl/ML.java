@@ -93,7 +93,7 @@ public class ML implements MouseListener, MouseMotionListener {
 
         //Skal ændres til at tage scale med (Scale skal ganges på koordinaterne).
         double eX, eY;
-        eX = e.getPoint().getX() + c.;
+        eX = e.getPoint().getX();
         eY = e.getPoint().getY();
         Road closestRoad = null;
 
