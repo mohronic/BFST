@@ -38,7 +38,10 @@ public class Canvas extends JComponent implements Observer
 
     private void drawMap()
     {
-        scale = view.getHeight() / (double) this.getHeight();
+        double scaley = view.getHeight()/(double)this.getHeight();
+        double scalex = view.getWidth()/(double)this.getWidth();
+        if( scaley > scalex) scale = view.getHeight() / (double) this.getHeight();
+        else scale = view.getWidth()/(double)this.getWidth();
         for (Road r : rd)
         {
             double x1, x2, y1, y2;
