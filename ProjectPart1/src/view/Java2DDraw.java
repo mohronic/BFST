@@ -20,10 +20,20 @@ public class Java2DDraw implements DrawInterface
 {
 
     private Graphics2D g2;
+    private static Java2DDraw instance = null;
 
-    public Java2DDraw()
+    private Java2DDraw()
     {
         g2 = null;
+    }
+    
+    public static Java2DDraw getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new Java2DDraw();
+        }
+        return instance;
     }
 
     @Override
@@ -43,6 +53,7 @@ public class Java2DDraw implements DrawInterface
     public void drawRect(double x1, double y1, double width, double height)
     {
         Shape rect = new Rectangle2D.Double(x1, y1, width, height);
+        setBlack();
         g2.draw(rect);
     }
 
