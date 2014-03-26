@@ -102,6 +102,7 @@ public class ML implements MouseListener, MouseMotionListener {
             //We use pythagoras to calculate distance:
             double dist = Math.sqrt((Math.pow(rl.get(0).midX - eX, 2)) + (Math.pow(rl.get(0).midY - eY, 2)));
             for (Road road : rl) {
+                
                 double distX, distY;
                 distX = Math.abs(road.midX - eX);
                 distY = Math.abs(road.midY - eY);
@@ -109,7 +110,14 @@ public class ML implements MouseListener, MouseMotionListener {
                     dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
                     closestRoad = road;
                 }
+                
             }
+            if(closestRoad.getEd().VEJNAVN != null){
+                if(!closestRoad.getEd().VEJNAVN.isEmpty()){
+                CurrentData.setCurrentRoadLabel(closestRoad.getEd().VEJNAVN);
+                } else CurrentData.setCurrentRoadLabel("");
+            }
+            
         }
         //Finds closest road, but does not do anything else
         //return closestRoad;
@@ -141,6 +149,7 @@ public class ML implements MouseListener, MouseMotionListener {
         double h = r.getHeight() * c.getScale();
         System.out.println(x + " " + y);
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
+        
     }
 
     @Override

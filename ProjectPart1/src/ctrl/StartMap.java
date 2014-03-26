@@ -14,7 +14,9 @@ import krakloader.EdgeData;
 import krakloader.KrakLoader;
 import krakloader.NodeData;
 import QuadTreePack.QuadTree;
+import java.awt.BorderLayout;
 import java.awt.geom.Rectangle2D;
+import javax.swing.JLabel;
 import model.Road;
 import model.CurrentData;
 import view.Canvas;
@@ -29,6 +31,7 @@ public class StartMap {
     private JFrame frame;
     private CurrentData cd;
     private static QuadTree qt;
+    
 
     public StartMap() throws IOException {
         setData();
@@ -44,7 +47,9 @@ public class StartMap {
         c.addMouseListener(ml);
         c.addMouseMotionListener(ml);
         cd.addObserver(c);
-        frame.add(c);
+        frame.setLayout(new BorderLayout());
+        frame.add(c, BorderLayout.CENTER);
+        frame.add(CurrentData.getCurrentRoadLabel(), BorderLayout.SOUTH);
         frame.setVisible(true);
     }
 
