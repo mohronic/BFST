@@ -120,6 +120,7 @@ public class ML implements MouseListener, MouseMotionListener
         currentView.setRect(currentView.getX() + (currentMouse.getX() - mouseStart.getX()), currentView.getY() + (currentMouse.getY() - mouseStart.getY()), currentView.getWidth(), currentView.getHeight());
         System.out.println("New: " + currentView);
         calcView(currentView);
+        //mouseStart.setLocation(currentMouse.getLocation());
     }
 
     private void getClosestRoad(MouseEvent e)
