@@ -20,7 +20,7 @@ public class QuadTree implements QuadTreeInterace
 
     public QuadTree northeast, northwest, southeast, southwest;
     public Boundary boundary;
-    private final int sizeLimit = 100;
+    private final int sizeLimit = 100000000;
     public Road[] roadList;
     public int currentRoads = -1;
 

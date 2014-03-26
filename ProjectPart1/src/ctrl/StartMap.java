@@ -40,7 +40,9 @@ public class StartMap {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
         Canvas c = new Canvas(cd);
-        c.addMouseListener(new ML(c));
+        ML ml = new ML(c);
+        c.addMouseListener(ml);
+        c.addMouseMotionListener(ml);
         cd.addObserver(c);
         frame.add(c);
         frame.setVisible(true);

@@ -5,14 +5,18 @@
  */
 package ctrl;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import model.CurrentData;
 import view.Canvas;
+import view.Java2DDraw;
 //import view.Canvas;
 
 /**
@@ -29,6 +33,7 @@ public class ML implements MouseListener, MouseMotionListener
     private Point mouseEnd;
     private Point currentMouse;
     private boolean mouseDragged;
+    private Java2DDraw j2d = null;
 
     public ML(Canvas c)
     {
@@ -65,29 +70,49 @@ public class ML implements MouseListener, MouseMotionListener
     @Override
     public void mouseEntered(MouseEvent me)
     {
-        //s
+        //nothing
     }
 
     @Override
     public void mouseExited(MouseEvent me)
     {
-        //s
+        //nothing
     }
 
     @Override
     public void mouseDragged(MouseEvent e)
     {
+        System.out.println(e.getX());
         currentMouse = e.getPoint();
         mouseDragged = true;
+        drawZoomArea();
         e.consume();//Stops the event when not in use, makes program run faster
     }
 
     @Override
     public void mouseMoved(MouseEvent e)
     {
-        currentMouse = e.getPoint();
-        mouseDragged = false;
-        e.consume();//Stops the event when not in use, makes program run faster
+        // nothing
+    }
+
+    public void drawZoomArea()
+    {
+
+//        if (j2d == null)
+//        {
+//            j2d = Java2DDraw.getInstance();
+//        }
+        Graphics2D g = (Graphics2D) c.getGraphics();
+
+        if (mousePressed)
+        {
+            Shape rect = new Rectangle2D.Double(mouseStart.getX(), mouseStart.getY(), currentMouse.getX() - mouseStart.getX(), currentMouse.getY() - mouseStart.getY());
+            g.draw(rect);
+
+            //j2d.drawRect(mouseStart.getX(), mouseStart.getY(), currentMouse.getX() - mouseStart.getX(), currentMouse.getY() - mouseStart.getY());
+        }
+        c.repaint();
+
     }
 
     private void calcView(Rectangle2D r){
