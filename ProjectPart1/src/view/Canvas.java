@@ -19,8 +19,7 @@ import model.Road;
  *
  * @author KristianMohr
  */
-public class Canvas extends JComponent implements Observer
-{
+public class Canvas extends JComponent implements Observer {
 
     private List<Road> rd;
     private CurrentData cd;
@@ -28,32 +27,34 @@ public class Canvas extends JComponent implements Observer
     private double scale = 1;
     private DrawInterface j2d;
 
-    public Canvas(CurrentData cd)
-    {
+    public Canvas(CurrentData cd) {
         this.cd = cd;
         this.view = cd.getView();
         rd = cd.getRoads();
         j2d = Java2DDraw.getInstance();
     }
 
-    private void drawMap()
-    {
-        double scaley = view.getHeight()/(double)this.getHeight();
-        double scalex = view.getWidth()/(double)this.getWidth();
-        if( scaley > scalex) scale = view.getHeight() / (double) this.getHeight();
-        else scale = view.getWidth()/(double)this.getWidth();
-        for (Road r : rd)
-        {
+    private void drawMap() {
+        double scaley = view.getHeight() / (double) this.getHeight();
+        double scalex = view.getWidth() / (double) this.getWidth();
+        if (scaley > scalex) {
+            scale = view.getHeight() / (double) this.getHeight();
+        } else {
+            scale = view.getWidth() / (double) this.getWidth();
+        }
+        for (Road r : rd) {
+            if (!filterRoad(r)) {
+                continue;
+            }
             double x1, x2, y1, y2;
             NodeData n1 = r.getFn();
             NodeData n2 = r.getTn();
-            x1 = (n1.getX_COORD()-view.getMinX()) / scale;
-            y1 = (n1.getY_COORD()-view.getMinY()) / scale;
-            x2 = (n2.getX_COORD()-view.getMinX()) / scale;
-            y2 = (n2.getY_COORD()-view.getMinY()) / scale;
+            x1 = (n1.getX_COORD() - view.getMinX()) / scale;
+            y1 = (n1.getY_COORD() - view.getMinY()) / scale;
+            x2 = (n2.getX_COORD() - view.getMinX()) / scale;
+            y2 = (n2.getY_COORD() - view.getMinY()) / scale;
             //Road colering:
-            switch (r.getEd().TYP)
-            {
+            switch (r.getEd().TYP) {
                 case 1:
                     j2d.setRed(); //Highway
                     break;
@@ -72,26 +73,38 @@ public class Canvas extends JComponent implements Observer
     }
 
     @Override
-    public void paintComponent(Graphics g)
-    {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         j2d.setGraphics(g);
         drawMap();
     }
 
     @Override
-    public void update(Observable o, Object arg)
-    {
+    public void update(Observable o, Object arg) {
         rd = cd.getRoads();
         view = cd.getView();
         repaint();
     }
 
-    public double getScale()
-    {
-        return scale;
+    private boolean filterRoad(Road r) {
+        int typ = r.getEd().TYP;
+        double maxScale = cd.getXmax() / (double) this.getWidth();
+        if(maxScale < cd.getYmax()/(double)this.getHeight()) maxScale = cd.getYmax()/(double)this.getHeight();
+        if (typ == 1 || typ == 3 || typ == 2) {
+            return true;
+        }
+        if (scale < maxScale*0.75 && scale > maxScale*0.15) {
+            if (typ == 4) {
+                return true;
+            }
+        } else if (scale <= maxScale*0.15) {
+            return true;
+        }
+        return false;
     }
 
-    
+    public double getScale() {
+        return scale;
+    }
 
 }

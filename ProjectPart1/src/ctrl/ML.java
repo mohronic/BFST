@@ -127,8 +127,8 @@ public class ML implements MouseListener, MouseMotionListener
 
         //Skal ændres til at tage scale med (Scale skal ganges på koordinaterne).
         double eX, eY;
-        eX = e.getPoint().getX();
-        eY = e.getPoint().getY();
+        eX = (e.getPoint().getX() * c.getScale()) + cd.getOldx();
+        eY = (e.getPoint().getY() * c.getScale()) + cd.getOldy();
         Road closestRoad = null;
 
         ArrayList<Road> rl = CurrentData.getInstance().getQT().search(eX, eY, eX + 0.1, eY + 0.1);
@@ -136,8 +136,13 @@ public class ML implements MouseListener, MouseMotionListener
         {
             //We use pythagoras to calculate distance:
             double dist = Math.sqrt((Math.pow(rl.get(0).midX - eX, 2)) + (Math.pow(rl.get(0).midY - eY, 2)));
+<<<<<<< HEAD
             for (Road road : rl)
             {
+=======
+            for (Road road : rl) {
+                
+>>>>>>> 9c8fbdc4795c4d77e1b6868a224c46673ff2379f
                 double distX, distY;
                 distX = Math.abs(road.midX - eX);
                 distY = Math.abs(road.midY - eY);
@@ -146,7 +151,14 @@ public class ML implements MouseListener, MouseMotionListener
                     dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
                     closestRoad = road;
                 }
+                
             }
+            if(closestRoad.getEd().VEJNAVN != null){
+                if(!closestRoad.getEd().VEJNAVN.isEmpty()){
+                CurrentData.setCurrentRoadLabel(closestRoad.getEd().VEJNAVN);
+                } else CurrentData.setCurrentRoadLabel("");
+            }
+            
         }
         //Finds closest road, but does not do anything else
         //return closestRoad;
@@ -181,6 +193,7 @@ public class ML implements MouseListener, MouseMotionListener
         double h = r.getHeight() * c.getScale();
         System.out.println(x + " " + y);
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
+        
     }
 
     @Override
