@@ -48,7 +48,6 @@ public class CurrentData extends Observable
     {
         roads.clear();
         roads = qt.search(r.getX(), r.getX() + r.getWidth(), r.getY(), r.getY() + r.getHeight());
-        System.out.println(""+roads.size());
         setChanged();
         notifyObservers();
     }
