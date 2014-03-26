@@ -24,7 +24,7 @@ import view.Canvas;
  * @author KristianMohr
  */
 public class StartMap {
-    
+
     public static double xmax, ymax;
     private JFrame frame;
     private CurrentData cd;
@@ -50,7 +50,7 @@ public class StartMap {
         final ArrayList<NodeData> nodes = new ArrayList<>();
         final ArrayList<EdgeData> edges = new ArrayList<>();
         final ArrayList<Road> roads = new ArrayList<>();
-        
+
         String dir = "./data/";
 
         KrakLoader kl = new KrakLoader() {
@@ -62,32 +62,33 @@ public class StartMap {
             @Override
             public void processEdge(EdgeData ed) {
                 edges.add(ed);
-                Road rd = new Road(ed, nodes.get(ed.FNODE - 1), nodes.get(ed.TNODE - 1));
-                roads.add(rd);
             }
         };
         kl.load(dir + "kdv_node_unload.txt", dir + "kdv_unload.txt");
 
-        for(NodeData n : nodes){
+        for (NodeData n : nodes) {
             n.recalc(kl.ymax, kl.xmin);
         }
-        xmax = kl.xmax;
-        ymax = kl.ymax;
+        for (EdgeData ed : edges) {
+            Road rd = new Road(ed, nodes.get(ed.FNODE - 1), nodes.get(ed.TNODE - 1));
+            roads.add(rd);
+        }
+        xmax = kl.xmax - kl.xmin;
+        ymax = (-kl.ymin) + kl.ymax;
         qt = new QuadTree(ROOT, null);
-        
-        
+
 //        qt = Quadtree.getInstance(0, new Rectangle((int) (kl.xmax - kl.xmin + 1), (int) (kl.ymax-kl.ymin + 1)));
         cd = CurrentData.getInstance();
-        cd.setXmax(kl.xmax - kl.xmin);
-        cd.setYmax(kl.ymax - kl.ymin);
+        cd.setXmax(xmax);
+        cd.setYmax(ymax);
         cd.setXmin(kl.xmin);
         for (Road r : roads) {
             qt.insert(r);
         }
-        cd.updateArea(new Rectangle2D.Double( 0, 0, kl.xmax, kl.ymax));
+        cd.updateArea(new Rectangle2D.Double(0, 0, xmax, ymax));
     }
-    
-    public static QuadTree getQuadTree(){
+
+    public static QuadTree getQuadTree() {
         return qt;
     }
 

@@ -53,7 +53,6 @@ public class ML implements MouseListener, MouseMotionListener
     {
         mouseEnd = me.getPoint();
         Rectangle2D r = new Rectangle2D.Double(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
-        //System.out.println(r.height+" "+r.width);
         cd.updateArea(r);
         mousePressed = false;
     }

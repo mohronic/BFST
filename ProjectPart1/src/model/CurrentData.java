@@ -23,7 +23,7 @@ public class CurrentData extends Observable
     private static CurrentData instance = null;
     private final QuadTree qt;
     private double xmax = 0, ymax = 0, xmin = 0;
-    private List<Road> roads = new ArrayList<Road>();
+    private List<Road> roads = new ArrayList<>();
 
     public static CurrentData getInstance()
     {
@@ -48,6 +48,7 @@ public class CurrentData extends Observable
     {
         roads.clear();
         roads = qt.search(r.getX(), r.getX() + r.getWidth(), r.getY(), r.getY() + r.getHeight());
+        System.out.println(""+roads.size());
         setChanged();
         notifyObservers();
     }

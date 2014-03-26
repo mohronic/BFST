@@ -80,7 +80,6 @@ public class Canvas extends JComponent implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        System.out.println("Here");
         rd = cd.getRoads();
         xmax = cd.getXmax();
         ymax = cd.getYmax();
