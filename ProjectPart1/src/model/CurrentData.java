@@ -81,5 +81,8 @@ public class CurrentData extends Observable
     {
         return xmin;
     }
+    public QuadTree getQT(){
+        return qt;
+    }
 
 }
