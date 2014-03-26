@@ -136,13 +136,7 @@ public class ML implements MouseListener, MouseMotionListener
         {
             //We use pythagoras to calculate distance:
             double dist = Math.sqrt((Math.pow(rl.get(0).midX - eX, 2)) + (Math.pow(rl.get(0).midY - eY, 2)));
-<<<<<<< HEAD
-            for (Road road : rl)
-            {
-=======
             for (Road road : rl) {
-                
->>>>>>> 9c8fbdc4795c4d77e1b6868a224c46673ff2379f
                 double distX, distY;
                 distX = Math.abs(road.midX - eX);
                 distY = Math.abs(road.midY - eY);
