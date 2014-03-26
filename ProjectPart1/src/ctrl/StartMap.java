@@ -81,7 +81,6 @@ public class StartMap {
         cd = CurrentData.getInstance();
         cd.setXmax(xmax);
         cd.setYmax(ymax);
-        cd.setXmin(kl.xmin);
         for (Road r : roads) {
             qt.insert(r);
         }

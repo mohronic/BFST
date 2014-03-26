@@ -6,6 +6,7 @@
 package view;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -23,32 +24,30 @@ public class Canvas extends JComponent implements Observer
 
     private List<Road> rd;
     private CurrentData cd;
-    private double xmax, ymax, xmin;
+    private Rectangle2D view;
     private double scale = 1;
     private DrawInterface j2d;
 
     public Canvas(CurrentData cd)
     {
         this.cd = cd;
-        xmax = cd.getXmax();
-        ymax = cd.getYmax();
-        xmin = cd.getXmin();
+        this.view = cd.getView();
         rd = cd.getRoads();
         j2d = new Java2DDraw();
     }
 
     private void drawMap()
     {
-        scale = ymax / (double) this.getHeight();
+        scale = view.getHeight() / (double) this.getHeight();
         for (Road r : rd)
         {
             double x1, x2, y1, y2;
             NodeData n1 = r.getFn();
             NodeData n2 = r.getTn();
-            x1 = n1.getX_COORD() / scale;
-            y1 = n1.getY_COORD() / scale;
-            x2 = n2.getX_COORD() / scale;
-            y2 = n2.getY_COORD() / scale;
+            x1 = (n1.getX_COORD()-view.getMinX()) / scale;
+            y1 = (n1.getY_COORD()-view.getMinY()) / scale;
+            x2 = (n2.getX_COORD()-view.getMinX()) / scale;
+            y2 = (n2.getY_COORD()-view.getMinY()) / scale;
             //Road colering:
             switch (r.getEd().TYP)
             {
@@ -81,9 +80,7 @@ public class Canvas extends JComponent implements Observer
     public void update(Observable o, Object arg)
     {
         rd = cd.getRoads();
-        xmax = cd.getXmax();
-        ymax = cd.getYmax();
-        xmin = cd.getXmin();
+        view = cd.getView();
         repaint();
     }
 

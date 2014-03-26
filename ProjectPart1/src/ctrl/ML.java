@@ -53,8 +53,12 @@ public class ML implements MouseListener, MouseMotionListener
     public void mouseReleased(MouseEvent me)
     {
         mouseEnd = me.getPoint();
-        Rectangle2D r = new Rectangle2D.Double(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
-        cd.updateArea(r);
+        double x = mouseStart.getX();
+        double y = mouseStart.getY();
+        double w = mouseEnd.getX() - mouseStart.getX();
+        double h = mouseEnd.getY() - mouseStart.getY();
+        Rectangle2D r = new Rectangle2D.Double(x,y,w,h);
+        calcView(r);
         mousePressed = false;
     }
 
@@ -86,10 +90,13 @@ public class ML implements MouseListener, MouseMotionListener
         e.consume();//Stops the event when not in use, makes program run faster
     }
 
-//    private Rectangle createRect(Point start, Point end){
-//        return new Rectangle((int)((start.x-c.getOffset())*c.getScale()), 
-//                (int)((start.y-c.getOffset())*c.getScale()), 
-//                (int)((end.x-start.x)*c.getScale()), 
-//                (int)((end.y-start.y)*c.getScale()));
-//    }
+    private void calcView(Rectangle2D r){
+        double x = r.getMinX()*c.getScale()+cd.getOldx();
+        double y = r.getMinY()*c.getScale()+cd.getOldy();
+        double w = r.getWidth()*c.getScale();
+        double h = r.getHeight()*c.getScale();
+        System.out.println(x+" "+y);
+        cd.updateArea(new Rectangle2D.Double(x, y, w, h));
+    }
+    
 }

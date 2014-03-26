@@ -135,7 +135,7 @@ public class Quadtree {
             CurrentData cd = CurrentData.getInstance();
             cd.setXmax(xmax);
             cd.setYmax(ymax);
-            cd.setXmin(xmin);
+            //cd.setXmin(xmin);
             returnObjects.add(r);
         }
         //returnObjects.addAll(objects);

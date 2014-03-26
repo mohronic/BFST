@@ -60,7 +60,6 @@ public class QuadTree implements QuadTreeInterace
 
             } else if (currentRoads == sizeLimit - 1)
             {
-                System.out.println("divide");
                 divide();
             } else if (currentRoads < sizeLimit)
             {
