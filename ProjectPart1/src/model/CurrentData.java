@@ -11,6 +11,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import javax.swing.JLabel;
 
 /**
  *
@@ -24,6 +25,7 @@ public class CurrentData extends Observable {
     private double oldx = 0, oldy = 0;
     private List<Road> roads = new ArrayList<>();
     private Rectangle2D view;
+    private static JLabel crl = new JLabel("");
 
     public static CurrentData getInstance() {
         if (instance == null) {
@@ -70,6 +72,9 @@ public class CurrentData extends Observable {
     public Rectangle2D getView() {
         return view;
     }
+    public QuadTree getQT(){
+        return qt;
+    }
 
     public double getOldx() {
         return oldx;
@@ -77,5 +82,14 @@ public class CurrentData extends Observable {
 
     public double getOldy() {
         return oldy;
+    }
+    
+    public static void setCurrentRoadLabel(String s){
+        crl.setText(s);
+        crl.repaint();
+    }
+    
+    public static JLabel getCurrentRoadLabel(){
+        return crl;
     }
 }
