@@ -7,7 +7,6 @@ package ctrl;
 
 import static QuadTreePack.NSEW.ROOT;
 import javax.swing.JFrame;
-import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.ArrayList;
 import krakloader.EdgeData;
