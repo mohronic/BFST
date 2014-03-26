@@ -24,7 +24,7 @@ public class Canvas extends JComponent implements Observer
     private List<Road> rd;
     private CurrentData cd;
     private double xmax, ymax, xmin;
-    private double scale = 1, offset = 30;
+    private double scale = 1;
     private DrawInterface j2d;
 
     public Canvas(CurrentData cd)
@@ -45,10 +45,10 @@ public class Canvas extends JComponent implements Observer
             double x1, x2, y1, y2;
             NodeData n1 = r.getFn();
             NodeData n2 = r.getTn();
-            x1 = n1.getX_COORD() / scale + offset;
-            y1 = n1.getY_COORD() / scale + offset;
-            x2 = n2.getX_COORD() / scale + offset;
-            y2 = n2.getY_COORD() / scale + offset;
+            x1 = n1.getX_COORD() / scale;
+            y1 = n1.getY_COORD() / scale;
+            x2 = n2.getX_COORD() / scale;
+            y2 = n2.getY_COORD() / scale;
             //Road colering:
             switch (r.getEd().TYP)
             {
@@ -92,9 +92,6 @@ public class Canvas extends JComponent implements Observer
         return scale;
     }
 
-    public double getOffset()
-    {
-        return offset;
-    }
+    
 
 }
