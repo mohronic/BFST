@@ -5,11 +5,10 @@
  */
 package ctrl;
 
-import java.awt.Graphics;
+
 import java.awt.Graphics2D;
 import java.awt.Point;
 
-import java.awt.Rectangle;
 import java.awt.Shape;
 
 import java.awt.event.MouseEvent;
