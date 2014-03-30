@@ -15,6 +15,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import javax.swing.SwingUtilities;
 import model.CurrentData;
 import model.Road;
 import view.Canvas;
@@ -91,12 +92,12 @@ public class ML implements MouseListener, MouseMotionListener
     public void mouseDragged(MouseEvent e)
     {
         currentMouse = e.getPoint();
-        if (mouseButton == 1)
+        if (SwingUtilities.isLeftMouseButton(e))
         {
             drawZoomArea();
         }
 
-        if (mouseButton == 3)
+        if (SwingUtilities.isRightMouseButton(e))
         {
             pan();
         }
@@ -115,12 +116,14 @@ public class ML implements MouseListener, MouseMotionListener
     }
 
     private void pan()
-    {
-        System.out.println("Original: " + currentView);
-        currentView.setRect(currentView.getX() + (currentMouse.getX() - mouseStart.getX()), currentView.getY() + (currentMouse.getY() - mouseStart.getY()), currentView.getWidth(), currentView.getHeight());
-        System.out.println("New: " + currentView);
-        calcView(currentView);
-        //mouseStart.setLocation(currentMouse.getLocation());
+    {   
+        Rectangle2D temp = cd.getView();
+        double x = temp.getX() + ((currentMouse.getX() - mouseStart.getX())* c.getScale());
+        double y = temp.getY() + ((currentMouse.getY() - mouseStart.getY())* c.getScale());
+        double w = temp.getWidth();
+        double h = temp.getHeight();
+        cd.updateArea(new Rectangle2D.Double(x, y, w, h));
+        mouseStart = currentMouse;
     }
 
     private void getClosestRoad(MouseEvent e)
@@ -187,7 +190,7 @@ public class ML implements MouseListener, MouseMotionListener
         double y = r.getMinY() * c.getScale() + cd.getOldy();
         double w = r.getWidth() * c.getScale();
         double h = r.getHeight() * c.getScale();
-        System.out.println(x + " " + y);
+        System.out.println(w + " " + h);
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
         
     }
