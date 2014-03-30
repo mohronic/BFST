@@ -92,12 +92,12 @@ public class ML implements MouseListener, MouseMotionListener
     public void mouseDragged(MouseEvent e)
     {
         currentMouse = e.getPoint();
-        if (SwingUtilities.isLeftMouseButton(e))
+        if (mouseButton == 1)
         {
             drawZoomArea();
         }
 
-        if (SwingUtilities.isRightMouseButton(e))
+        if (mouseButton == 3)
         {
             pan();
         }
@@ -118,8 +118,8 @@ public class ML implements MouseListener, MouseMotionListener
     private void pan()
     {   
         Rectangle2D temp = cd.getView();
-        double x = temp.getX() + ((currentMouse.getX() - mouseStart.getX())* c.getScale());
-        double y = temp.getY() + ((currentMouse.getY() - mouseStart.getY())* c.getScale());
+        double x = temp.getX() - ((currentMouse.getX() - mouseStart.getX())* c.getScale());
+        double y = temp.getY() - ((currentMouse.getY() - mouseStart.getY())* c.getScale());
         double w = temp.getWidth();
         double h = temp.getHeight();
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
