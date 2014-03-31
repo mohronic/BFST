@@ -154,8 +154,7 @@ public class ML implements MouseListener, MouseMotionListener
         eY = (e.getPoint().getY() * c.getScale()) + cd.getOldy();
         Road closestRoad = null;
 
-        ArrayList<Road> rl = CurrentData.getInstance().getQT().search(eX, eX + 0.1, eY, eY + 0.1);
-        System.out.println(""+rl.size());
+        ArrayList<Road> rl = CurrentData.getInstance().getQT().search(eX-0.5, eX + 1, eY-0.5, eY + 1);
         if (rl.size() > 0 && rl.get(0) != null)
         {
             //We use pythagoras to calculate distance:
@@ -175,17 +174,13 @@ public class ML implements MouseListener, MouseMotionListener
                 }
 
             }
-            if (closestRoad.getEd().VEJNAVN != null)
+
+            if (!closestRoad.getEd().VEJNAVN.isEmpty())
             {
-                if (!closestRoad.getEd().VEJNAVN.isEmpty())
-                {
-                    CurrentData.setCurrentRoadLabel(closestRoad.getEd().VEJNAVN);
-                } else
-                {
-                    CurrentData.setCurrentRoadLabel("");
-                }
-            }else{
-                CurrentData.setCurrentRoadLabel("Hello");
+                CurrentData.setCurrentRoadLabel(closestRoad.getEd().VEJNAVN);
+            } else
+            {
+                CurrentData.setCurrentRoadLabel("Vejen kunne ikke findes!");
             }
 
         }
@@ -201,28 +196,28 @@ public class ML implements MouseListener, MouseMotionListener
         if (mousePressed)
         {
             double startx = mouseStart.getX();
-                double starty = mouseStart.getY();
-                double endx = currentMouse.getX();
-                double endy = currentMouse.getY();
+            double starty = mouseStart.getY();
+            double endx = currentMouse.getX();
+            double endy = currentMouse.getY();
 
-                double tmp;
+            double tmp;
 
-                if (startx > endx)
-                {
-                    tmp = startx;
-                    startx = endx;
-                    endx = tmp;
-                }
+            if (startx > endx)
+            {
+                tmp = startx;
+                startx = endx;
+                endx = tmp;
+            }
 
-                if (starty > endy)
-                {
-                    tmp = starty;
-                    starty = endy;
-                    endy = tmp;
-                }
+            if (starty > endy)
+            {
+                tmp = starty;
+                starty = endy;
+                endy = tmp;
+            }
 
-                double w = endx - startx;
-                double h = endy - starty;
+            double w = endx - startx;
+            double h = endy - starty;
             Shape rect = new Rectangle2D.Double(startx, starty, w, h);
             g.draw(rect);
         }
