@@ -154,7 +154,8 @@ public class ML implements MouseListener, MouseMotionListener
         eY = (e.getPoint().getY() * c.getScale()) + cd.getOldy();
         Road closestRoad = null;
 
-        ArrayList<Road> rl = CurrentData.getInstance().getQT().search(eX, eY, eX + 0.1, eY + 0.1);
+        ArrayList<Road> rl = CurrentData.getInstance().getQT().search(eX, eX + 0.1, eY, eY + 0.1);
+        System.out.println(""+rl.size());
         if (rl.size() > 0 && rl.get(0) != null)
         {
             //We use pythagoras to calculate distance:
@@ -183,6 +184,8 @@ public class ML implements MouseListener, MouseMotionListener
                 {
                     CurrentData.setCurrentRoadLabel("");
                 }
+            }else{
+                CurrentData.setCurrentRoadLabel("Hello");
             }
 
         }
