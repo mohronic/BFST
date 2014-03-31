@@ -193,11 +193,6 @@ public class ML implements MouseListener, MouseMotionListener
 
     public void drawZoomArea()
     {
-
-//        if (j2d == null)
-//        {
-//            j2d = Java2DDraw.getInstance();
-//        }
         Graphics2D g = (Graphics2D) c.getGraphics();
 
         if (mousePressed)
@@ -227,8 +222,6 @@ public class ML implements MouseListener, MouseMotionListener
                 double h = endy - starty;
             Shape rect = new Rectangle2D.Double(startx, starty, w, h);
             g.draw(rect);
-
-            //j2d.drawRect(mouseStart.getX(), mouseStart.getY(), currentMouse.getX() - mouseStart.getX(), currentMouse.getY() - mouseStart.getY());
         }
         c.repaint();
 
