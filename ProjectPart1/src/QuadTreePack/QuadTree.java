@@ -1,9 +1,6 @@
 package QuadTreePack;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Arrays;
-import krakloader.NodeData;
 import model.Road;
 
 /*
@@ -20,7 +17,7 @@ public class QuadTree implements QuadTreeInterace
 
     public QuadTree northeast, northwest, southeast, southwest;
     public Boundary boundary;
-    private final int sizeLimit = 100000000;
+    private final int sizeLimit = 1000;
     public Road[] roadList;
     public int currentRoads = -1;
 

@@ -15,7 +15,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import javax.swing.SwingUtilities;
 import model.CurrentData;
 import model.Road;
 import view.Canvas;
@@ -36,9 +35,9 @@ public class ML implements MouseListener, MouseMotionListener
     private boolean mousePressed;
     private Point mouseEnd;
     private Point currentMouse;
-    private Java2DDraw j2d = null;
+    private final Java2DDraw j2d = null;
     private Rectangle2D currentView;
-    private Rectangle2D originalView;
+    private final Rectangle2D originalView;
     private int mouseButton;
 
     public ML(Canvas c)
@@ -76,11 +75,31 @@ public class ML implements MouseListener, MouseMotionListener
             } else
             {
 
-                double x = mouseStart.getX();
-                double y = mouseStart.getY();
-                double w = mouseEnd.getX() - mouseStart.getX();
-                double h = mouseEnd.getY() - mouseStart.getY();
-                currentView = new Rectangle2D.Double(x, y, w, h);
+                double startx = mouseStart.getX();
+                double starty = mouseStart.getY();
+                double endx = mouseEnd.getX();
+                double endy = mouseEnd.getY();
+
+                double tmp;
+
+                if (startx > endx)
+                {
+                    tmp = startx;
+                    startx = endx;
+                    endx = tmp;
+                }
+
+                if (starty > endy)
+                {
+                    tmp = starty;
+                    starty = endy;
+                    endy = tmp;
+                }
+
+                double w = endx - startx;
+                double h = endy - starty;
+
+                currentView = new Rectangle2D.Double(startx, starty, w, h);
                 calcView(currentView);
 
             }
@@ -116,10 +135,10 @@ public class ML implements MouseListener, MouseMotionListener
     }
 
     private void pan()
-    {   
+    {
         Rectangle2D temp = cd.getView();
-        double x = temp.getX() - ((currentMouse.getX() - mouseStart.getX())* c.getScale());
-        double y = temp.getY() - ((currentMouse.getY() - mouseStart.getY())* c.getScale());
+        double x = temp.getX() - ((currentMouse.getX() - mouseStart.getX()) * c.getScale());
+        double y = temp.getY() - ((currentMouse.getY() - mouseStart.getY()) * c.getScale());
         double w = temp.getWidth();
         double h = temp.getHeight();
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
@@ -136,12 +155,15 @@ public class ML implements MouseListener, MouseMotionListener
         Road closestRoad = null;
 
         ArrayList<Road> rl = CurrentData.getInstance().getQT().search(eX, eY, eX + 0.1, eY + 0.1);
-        if (rl.get(0) != null)
+        if (rl.size() > 0 && rl.get(0) != null)
         {
             //We use pythagoras to calculate distance:
             double dist = Math.sqrt((Math.pow(rl.get(0).midX - eX, 2)) + (Math.pow(rl.get(0).midY - eY, 2)));
-            for (Road road : rl) {
-                
+
+            closestRoad = rl.get(0);
+            for (Road road : rl)
+            {
+
                 double distX, distY;
                 distX = Math.abs(road.midX - eX);
                 distY = Math.abs(road.midY - eY);
@@ -150,14 +172,19 @@ public class ML implements MouseListener, MouseMotionListener
                     dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
                     closestRoad = road;
                 }
-                
+
             }
-            if(closestRoad.getEd().VEJNAVN != null){
-                if(!closestRoad.getEd().VEJNAVN.isEmpty()){
-                CurrentData.setCurrentRoadLabel(closestRoad.getEd().VEJNAVN);
-                } else CurrentData.setCurrentRoadLabel("");
+            if (closestRoad.getEd().VEJNAVN != null)
+            {
+                if (!closestRoad.getEd().VEJNAVN.isEmpty())
+                {
+                    CurrentData.setCurrentRoadLabel(closestRoad.getEd().VEJNAVN);
+                } else
+                {
+                    CurrentData.setCurrentRoadLabel("");
+                }
             }
-            
+
         }
         //Finds closest road, but does not do anything else
         //return closestRoad;
@@ -166,19 +193,35 @@ public class ML implements MouseListener, MouseMotionListener
 
     public void drawZoomArea()
     {
-
-//        if (j2d == null)
-//        {
-//            j2d = Java2DDraw.getInstance();
-//        }
         Graphics2D g = (Graphics2D) c.getGraphics();
 
         if (mousePressed)
         {
-            Shape rect = new Rectangle2D.Double(mouseStart.getX(), mouseStart.getY(), currentMouse.getX() - mouseStart.getX(), currentMouse.getY() - mouseStart.getY());
-            g.draw(rect);
+            double startx = mouseStart.getX();
+                double starty = mouseStart.getY();
+                double endx = currentMouse.getX();
+                double endy = currentMouse.getY();
 
-            //j2d.drawRect(mouseStart.getX(), mouseStart.getY(), currentMouse.getX() - mouseStart.getX(), currentMouse.getY() - mouseStart.getY());
+                double tmp;
+
+                if (startx > endx)
+                {
+                    tmp = startx;
+                    startx = endx;
+                    endx = tmp;
+                }
+
+                if (starty > endy)
+                {
+                    tmp = starty;
+                    starty = endy;
+                    endy = tmp;
+                }
+
+                double w = endx - startx;
+                double h = endy - starty;
+            Shape rect = new Rectangle2D.Double(startx, starty, w, h);
+            g.draw(rect);
         }
         c.repaint();
 
@@ -190,9 +233,8 @@ public class ML implements MouseListener, MouseMotionListener
         double y = r.getMinY() * c.getScale() + cd.getOldy();
         double w = r.getWidth() * c.getScale();
         double h = r.getHeight() * c.getScale();
-        System.out.println(w + " " + h);
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
-        
+
     }
 
     @Override

@@ -89,15 +89,21 @@ public class Canvas extends JComponent implements Observer {
     private boolean filterRoad(Road r) {
         int typ = r.getEd().TYP;
         double maxScale = cd.getXmax() / (double) this.getWidth();
-        if(maxScale < cd.getYmax()/(double)this.getHeight()) maxScale = cd.getYmax()/(double)this.getHeight();
+        if (maxScale < cd.getYmax() / (double) this.getHeight()) {
+            maxScale = cd.getYmax() / (double) this.getHeight();
+        }
         if (typ == 1 || typ == 3 || typ == 2) {
             return true;
         }
-        if (scale < maxScale*0.75 && scale > maxScale*0.15) {
+        if (scale < maxScale * 0.75 && scale > maxScale * 0.15) {
             if (typ == 4) {
                 return true;
             }
-        } else if (scale <= maxScale*0.15) {
+        } else if (scale <= maxScale * 0.15 && scale > maxScale * 0.08) {
+            if (typ != 8) {
+                return true;
+            }
+        } else if(scale <= maxScale * 0.08){
             return true;
         }
         return false;
