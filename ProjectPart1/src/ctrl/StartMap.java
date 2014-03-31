@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ctrl;
 
 import static QuadTreePack.NSEW.ROOT;
@@ -15,13 +10,12 @@ import krakloader.NodeData;
 import QuadTreePack.QuadTree;
 import java.awt.BorderLayout;
 import java.awt.geom.Rectangle2D;
-import javax.swing.JLabel;
 import model.Road;
 import model.CurrentData;
 import view.Canvas;
 
 /**
- *
+ * 
  * @author KristianMohr
  */
 public class StartMap {

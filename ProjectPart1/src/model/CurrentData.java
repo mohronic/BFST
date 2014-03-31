@@ -48,7 +48,7 @@ public class CurrentData extends Observable {
         oldy = view.getMinY();
         oldx = view.getMinX();
         roads.clear();
-        roads = qt.search(r.getX(), r.getX() + r.getWidth(), r.getY(), r.getY() + r.getHeight());
+        roads = qt.search(r.getX()*0.75, (r.getX() + r.getWidth())*1.25, r.getY()*0.75, (r.getY() + r.getHeight())*1.25);
         setChanged();
         notifyObservers();
     }

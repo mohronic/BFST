@@ -135,13 +135,19 @@ public class ML implements MouseListener, MouseMotionListener
         Road closestRoad = null;
 
         ArrayList<Road> rl = CurrentData.getInstance().getQT().search(eX, eY, eX + 0.1, eY + 0.1);
-        if (rl.get(0) != null)
+        if (rl.size() > 0 && rl.get(0) != null)
         {
             //We use pythagoras to calculate distance:
             double dist = Math.sqrt((Math.pow(rl.get(0).midX - eX, 2)) + (Math.pow(rl.get(0).midY - eY, 2)));
+<<<<<<< HEAD
             for (Road road : rl)
             {
 
+=======
+            closestRoad = rl.get(0);
+            for (Road road : rl) {
+                
+>>>>>>> 4e7e47402e94aa9532d7ffb36462a96e1d992fdb
                 double distX, distY;
                 distX = Math.abs(road.midX - eX);
                 distY = Math.abs(road.midY - eY);
