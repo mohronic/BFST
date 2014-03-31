@@ -19,7 +19,7 @@ import model.CurrentData;
 import model.Road;
 import view.Canvas;
 
-import view.Java2DDraw;
+import view.Graphics2DDraw;
 //import view.Canvas;
 
 /**
@@ -34,7 +34,7 @@ public class ML implements MouseListener, MouseMotionListener {
     private boolean mousePressed;
     private Point mouseEnd;
     private Point currentMouse;
-    private final Java2DDraw j2d = null;
+    private final Graphics2DDraw j2d = null;
     private Rectangle2D currentView;
     private final Rectangle2D originalView;
     private int mouseButton;

@@ -31,7 +31,7 @@ public class Canvas extends JComponent implements Observer {
         this.cd = cd;
         this.view = cd.getView();
         rd = cd.getRoads();
-        j2d = Java2DDraw.getInstance();
+        j2d = Graphics2DDraw.getInstance();
     }
 
     private void drawMap() {

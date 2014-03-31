@@ -17,22 +17,22 @@ import java.awt.geom.Rectangle2D;
  *
  * @author Adam Engsig (adae@itu.dk)
  */
-public class Java2DDraw implements DrawInterface
+public class Graphics2DDraw implements DrawInterface
 {
 
     private Graphics2D g2;
-    private static Java2DDraw instance = null;
+    private static Graphics2DDraw instance = null;
 
-    private Java2DDraw()
+    private Graphics2DDraw()
     {
         g2 = null;
     }
     
-    public static Java2DDraw getInstance()
+    public static Graphics2DDraw getInstance()
     {
         if (instance == null)
         {
-            instance = new Java2DDraw();
+            instance = new Graphics2DDraw();
         }
         return instance;
     }
