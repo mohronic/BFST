@@ -240,7 +240,6 @@ public class ML implements MouseListener, MouseMotionListener
         double y = r.getMinY() * c.getScale() + cd.getOldy();
         double w = r.getWidth() * c.getScale();
         double h = r.getHeight() * c.getScale();
-        System.out.println(w + " " + h);
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
 
     }
