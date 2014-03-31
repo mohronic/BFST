@@ -15,7 +15,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import javax.swing.SwingUtilities;
 import model.CurrentData;
 import model.Road;
 import view.Canvas;
@@ -36,9 +35,9 @@ public class ML implements MouseListener, MouseMotionListener
     private boolean mousePressed;
     private Point mouseEnd;
     private Point currentMouse;
-    private Java2DDraw j2d = null;
+    private final Java2DDraw j2d = null;
     private Rectangle2D currentView;
-    private Rectangle2D originalView;
+    private final Rectangle2D originalView;
     private int mouseButton;
 
     public ML(Canvas c)
@@ -116,10 +115,10 @@ public class ML implements MouseListener, MouseMotionListener
     }
 
     private void pan()
-    {   
+    {
         Rectangle2D temp = cd.getView();
-        double x = temp.getX() - ((currentMouse.getX() - mouseStart.getX())* c.getScale());
-        double y = temp.getY() - ((currentMouse.getY() - mouseStart.getY())* c.getScale());
+        double x = temp.getX() - ((currentMouse.getX() - mouseStart.getX()) * c.getScale());
+        double y = temp.getY() - ((currentMouse.getY() - mouseStart.getY()) * c.getScale());
         double w = temp.getWidth();
         double h = temp.getHeight();
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
@@ -140,8 +139,9 @@ public class ML implements MouseListener, MouseMotionListener
         {
             //We use pythagoras to calculate distance:
             double dist = Math.sqrt((Math.pow(rl.get(0).midX - eX, 2)) + (Math.pow(rl.get(0).midY - eY, 2)));
-            for (Road road : rl) {
-                
+            for (Road road : rl)
+            {
+
                 double distX, distY;
                 distX = Math.abs(road.midX - eX);
                 distY = Math.abs(road.midY - eY);
@@ -150,14 +150,19 @@ public class ML implements MouseListener, MouseMotionListener
                     dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
                     closestRoad = road;
                 }
-                
+
             }
-            if(closestRoad.getEd().VEJNAVN != null){
-                if(!closestRoad.getEd().VEJNAVN.isEmpty()){
-                CurrentData.setCurrentRoadLabel(closestRoad.getEd().VEJNAVN);
-                } else CurrentData.setCurrentRoadLabel("");
+            if (closestRoad.getEd().VEJNAVN != null)
+            {
+                if (!closestRoad.getEd().VEJNAVN.isEmpty())
+                {
+                    CurrentData.setCurrentRoadLabel(closestRoad.getEd().VEJNAVN);
+                } else
+                {
+                    CurrentData.setCurrentRoadLabel("");
+                }
             }
-            
+
         }
         //Finds closest road, but does not do anything else
         //return closestRoad;
@@ -192,7 +197,7 @@ public class ML implements MouseListener, MouseMotionListener
         double h = r.getHeight() * c.getScale();
         System.out.println(w + " " + h);
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
-        
+
     }
 
     @Override
