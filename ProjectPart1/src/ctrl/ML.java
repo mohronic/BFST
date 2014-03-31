@@ -26,8 +26,7 @@ import view.Java2DDraw;
  *
  * @author z3ss
  */
-public class ML implements MouseListener, MouseMotionListener
-{
+public class ML implements MouseListener, MouseMotionListener {
 
     private final Canvas c;
     private final CurrentData cd = CurrentData.getInstance();
@@ -40,22 +39,19 @@ public class ML implements MouseListener, MouseMotionListener
     private final Rectangle2D originalView;
     private int mouseButton;
 
-    public ML(Canvas c)
-    {
+    public ML(Canvas c) {
         currentView = new Rectangle2D.Double(0, 0, cd.getXmax(), cd.getYmax());
         originalView = new Rectangle2D.Double(0, 0, cd.getXmax(), cd.getYmax());
         this.c = c;
     }
 
     @Override
-    public void mouseClicked(MouseEvent me)
-    {
+    public void mouseClicked(MouseEvent me) {
         //Unused
     }
 
     @Override
-    public void mousePressed(MouseEvent me)
-    {
+    public void mousePressed(MouseEvent me) {
 
         mouseStart = me.getPoint();
         mousePressed = true;
@@ -63,17 +59,13 @@ public class ML implements MouseListener, MouseMotionListener
     }
 
     @Override
-    public void mouseReleased(MouseEvent me)
-    {
+    public void mouseReleased(MouseEvent me) {
         mouseEnd = me.getPoint();
-        if (mouseButton == 1)
-        {
-            if (mouseStart.getX() == mouseEnd.getX() || mouseStart.getY() == mouseEnd.getY())
-            {
+        if (mouseButton == 1) {
+            if (mouseStart.getX() == mouseEnd.getX() || mouseStart.getY() == mouseEnd.getY()) {
                 cd.updateArea(originalView);
                 currentView.setRect(originalView);
-            } else
-            {
+            } else {
 
                 double startx = mouseStart.getX();
                 double starty = mouseStart.getY();
@@ -82,15 +74,13 @@ public class ML implements MouseListener, MouseMotionListener
 
                 double tmp;
 
-                if (startx > endx)
-                {
+                if (startx > endx) {
                     tmp = startx;
                     startx = endx;
                     endx = tmp;
                 }
 
-                if (starty > endy)
-                {
+                if (starty > endy) {
                     tmp = starty;
                     starty = endy;
                     endy = tmp;
@@ -108,16 +98,13 @@ public class ML implements MouseListener, MouseMotionListener
     }
 
     @Override
-    public void mouseDragged(MouseEvent e)
-    {
+    public void mouseDragged(MouseEvent e) {
         currentMouse = e.getPoint();
-        if (mouseButton == 1)
-        {
+        if (mouseButton == 1) {
             drawZoomArea();
         }
 
-        if (mouseButton == 3)
-        {
+        if (mouseButton == 3) {
             pan();
         }
 
@@ -125,8 +112,7 @@ public class ML implements MouseListener, MouseMotionListener
     }
 
     @Override
-    public void mouseMoved(MouseEvent e)
-    {
+    public void mouseMoved(MouseEvent e) {
         currentMouse = e.getPoint();
         getClosestRoad(e);
 
@@ -134,8 +120,7 @@ public class ML implements MouseListener, MouseMotionListener
 
     }
 
-    private void pan()
-    {
+    private void pan() {
         Rectangle2D temp = cd.getView();
         double x = temp.getX() - ((currentMouse.getX() - mouseStart.getX()) * c.getScale());
         double y = temp.getY() - ((currentMouse.getY() - mouseStart.getY()) * c.getScale());
@@ -145,8 +130,7 @@ public class ML implements MouseListener, MouseMotionListener
         mouseStart = currentMouse;
     }
 
-    private void getClosestRoad(MouseEvent e)
-    {
+    private void getClosestRoad(MouseEvent e) {
 
         //Skal ændres til at tage scale med (Scale skal ganges på koordinaterne).
         double eX, eY;
@@ -154,32 +138,30 @@ public class ML implements MouseListener, MouseMotionListener
         eY = (e.getPoint().getY() * c.getScale()) + cd.getOldy();
         Road closestRoad = null;
 
-        ArrayList<Road> rl = CurrentData.getInstance().getQT().search(eX-0.5, eX + 1, eY-0.5, eY + 1);
-        if (rl.size() > 0 && rl.get(0) != null)
-        {
+        ArrayList<Road> rl = CurrentData.getInstance().getQT().search(eX - 0.5, eX + 1, eY - 0.5, eY + 1);
+        if (rl.size() > 0) {
             //We use pythagoras to calculate distance:
             double dist = Math.sqrt((Math.pow(rl.get(0).midX - eX, 2)) + (Math.pow(rl.get(0).midY - eY, 2)));
 
             closestRoad = rl.get(0);
-            for (Road road : rl)
-            {
-
+            for (Road road : rl) {
+                if (closestRoad.getEd().VEJNAVN.isEmpty() && !road.getEd().VEJNAVN.isEmpty()) {
+                    closestRoad = road;
+                    dist = Math.sqrt((Math.pow(road.midX - eX, 2)) + (Math.pow(road.midY - eY, 2)));
+                }
                 double distX, distY;
                 distX = Math.abs(road.midX - eX);
                 distY = Math.abs(road.midY - eY);
-                if (Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2)) < dist)
-                {
+                if (Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2)) < dist && !road.getEd().VEJNAVN.isEmpty()) {
                     dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
                     closestRoad = road;
                 }
 
             }
 
-            if (!closestRoad.getEd().VEJNAVN.isEmpty())
-            {
+            if (!closestRoad.getEd().VEJNAVN.isEmpty()) {
                 CurrentData.setCurrentRoadLabel(closestRoad.getEd().VEJNAVN);
-            } else
-            {
+            } else {
                 CurrentData.setCurrentRoadLabel("Vejen kunne ikke findes!");
             }
 
@@ -189,12 +171,10 @@ public class ML implements MouseListener, MouseMotionListener
         //FDS: A drawing method should call this to recieve the closest road.
     }
 
-    public void drawZoomArea()
-    {
+    public void drawZoomArea() {
         Graphics2D g = (Graphics2D) c.getGraphics();
 
-        if (mousePressed)
-        {
+        if (mousePressed) {
             double startx = mouseStart.getX();
             double starty = mouseStart.getY();
             double endx = currentMouse.getX();
@@ -202,15 +182,13 @@ public class ML implements MouseListener, MouseMotionListener
 
             double tmp;
 
-            if (startx > endx)
-            {
+            if (startx > endx) {
                 tmp = startx;
                 startx = endx;
                 endx = tmp;
             }
 
-            if (starty > endy)
-            {
+            if (starty > endy) {
                 tmp = starty;
                 starty = endy;
                 endy = tmp;
@@ -225,8 +203,7 @@ public class ML implements MouseListener, MouseMotionListener
 
     }
 
-    private void calcView(Rectangle2D r)
-    {
+    private void calcView(Rectangle2D r) {
         double x = r.getMinX() * c.getScale() + cd.getOldx();
         double y = r.getMinY() * c.getScale() + cd.getOldy();
         double w = r.getWidth() * c.getScale();
@@ -236,14 +213,12 @@ public class ML implements MouseListener, MouseMotionListener
     }
 
     @Override
-    public void mouseEntered(MouseEvent me)
-    {
+    public void mouseEntered(MouseEvent me) {
 //donothing
     }
 
     @Override
-    public void mouseExited(MouseEvent me)
-    {
+    public void mouseExited(MouseEvent me) {
 //do nothing
     }
 
