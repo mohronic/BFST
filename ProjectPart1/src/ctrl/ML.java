@@ -154,7 +154,6 @@ public class ML implements MouseListener, MouseMotionListener
         eY = (e.getPoint().getY() * c.getScale()) + cd.getOldy();
         Road closestRoad = null;
 
-
         ArrayList<Road> rl = CurrentData.getInstance().getQT().search(eX-0.5, eX + 1, eY-0.5, eY + 1);
         if (rl.size() > 0 && rl.get(0) != null)
         {
