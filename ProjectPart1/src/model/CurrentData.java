@@ -25,7 +25,7 @@ public class CurrentData extends Observable {
     private double oldx = 0, oldy = 0;
     private List<Road> roads = new ArrayList<>();
     private Rectangle2D view;
-    private static JLabel crl = new JLabel("");
+    private static JLabel crl = new JLabel("Ingen vej fundet");
 
     public static CurrentData getInstance() {
         if (instance == null) {
