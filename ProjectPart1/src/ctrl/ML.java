@@ -75,11 +75,31 @@ public class ML implements MouseListener, MouseMotionListener
             } else
             {
 
-                double x = mouseStart.getX();
-                double y = mouseStart.getY();
-                double w = mouseEnd.getX() - mouseStart.getX();
-                double h = mouseEnd.getY() - mouseStart.getY();
-                currentView = new Rectangle2D.Double(x, y, w, h);
+                double startx = mouseStart.getX();
+                double starty = mouseStart.getY();
+                double endx = mouseEnd.getX();
+                double endy = mouseEnd.getY();
+
+                double tmp;
+
+                if (startx > endx)
+                {
+                    tmp = startx;
+                    startx = endx;
+                    endx = tmp;
+                }
+
+                if (starty > endy)
+                {
+                    tmp = starty;
+                    starty = endy;
+                    endy = tmp;
+                }
+
+                double w = endx - startx;
+                double h = endy - starty;
+
+                currentView = new Rectangle2D.Double(startx, starty, w, h);
                 calcView(currentView);
 
             }
@@ -141,8 +161,9 @@ public class ML implements MouseListener, MouseMotionListener
             double dist = Math.sqrt((Math.pow(rl.get(0).midX - eX, 2)) + (Math.pow(rl.get(0).midY - eY, 2)));
 
             closestRoad = rl.get(0);
-            for (Road road : rl) {
-                
+            for (Road road : rl)
+            {
+
                 double distX, distY;
                 distX = Math.abs(road.midX - eX);
                 distY = Math.abs(road.midY - eY);
@@ -176,7 +197,30 @@ public class ML implements MouseListener, MouseMotionListener
 
         if (mousePressed)
         {
-            Shape rect = new Rectangle2D.Double(mouseStart.getX(), mouseStart.getY(), currentMouse.getX() - mouseStart.getX(), currentMouse.getY() - mouseStart.getY());
+            double startx = mouseStart.getX();
+                double starty = mouseStart.getY();
+                double endx = currentMouse.getX();
+                double endy = currentMouse.getY();
+
+                double tmp;
+
+                if (startx > endx)
+                {
+                    tmp = startx;
+                    startx = endx;
+                    endx = tmp;
+                }
+
+                if (starty > endy)
+                {
+                    tmp = starty;
+                    starty = endy;
+                    endy = tmp;
+                }
+
+                double w = endx - startx;
+                double h = endy - starty;
+            Shape rect = new Rectangle2D.Double(startx, starty, w, h);
             g.draw(rect);
         }
         c.repaint();

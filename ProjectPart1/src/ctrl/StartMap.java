@@ -34,7 +34,7 @@ public class StartMap {
     private void setup() throws IOException {
         frame = new JFrame("Map Draw");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 500);
+        frame.setSize(970, 770);
         Canvas c = new Canvas(cd);
         ML ml = new ML(c);
         c.addMouseListener(ml);
