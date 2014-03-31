@@ -15,22 +15,32 @@ import model.CurrentData;
 import view.Canvas;
 
 /**
+ * Class containing main method. It loads the data from the Krak files and
+ * creates the GUI.
  * 
  * @author Gruppe A
  */
 public class StartMap {
-
+    
     public static double xmax, ymax;
     private JFrame frame;
     private CurrentData cd;
     private static QuadTree qt;
     
-
+    /**
+     * Constructor for the StartMap object.
+     * @throws IOException 
+     */
     public StartMap() throws IOException {
         setData();
         setup();
     }
-
+    
+    /*
+     * A setup for the GUI, connecting the frame, canvas and mouseListener/
+     * mouseMotionListener.
+     * @throws IOException 
+     */
     private void setup() throws IOException {
         frame = new JFrame("Map Draw");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,7 +55,12 @@ public class StartMap {
         frame.add(CurrentData.getCurrentRoadLabel(), BorderLayout.SOUTH);
         frame.setVisible(true);
     }
-
+    
+    /*
+     * Loads the data with the use of the krakloader package, recalculates the
+     * coordinates and inserts the data into the Quadtree.
+     * @throws IOException 
+     */
     private void setData() throws IOException {
         final ArrayList<NodeData> nodes = new ArrayList<>();
         final ArrayList<EdgeData> edges = new ArrayList<>();
@@ -84,11 +99,20 @@ public class StartMap {
         }
         cd.updateArea(new Rectangle2D.Double(0, 0, xmax, ymax));
     }
-
+    
+    /**
+     * Returns the instance of the Quadtree root.
+     * @return The root of the Quadtree.
+     */
     public static QuadTree getQuadTree() {
         return qt;
     }
-
+    
+    /**
+     * Creates an instance of StartMap.
+     * @param args
+     * @throws IOException 
+     */
     public static void main(String[] args) throws IOException {
         StartMap sm = new StartMap();
     }

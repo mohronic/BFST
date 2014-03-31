@@ -9,7 +9,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- *
+ * Implementation of DrawInterface, which is a singleton, since only one is
+ * needed.
  * @author Gruppe A
  */
 public class Graphics2DDraw implements DrawInterface

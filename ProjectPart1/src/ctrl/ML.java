@@ -14,10 +14,10 @@ import view.Canvas;
 import view.Graphics2DDraw;
 
 /**
- *
+ * A mouseListener and mouseMotionListener, used to zoom, pan and find nearest
+ * road.
  * @author Gruppe A
  */
-
 public class ML implements MouseListener, MouseMotionListener
 {
 
@@ -31,7 +31,12 @@ public class ML implements MouseListener, MouseMotionListener
     private boolean mousePressed;
     private Rectangle2D currentView;
     private final Rectangle2D originalView;
-
+    
+    /**
+     * Constructor for ML, setting the current view and the original view. It
+     * takes a Canvas 'c' as parameter, which it uses to calculate the scale.
+     * @param c Canvas which it is connected too.
+     */
     public ML(Canvas c)
     {
         currentView = new Rectangle2D.Double(0, 0, cd.getXmax(), cd.getYmax());
@@ -52,7 +57,13 @@ public class ML implements MouseListener, MouseMotionListener
         mousePressed = true;
         mouseButton = me.getButton();
     }
-
+    /**
+     * Method to handle the MouseEvent occurring when a mouse button is 
+     * released. If it was the left mousebutton & it was dragged, it will zoom
+     * on the selected area else if it wasn't dragged it will reset to the
+     * original view. If it was any other button, nothing happens.
+     * @param me 
+     */
     @Override
     public void mouseReleased(MouseEvent me)
     {
@@ -96,7 +107,14 @@ public class ML implements MouseListener, MouseMotionListener
         }
         mousePressed = false;
     }
-
+    
+    /**
+     * Method to handle the MouseEvent occurring when the mouse is dragged. If
+     * button pushed, while dragging is left mousebutton, it will draw the
+     * area which is going to be zoomed in to. If is the right mousebutton,
+     * it will pan the the map.
+     * @param e 
+     */
     @Override
     public void mouseDragged(MouseEvent e)
     {
@@ -113,7 +131,11 @@ public class ML implements MouseListener, MouseMotionListener
 
         e.consume();//Stops the event when not in use, makes program run faster
     }
-
+    
+    /**
+     * when the mouse is moved, it will check for the nearest road.
+     * @param e 
+     */
     @Override
     public void mouseMoved(MouseEvent e)
     {
@@ -123,7 +145,11 @@ public class ML implements MouseListener, MouseMotionListener
         e.consume();//Stops the event when not in use, makes program run faster
 
     }
-
+    
+    /*
+     * Method to pan the view, which add the distance the mouse has moved to
+     * the upper left corner, of the view.
+     */
     private void pan()
     {
         Rectangle2D temp = cd.getView();
@@ -134,7 +160,9 @@ public class ML implements MouseListener, MouseMotionListener
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
         mouseStart = currentMouse;
     }
-
+    
+    /* Method for finding the closest road, by distance to the midpoint.
+     */
     private void getClosestRoad(MouseEvent e)
     {
         double eX, eY;
@@ -176,12 +204,11 @@ public class ML implements MouseListener, MouseMotionListener
             }
 
         }
-        //Finds closest road, but does not do anything else
-        //return closestRoad;
-        //FDS: A drawing method should call this to recieve the closest road.
     }
-
-    public void drawZoomArea()
+    
+    /* Draws the rectangle which is to zoomed in to.
+     */
+    private void drawZoomArea()
     {
         Graphics2D g = (Graphics2D) c.getGraphics();
 
@@ -216,7 +243,9 @@ public class ML implements MouseListener, MouseMotionListener
         c.repaint();
 
     }
-
+    
+    /* Scales the rectangle from ML to fit with the coordinates in the Quadtree.
+     */
     private void calcView(Rectangle2D r)
     {
         double x = r.getMinX() * c.getScale() + cd.getOldx();

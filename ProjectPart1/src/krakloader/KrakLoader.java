@@ -12,6 +12,7 @@ import java.io.IOException;
  *
  * Original author Peter Tiedemann petert@itu.dk; updates (2014) by Søren
  * Debois, debois@itu.dk
+ * Updates by group A.
  */
 public abstract class KrakLoader {
 
@@ -25,6 +26,8 @@ public abstract class KrakLoader {
      * Load krak-data from given files, invoking processNode and processEdge
      * once for each node- and edge- specification in the input file,
      * respectively.
+     * 
+     * Updated to also find the min and max values of x and y (by group A).
      *
      * @param nodeFile
      * @param edgeFile

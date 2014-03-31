@@ -2,6 +2,7 @@ package krakloader;
 
 /**
  * An object storing the raw node data from the krak data file.
+ * Changed by group A, check method recalc().
  */
 public class NodeData {
 
@@ -34,7 +35,13 @@ public class NodeData {
     public String toString() {
         return ARC + "," + KDV + "," + KDV_ID + "," + X_COORD + "," + Y_COORD;
     }
-
+    
+    /**
+     * Added method by group A, to recalculate the coordinates of a node,
+     * to fit with the coordinates used in Java.
+     * @param ymax
+     * @param xmin 
+     */
     public void recalc(double ymax, double xmin) {
         X_COORD = X_COORD - xmin;
         Y_COORD = (-Y_COORD) + ymax;
