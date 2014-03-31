@@ -16,7 +16,7 @@ import view.Canvas;
 
 /**
  * 
- * @author KristianMohr
+ * @author Gruppe A
  */
 public class StartMap {
 
@@ -76,8 +76,6 @@ public class StartMap {
         xmax = kl.xmax - kl.xmin;
         ymax = (-kl.ymin) + kl.ymax;
         qt = new QuadTree(ROOT, null);
-
-//        qt = Quadtree.getInstance(0, new Rectangle((int) (kl.xmax - kl.xmin + 1), (int) (kl.ymax-kl.ymin + 1)));
         cd = CurrentData.getInstance();
         cd.setXmax(xmax);
         cd.setYmax(ymax);

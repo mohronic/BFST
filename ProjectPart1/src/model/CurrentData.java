@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import QuadTreePack.QuadTree;
@@ -15,9 +10,10 @@ import javax.swing.JLabel;
 
 /**
  *
- * @author z3ss
+ * @author Gruppe A
  */
-public class CurrentData extends Observable {
+public class CurrentData extends Observable
+{
 
     private static CurrentData instance = null;
     private final QuadTree qt;
@@ -27,69 +23,85 @@ public class CurrentData extends Observable {
     private Rectangle2D view;
     private static JLabel crl = new JLabel("Ingen vej fundet");
 
-    public static CurrentData getInstance() {
-        if (instance == null) {
+    public static CurrentData getInstance()
+    {
+        if (instance == null)
+        {
             instance = new CurrentData();
         }
         return instance;
     }
 
-    private CurrentData() {
+    private CurrentData()
+    {
         qt = StartMap.getQuadTree();
         view = new Rectangle2D.Double();
     }
 
-    public List<Road> getRoads() {
+    public List<Road> getRoads()
+    {
         return roads;
     }
 
-    public void updateArea(Rectangle2D r) {
+    public void updateArea(Rectangle2D r)
+    {
         view = r;
         oldy = view.getMinY();
         oldx = view.getMinX();
         roads.clear();
-        roads = qt.search(r.getX()*0.75, (r.getX() + r.getWidth())*1.25, r.getY()*0.75, (r.getY() + r.getHeight())*1.25);
+        roads = qt.search(r.getX() * 0.75, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.75, (r.getY() + r.getHeight()) * 1.25);
         setChanged();
         notifyObservers();
     }
 
-    public void setXmax(double xmax) {
+    public void setXmax(double xmax)
+    {
         this.xmax = xmax;
     }
 
-    public void setYmax(double ymax) {
+    public void setYmax(double ymax)
+    {
         this.ymax = ymax;
     }
 
-    public double getXmax() {
+    public double getXmax()
+    {
         return xmax;
     }
 
-    public double getYmax() {
+    public double getYmax()
+    {
         return ymax;
     }
 
-    public Rectangle2D getView() {
+    public Rectangle2D getView()
+    {
         return view;
     }
-    public QuadTree getQT(){
+
+    public QuadTree getQT()
+    {
         return qt;
     }
 
-    public double getOldx() {
+    public double getOldx()
+    {
         return oldx;
     }
 
-    public double getOldy() {
+    public double getOldy()
+    {
         return oldy;
     }
-    
-    public static void setCurrentRoadLabel(String s){
+
+    public static void setCurrentRoadLabel(String s)
+    {
         crl.setText(s);
         crl.repaint();
     }
-    
-    public static JLabel getCurrentRoadLabel(){
+
+    public static JLabel getCurrentRoadLabel()
+    {
         return crl;
     }
 }

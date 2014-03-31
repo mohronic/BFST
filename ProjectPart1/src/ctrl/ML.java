@@ -1,15 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ctrl;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
-
 import java.awt.Shape;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -18,55 +11,60 @@ import java.util.ArrayList;
 import model.CurrentData;
 import model.Road;
 import view.Canvas;
-
 import view.Graphics2DDraw;
-//import view.Canvas;
 
 /**
  *
- * @author z3ss
+ * @author Gruppe A
  */
-public class ML implements MouseListener, MouseMotionListener {
+
+public class ML implements MouseListener, MouseMotionListener
+{
 
     private final Canvas c;
     private final CurrentData cd = CurrentData.getInstance();
+    private final Graphics2DDraw j2d = null;
     private Point mouseStart;
-    private boolean mousePressed;
     private Point mouseEnd;
     private Point currentMouse;
-    private final Graphics2DDraw j2d = null;
+    private int mouseButton;
+    private boolean mousePressed;
     private Rectangle2D currentView;
     private final Rectangle2D originalView;
-    private int mouseButton;
 
-    public ML(Canvas c) {
+    public ML(Canvas c)
+    {
         currentView = new Rectangle2D.Double(0, 0, cd.getXmax(), cd.getYmax());
         originalView = new Rectangle2D.Double(0, 0, cd.getXmax(), cd.getYmax());
         this.c = c;
     }
 
     @Override
-    public void mouseClicked(MouseEvent me) {
+    public void mouseClicked(MouseEvent me)
+    {
         //Unused
     }
 
     @Override
-    public void mousePressed(MouseEvent me) {
-
+    public void mousePressed(MouseEvent me)
+    {
         mouseStart = me.getPoint();
         mousePressed = true;
         mouseButton = me.getButton();
     }
 
     @Override
-    public void mouseReleased(MouseEvent me) {
+    public void mouseReleased(MouseEvent me)
+    {
         mouseEnd = me.getPoint();
-        if (mouseButton == 1) {
-            if (mouseStart.getX() == mouseEnd.getX() || mouseStart.getY() == mouseEnd.getY()) {
+        if (mouseButton == 1)
+        {
+            if (mouseStart.getX() == mouseEnd.getX() || mouseStart.getY() == mouseEnd.getY())
+            {
                 cd.updateArea(originalView);
                 currentView.setRect(originalView);
-            } else {
-
+            } else
+            {
                 double startx = mouseStart.getX();
                 double starty = mouseStart.getY();
                 double endx = mouseEnd.getX();
@@ -74,13 +72,15 @@ public class ML implements MouseListener, MouseMotionListener {
 
                 double tmp;
 
-                if (startx > endx) {
+                if (startx > endx)
+                {
                     tmp = startx;
                     startx = endx;
                     endx = tmp;
                 }
 
-                if (starty > endy) {
+                if (starty > endy)
+                {
                     tmp = starty;
                     starty = endy;
                     endy = tmp;
@@ -98,13 +98,16 @@ public class ML implements MouseListener, MouseMotionListener {
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDragged(MouseEvent e)
+    {
         currentMouse = e.getPoint();
-        if (mouseButton == 1) {
+        if (mouseButton == 1)
+        {
             drawZoomArea();
         }
 
-        if (mouseButton == 3) {
+        if (mouseButton == 3)
+        {
             pan();
         }
 
@@ -112,7 +115,8 @@ public class ML implements MouseListener, MouseMotionListener {
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {
+    public void mouseMoved(MouseEvent e)
+    {
         currentMouse = e.getPoint();
         getClosestRoad(e);
 
@@ -120,7 +124,8 @@ public class ML implements MouseListener, MouseMotionListener {
 
     }
 
-    private void pan() {
+    private void pan()
+    {
         Rectangle2D temp = cd.getView();
         double x = temp.getX() - ((currentMouse.getX() - mouseStart.getX()) * c.getScale());
         double y = temp.getY() - ((currentMouse.getY() - mouseStart.getY()) * c.getScale());
@@ -130,38 +135,43 @@ public class ML implements MouseListener, MouseMotionListener {
         mouseStart = currentMouse;
     }
 
-    private void getClosestRoad(MouseEvent e) {
-
-        //Skal ændres til at tage scale med (Scale skal ganges på koordinaterne).
+    private void getClosestRoad(MouseEvent e)
+    {
         double eX, eY;
         eX = (e.getPoint().getX() * c.getScale()) + cd.getOldx();
         eY = (e.getPoint().getY() * c.getScale()) + cd.getOldy();
         Road closestRoad = null;
 
         ArrayList<Road> rl = CurrentData.getInstance().getQT().search(eX - 0.5, eX + 1, eY - 0.5, eY + 1);
-        if (rl.size() > 0) {
+        if (rl.size() > 0)
+        {
             //We use pythagoras to calculate distance:
             double dist = Math.sqrt((Math.pow(rl.get(0).midX - eX, 2)) + (Math.pow(rl.get(0).midY - eY, 2)));
 
             closestRoad = rl.get(0);
-            for (Road road : rl) {
-                if (closestRoad.getEd().VEJNAVN.isEmpty() && !road.getEd().VEJNAVN.isEmpty()) {
+            for (Road road : rl)
+            {
+                if (closestRoad.getEd().VEJNAVN.isEmpty() && !road.getEd().VEJNAVN.isEmpty())
+                {
                     closestRoad = road;
                     dist = Math.sqrt((Math.pow(road.midX - eX, 2)) + (Math.pow(road.midY - eY, 2)));
                 }
                 double distX, distY;
                 distX = Math.abs(road.midX - eX);
                 distY = Math.abs(road.midY - eY);
-                if (Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2)) < dist && !road.getEd().VEJNAVN.isEmpty()) {
+                if (Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2)) < dist && !road.getEd().VEJNAVN.isEmpty())
+                {
                     dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
                     closestRoad = road;
                 }
 
             }
 
-            if (!closestRoad.getEd().VEJNAVN.isEmpty()) {
+            if (!closestRoad.getEd().VEJNAVN.isEmpty())
+            {
                 CurrentData.setCurrentRoadLabel(closestRoad.getEd().VEJNAVN);
-            } else {
+            } else
+            {
                 CurrentData.setCurrentRoadLabel("Vejen kunne ikke findes!");
             }
 
@@ -171,10 +181,12 @@ public class ML implements MouseListener, MouseMotionListener {
         //FDS: A drawing method should call this to recieve the closest road.
     }
 
-    public void drawZoomArea() {
+    public void drawZoomArea()
+    {
         Graphics2D g = (Graphics2D) c.getGraphics();
 
-        if (mousePressed) {
+        if (mousePressed)
+        {
             double startx = mouseStart.getX();
             double starty = mouseStart.getY();
             double endx = currentMouse.getX();
@@ -182,13 +194,15 @@ public class ML implements MouseListener, MouseMotionListener {
 
             double tmp;
 
-            if (startx > endx) {
+            if (startx > endx)
+            {
                 tmp = startx;
                 startx = endx;
                 endx = tmp;
             }
 
-            if (starty > endy) {
+            if (starty > endy)
+            {
                 tmp = starty;
                 starty = endy;
                 endy = tmp;
@@ -203,7 +217,8 @@ public class ML implements MouseListener, MouseMotionListener {
 
     }
 
-    private void calcView(Rectangle2D r) {
+    private void calcView(Rectangle2D r)
+    {
         double x = r.getMinX() * c.getScale() + cd.getOldx();
         double y = r.getMinY() * c.getScale() + cd.getOldy();
         double w = r.getWidth() * c.getScale();
@@ -213,13 +228,15 @@ public class ML implements MouseListener, MouseMotionListener {
     }
 
     @Override
-    public void mouseEntered(MouseEvent me) {
-//donothing
+    public void mouseEntered(MouseEvent me)
+    {
+        //does nothing
     }
 
     @Override
-    public void mouseExited(MouseEvent me) {
-//do nothing
+    public void mouseExited(MouseEvent me)
+    {
+        //does nothing
     }
 
 }

@@ -3,25 +3,20 @@ package QuadTreePack;
 import java.util.ArrayList;
 import model.Road;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
- * @author Archigo
+ * @author Gruppe A
  */
+
 public class QuadTree implements QuadTreeInterace
 {
 
-    public QuadTree northeast, northwest, southeast, southwest;
-    public Boundary boundary;
+    private QuadTree northeast, northwest, southeast, southwest;
+    private Boundary boundary;
     private final int sizeLimit = 1000;
-    public Road[] roadList;
-    public int currentRoads = -1;
+    private Road[] roadList;
+    private int currentRoads = -1;
 
-    //test
     public QuadTree(NSEW direction, Boundary bd)
     {
         if (direction == NSEW.ROOT)
@@ -61,7 +56,6 @@ public class QuadTree implements QuadTreeInterace
             } else if (currentRoads < sizeLimit)
             {
                 roadList[++currentRoads] = rd;
-                //System.out.println(roadList[currentRoads].midX);
             }
 
         }
@@ -103,9 +97,12 @@ public class QuadTree implements QuadTreeInterace
         {
             if (roadList[0] != null)
             {
-//                rl.addAll(Arrays.asList(roadList));
-                for(Road road: roadList){
-                    if(road == null)break;
+                for (Road road : roadList)
+                {
+                    if (road == null)
+                    {
+                        break;
+                    }
                     rl.add(road);
                 }
             }
@@ -131,9 +128,4 @@ public class QuadTree implements QuadTreeInterace
     {
         return boundary.containsPoint(rd.midX, rd.midY);
     }
-
-//    private boolean checkBounds(double x1, double y1, double x2, double y2){
-//        
-//        return false;
-//    }
 }

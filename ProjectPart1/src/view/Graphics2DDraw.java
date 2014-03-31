@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import java.awt.Color;
@@ -15,7 +10,7 @@ import java.awt.geom.Rectangle2D;
 
 /**
  *
- * @author Adam Engsig (adae@itu.dk)
+ * @author Gruppe A
  */
 public class Graphics2DDraw implements DrawInterface
 {
@@ -27,13 +22,14 @@ public class Graphics2DDraw implements DrawInterface
     {
         g2 = null;
     }
-    
+
     public static Graphics2DDraw getInstance()
     {
         if (instance == null)
         {
             instance = new Graphics2DDraw();
         }
+        
         return instance;
     }
 
@@ -41,9 +37,7 @@ public class Graphics2DDraw implements DrawInterface
     public void setGraphics(Graphics g)
     {
         g2 = (Graphics2D) g;
-        g2.setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
     @Override
