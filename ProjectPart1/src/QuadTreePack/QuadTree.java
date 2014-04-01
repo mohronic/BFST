@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import model.Road;
 
 /**
- *
+ * The main quadtree class which represents each quad, and elements contained in the quad.
  * @author Gruppe A
  */
 
@@ -17,6 +17,12 @@ public class QuadTree implements QuadTreeInterace
     private Road[] roadList;
     private int currentRoads = -1;
 
+    /**
+     * Constructor which sets up the quad boundaries and list of contained elements.
+     * In the case of a completely new quadtree, should be called with direction "NSEW ROOT" and bd "null"
+     * @param NSEW direction
+     * @param Boundary bd 
+     */
     public QuadTree(NSEW direction, Boundary bd)
     {
         if (direction == NSEW.ROOT)
@@ -29,6 +35,10 @@ public class QuadTree implements QuadTreeInterace
         roadList = new Road[sizeLimit];
     }
 
+    /**
+     * Insets a new road object into the proper place in the quadtree. Will divide if a quad gets too big.
+     * @param Road rd 
+     */
     @Override
     public void insert(Road rd)
     {
@@ -61,6 +71,14 @@ public class QuadTree implements QuadTreeInterace
         }
     }
 
+    /**
+     * Finds elements in the rectangle formed by the given two points. Creates an arraylist as a pointer for "getRoads" and calls "getRoads" with it.
+     * @param x1
+     * @param x2
+     * @param y1
+     * @param y2
+     * @return ArrayList<Road>
+     */
     @Override
     public ArrayList<Road> search(double x1, double x2, double y1, double y2)
     {
@@ -70,6 +88,14 @@ public class QuadTree implements QuadTreeInterace
         return rl;
     }
 
+    /**
+     * Fills the pointer given by "search" with the elements contained in quads which intersects with the given rectangle
+     * @param x1
+     * @param x2
+     * @param y1
+     * @param y2
+     * @param rl 
+     */
     private void getRoads(double x1, double x2, double y1, double y2, ArrayList<Road> rl)
     {
 
@@ -110,6 +136,9 @@ public class QuadTree implements QuadTreeInterace
 
     }
 
+    /**
+     * Divides a quad into four new sub-quads.
+     */
     private void divide()
     {
         northeast = new QuadTree(NSEW.NORTHEAST, boundary);
@@ -124,6 +153,11 @@ public class QuadTree implements QuadTreeInterace
         roadList = null;
     }
 
+    /**
+     * Calls Boundary.containsPoint to check whether a road's center is within a the quad.
+     * @param rd
+     * @return 
+     */
     private boolean checkBounds(Road rd)
     {
         return boundary.containsPoint(rd.midX, rd.midY);
