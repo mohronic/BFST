@@ -1,5 +1,7 @@
 package ctrl;
 
+import FastestRoute.MapRoute;
+import FastestRoute.test;
 import static QuadTreePack.NSEW.ROOT;
 import javax.swing.JFrame;
 import java.io.IOException;
@@ -26,6 +28,7 @@ public class StartMap {
     private JFrame frame;
     private CurrentData cd;
     private static QuadTree qt;
+    private final ArrayList<Road> allRoads = new ArrayList<>();
     
     /**
      * Constructor for the StartMap object.
@@ -33,6 +36,7 @@ public class StartMap {
      */
     public StartMap() throws IOException {
         setData();
+        test mr = new test();
         setup();
     }
     
@@ -87,6 +91,7 @@ public class StartMap {
         for (EdgeData ed : edges) {
             Road rd = new Road(ed, nodes.get(ed.FNODE - 1), nodes.get(ed.TNODE - 1));
             roads.add(rd);
+            allRoads.add(rd);
         }
         xmax = kl.xmax - kl.xmin;
         ymax = (-kl.ymin) + kl.ymax;
