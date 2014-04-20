@@ -111,4 +111,41 @@ public class EdgeData {
 		AENDR_DATO = dl.getString();
 		TJEK_ID = dl.getInt();
 	}
+        
+        public EdgeData(){
+            
+		FNODE = 0;
+		TNODE = 0;
+		LENGTH = 0;
+		DAV_DK = 0;
+		DAV_DK_ID = 0;
+		TYP = 48;
+		VEJNAVN = "";
+		FROMLEFT = 0;
+		TOLEFT = 0;
+		FROMRIGHT = 0;
+		TORIGHT = 0;
+		FROMLEFT_BOGSTAV = "";
+		TOLEFT_BOGSTAV = "";
+		FROMRIGHT_BOGSTAV = "";
+		TORIGHT_BOGSTAV = "";
+		V_SOGNENR = 0;
+		H_SOGNENR = 0;
+		V_POSTNR = 0;
+		H_POSTNR = 0;
+		KOMMUNENR = 0;
+		VEJKODE = 0;
+		SUBNET = 0;
+		RUTENR = "";
+		FRAKOERSEL = 0;
+		ZONE = 0;
+		SPEED = 0;
+		DRIVETIME = 0;
+		ONE_WAY = "";
+		F_TURN = "";
+		T_TURN = "";
+		VEJNR = 0;
+		AENDR_DATO = "";
+		TJEK_ID = 0;
+        }
 }

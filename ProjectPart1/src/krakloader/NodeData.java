@@ -26,6 +26,21 @@ public class NodeData {
         X_COORD = dl.getDouble();
         Y_COORD = dl.getDouble();
     }
+    
+    /**
+     * Overloaded constructor for use with coastline data which does not have
+     * krak information.
+     * @param line 
+     * @param overload 
+     */
+    public NodeData(String line, String overload) {
+        DataLine dl = new DataLine(line);
+        ARC = 0;
+        KDV = 0;
+        KDV_ID = 0;
+        X_COORD = dl.getDouble();
+        Y_COORD = dl.getDouble();
+    }
 
     /**
      * Returns a string representing the node data in the same format as used in
@@ -43,6 +58,11 @@ public class NodeData {
      * @param xmin 
      */
     public void recalc(double ymax, double xmin) {
+        X_COORD = X_COORD - xmin;
+        Y_COORD = (-Y_COORD) + ymax;
+    }
+    
+    public void recalcCoast(double ymax, double xmin) {
         X_COORD = X_COORD - xmin;
         Y_COORD = (-Y_COORD) + ymax;
     }

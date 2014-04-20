@@ -12,6 +12,7 @@ import krakloader.NodeData;
 import QuadTreePack.QuadTree;
 import java.awt.BorderLayout;
 import java.awt.geom.Rectangle2D;
+import krakloader.LoadCoast;
 import model.Road;
 import model.CurrentData;
 import view.Canvas;
@@ -24,7 +25,7 @@ import view.Canvas;
  */
 public class StartMap {
     
-    public static double xmax, ymax;
+    public static double xmax, ymax, xmin, ymin;
     private JFrame frame;
     private CurrentData cd;
     private static QuadTree qt;
@@ -84,6 +85,13 @@ public class StartMap {
             }
         };
         kl.load(dir + "kdv_node_unload.txt", dir + "kdv_unload.txt");
+        
+        //loads coastline data
+        LoadCoast lc = new LoadCoast();
+        ArrayList<Road> coastList = lc.load(dir + "correctedCoastLine.txt");
+        loadCoastHelper(kl, lc, coastList);
+        
+        
 
         for (NodeData n : nodes) {
             n.recalc(kl.ymax, kl.xmin);
@@ -93,8 +101,7 @@ public class StartMap {
             roads.add(rd);
             allRoads.add(rd);
         }
-        xmax = kl.xmax - kl.xmin;
-        ymax = (-kl.ymin) + kl.ymax;
+        
         qt = new QuadTree(ROOT, null);
         cd = CurrentData.getInstance();
         cd.setXmax(xmax);
@@ -102,6 +109,12 @@ public class StartMap {
         for (Road r : roads) {
             qt.insert(r);
         }
+        for (Road r : coastList) {
+            qt.insert(r);
+        }
+        System.out.println(xmax + " " + ymax);
+        System.out.println(kl.xmax + " " + kl.ymax);
+        
         cd.updateArea(new Rectangle2D.Double(0, 0, xmax, ymax));
     }
     
@@ -120,5 +133,30 @@ public class StartMap {
      */
     public static void main(String[] args) throws IOException {
         StartMap sm = new StartMap();
+    }
+    
+    private void loadCoastHelper(KrakLoader kl, LoadCoast lc, ArrayList<Road> coastList){
+        
+        
+        if(kl.xmin > lc.xmin) xmin = lc.xmin;
+        else xmin = kl.xmin;
+        if(kl.ymin > lc.ymin) ymin = lc.ymin;
+        else ymin = kl.ymin;
+        if(kl.xmax > lc.xmax) xmax = kl.xmax - xmin;
+        else xmax = lc.xmax - xmin;
+        if(kl.ymax > lc.ymax) ymax = (-ymin) + kl.ymax;
+        else ymax = (-ymin) + lc.ymax;
+        
+        for(Road r: coastList){
+            NodeData tnd = r.getFn();
+            tnd.recalcCoast(kl.ymax, kl.xmin);
+            r.setFn(tnd);
+            
+            NodeData tnd2 = r.getTn();
+            tnd2.recalcCoast(kl.ymax, kl.xmin);
+            r.setTn(tnd2);
+            
+            
+        }
     }
 }
