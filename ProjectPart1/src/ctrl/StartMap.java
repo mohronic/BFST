@@ -91,7 +91,6 @@ public class StartMap {
         ArrayList<Road> coastList = lc.load(dir + "correctedCoastLine.txt");
         loadCoastHelper(kl, lc, coastList);
         
-        
 
         for (NodeData n : nodes) {
             n.recalc(kl.ymax, kl.xmin);
