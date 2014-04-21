@@ -6,7 +6,7 @@
 
 package FastestRoute;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 import krakloader.EdgeData;
 import krakloader.NodeData;
 import model.Road;
@@ -17,8 +17,8 @@ import model.Road;
  */
 public class DirectedEdge
 {
-    private final Point source; //coordinate
-    private final Point target; //coordiante
+    private final Point2D.Double source; //coordinate
+    private final Point2D.Double target; //coordiante
     private /*final*/ Road road;
     private final double length;
     private /*final*/ String name;
@@ -31,25 +31,25 @@ public class DirectedEdge
         NodeData nodeTo = road.getTn();
         length = edge.LENGTH;
         name = edge.VEJNAVN;
-        source = new Point();
-        target = new Point();
+        source = new Point2D.Double();
+        target = new Point2D.Double();
         source.setLocation(nodeFrom.getX_COORD(), nodeFrom.getY_COORD());
         target.setLocation(nodeTo.getX_COORD(), nodeTo.getY_COORD());
     }
     
-    public DirectedEdge(Point start, Point end, double length) //Bruges til testing, skal slettes samt felter skal laves final igen
+    public DirectedEdge(Point2D.Double start, Point2D.Double end, double length) //Bruges til testing, skal slettes samt felter skal laves final igen
     {
         source = start;
         target = end;
         this.length = length;
     }
     
-    public Point from()
+    public Point2D.Double from()
     {
         return source;
     }
 
-    public Point to()
+    public Point2D.Double to()
     {
         return target;
     }

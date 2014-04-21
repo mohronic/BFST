@@ -7,7 +7,6 @@ package FastestRoute;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import model.Road;
 
 /**
@@ -22,40 +21,34 @@ public class MapRoute
     public MapRoute(ArrayList<Road> roads)
     {
         this.roads = roads;
+        sortRoads();
+        DirectedEdge from = new DirectedEdge(roads.get(509400));
+        DirectedEdge to = new DirectedEdge(roads.get(459389));
+        System.out.println(from.getName() + " " + to.getName());
         
-        DijkstraSP SP = new DijkstraSP(roads, new DirectedEdge(roads.get(40600)));
-        HashMap hash = SP.getDistTo();
-        ArrayList<Linked> route = SP.getRoute(hash, new DirectedEdge(roads.get(70400)));
-        for(Linked l : route)
+        DijkstraSP SP = new DijkstraSP(roads);
+        ArrayList<Linked> route = SP.mapRoute(from, to);
+        for (Linked l : route)
         {
             System.out.println(l.getFrom());
         }
     }
 
-    
-    
-    
-//    private void sortRoads()
-//    {
-//        System.out.println(roadsTest.get(0).getEd().VEJNAVN + " " + roadsTest.get(1).getEd().VEJNAVN + " " + roadsTest.get(2).getEd().VEJNAVN + " " + roadsTest.get(3).getEd().VEJNAVN);
-//        Collections.sort(roadsTest, new Comparator<Road>()
-//        {
-//            @Override
-//            public int compare(Road r1, Road r2)
-//            {
-//                return r1.getEd().VEJNAVN.compareToIgnoreCase(r2.getEd().VEJNAVN);
-//            }
-//        });
-//        System.out.println(roadsTest.get(0).getEd().VEJNAVN + " " + roadsTest.get(1).getEd().VEJNAVN + " " + roadsTest.get(2).getEd().VEJNAVN + " " + roadsTest.get(3).getEd().VEJNAVN);
-//    }
-
-    public void getRoute(String from, String to)
+    private void sortRoads()
     {
-        
+        Collections.sort(roads, new Comparator<Road>()
+        {
+            @Override
+            public int compare(Road r1, Road r2)
+            {
+                return r1.getEd().VEJNAVN.compareToIgnoreCase(r2.getEd().VEJNAVN);
+            }
+        });
     }
-    
-//    private Point getCoordinateFromName(String s)
+
+//    private DirectedEdge getDirectedEdgeFromName(String s)
 //    {
-//        Road r = Collections.binarySearch(roads, s);
+//        Collections.binarySearch(roads, s);
+//        
 //    }
 }

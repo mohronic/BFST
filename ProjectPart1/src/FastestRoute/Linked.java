@@ -6,7 +6,7 @@
 
 package FastestRoute;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 
 /**
  *
@@ -15,7 +15,7 @@ import java.awt.Point;
 public class Linked
 {
     private double length;
-    private Point from; // Only null where the road search starts
+    private Point2D.Double from; // Only null where the road search starts
     
     public Linked()
     {
@@ -28,12 +28,12 @@ public class Linked
         return length;
     }
 
-    public Point getFrom()
+    public Point2D.Double getFrom()
     {
         return from;
     }
     
-    public void setFrom(Point f)
+    public void setFrom(Point2D.Double f)
     {
         from = f;
     }

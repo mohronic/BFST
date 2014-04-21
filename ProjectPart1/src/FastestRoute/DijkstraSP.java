@@ -5,7 +5,7 @@
  */
 package FastestRoute;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class DijkstraSP
     private PriorityQueue<DirectedEdge> pq;
     private HashMap adj; // naboer
 
-    public DijkstraSP(ArrayList<DirectedEdge> allEdges, DirectedEdge s)
+    public DijkstraSP(ArrayList<Road> allEdges) // konstruktor tager kun allEdges, laver ny metode med til og fra som retunere listen med Linked
     {
         adj = new HashMap();
         distTo = new HashMap();
@@ -37,52 +37,57 @@ public class DijkstraSP
             }
 
         });
-        
-        for(DirectedEdge e : allEdges)
+
+        for (Road r : allEdges)
         {
+            DirectedEdge e = new DirectedEdge(r);
             addEdge(e);
             buildDistTo(e);
         }
+    }
 
+    public ArrayList<Linked> mapRoute(DirectedEdge s, DirectedEdge t)
+    {
         Linked source = new Linked();
         source.setLength(0.0);
         distTo.put(s.from(), source);
         relax(s.from());
-
+        int count = 0;
         while (!pq.isEmpty())
         {
+            if(count == 23)
+            {
+                System.out.println("STOP : BREAKPOINT HER");
+            }
             DirectedEdge e = pq.poll();
             relax(e.to());
+            count++;
         }
-
+        System.out.println(count);
+        return getRoute(t);
     }
 
-    public ArrayList<Linked> getRoute(HashMap map, DirectedEdge t)
+    private ArrayList<Linked> getRoute(DirectedEdge t) // når aldrig ud til den her edge af en eller anden grund????
     {
         ArrayList<Linked> list = new ArrayList<>();
-        Point loc = t.to();
+        Point2D.Double loc = t.to();
         while (loc != null)
         {
-            Linked l = (Linked) map.get(loc);
+            Linked l = (Linked) distTo.get(loc);
             list.add(l);
             loc = l.getFrom();
         }
         return list;
     }
 
-    public HashMap getDistTo()
-    {
-        return distTo;
-    }
-    
-    private void relax(Point p)
+    private void relax(Point2D.Double p)
     {
         Bag<DirectedEdge> b = (Bag<DirectedEdge>) adj.get(p);
         if (b != null) // Blindvej, slutpunkt
         {
             for (DirectedEdge e : b)
             {
-                Point t = e.to();
+                Point2D.Double t = e.to();
                 Linked from = (Linked) distTo.get(p);
                 Linked to = (Linked) distTo.get(t);
 
@@ -133,8 +138,8 @@ public class DijkstraSP
 
     private void buildDistTo(DirectedEdge e)
     {
-        Point s = e.from();
-        Point t = e.to();
+        Point2D.Double s = e.from();
+        Point2D.Double t = e.to();
         distTo.put(s, new Linked());
         distTo.put(t, new Linked());
     }
