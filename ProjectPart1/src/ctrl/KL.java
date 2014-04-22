@@ -40,7 +40,7 @@ public class KL implements KeyListener
 //            searchLabel.autoComplete();
 //        }
         
-        System.out.println(e.getKeyCode());
+        //System.out.println(e.getKeyCode());
         //if(e.getKeyCode() == 17)
         //{
             //System.out.println("Called...");
@@ -52,15 +52,8 @@ public class KL implements KeyListener
         if(e.getKeyCode() == 10) //10 = keycode for Enter-button
         {
             //Should be written to a method call
-            System.out.println(e.getKeyCode());
-            System.out.println(searchLabel.getText());
-            System.out.println(searchLabel.checkRoadName(searchLabel.getText()));
-            //System.out.println(searchLabel.autoComplete(searchLabel.getText()));
-            //System.out.println((searchLabel.autoComplete(searchLabel.getText()))-(searchLabel.getText()));
-        
-            System.out.println("Called1");
-            
-        
+            System.out.println("Searching for: " + searchLabel.getText());
+            System.out.println("Found: " + searchLabel.checkRoadName(searchLabel.getText()));
         }
     }
 

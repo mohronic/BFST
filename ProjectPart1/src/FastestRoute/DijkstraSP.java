@@ -33,16 +33,22 @@ public class DijkstraSP
             @Override
             public int compare(DirectedEdge t, DirectedEdge t1) //omvendt?
             {
-                return Double.compare(t.weight(), t1.weight());
+                Linked tmp = (Linked) distTo.get(t.from());
+                Linked tmp2 = (Linked) distTo.get(t1.from()); // SKAL DET VÆRE TO ELLER FROM HER? SAMME LIGE OVER, TO ELLER FROM?
+
+                return Double.compare(tmp.getLength(), tmp2.getLength());
+                //return Double.compare(t.weight(), t1.weight());
             }
 
         });
 
         for (Road r : allEdges)
         {
-            DirectedEdge e = new DirectedEdge(r);
-            addEdge(e);
-            buildDistTo(e);
+            DirectedEdge e1 = new DirectedEdge(r, true);
+            addEdge(e1);
+            buildDistTo(e1);
+            DirectedEdge e2 = new DirectedEdge(r, false);
+            addEdge(e2);
         }
     }
 
@@ -52,18 +58,17 @@ public class DijkstraSP
         source.setLength(0.0);
         distTo.put(s.from(), source);
         relax(s.from());
-        int count = 0;
         while (!pq.isEmpty())
         {
-            if(count == 23)
-            {
-                System.out.println("STOP : BREAKPOINT HER");
-            }
             DirectedEdge e = pq.poll();
-            relax(e.to());
-            count++;
+            if (e.from().getX() == t.from().getX() && e.from().getY() == t.from().getY())
+            {
+                break;
+            } else
+            {
+                relax(e.to());
+            }
         }
-        System.out.println(count);
         return getRoute(t);
     }
 
@@ -90,11 +95,11 @@ public class DijkstraSP
                 Point2D.Double t = e.to();
                 Linked from = (Linked) distTo.get(p);
                 Linked to = (Linked) distTo.get(t);
-
                 if (to.getLength() > from.getLength() + e.weight()) // er t ikke det samme for alle, siden alle i den bag netop har samme udgangspunkt
                 {
                     to.setFrom(p);
                     to.setLength(from.getLength() + e.weight());
+                    to.setEdge(e);
                     distTo.put(t, to);
                     if (!pq.contains(e)) // hvorfor er det her if statment ikke uden for det andet ovenstående if statment?
                     {
@@ -123,7 +128,7 @@ public class DijkstraSP
 
     private void addEdge(DirectedEdge e)
     {
-        if (adj.get(e.from()) == null) // Contains key istedet??
+        if (adj.get(e.from()) == null) // Contains key istedet?? OGSÅ BAGS FOR e.to HVAD NU HVIS 2 veje peger mod hinanden som --> <--- så vil midten aldrig få en bag
         {
             Bag<DirectedEdge> bag = new Bag<>();
             bag.add(e);

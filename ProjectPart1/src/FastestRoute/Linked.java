@@ -16,11 +16,13 @@ public class Linked
 {
     private double length;
     private Point2D.Double from; // Only null where the road search starts
+    private DirectedEdge edge;
     
     public Linked()
     {
         length = Double.POSITIVE_INFINITY;
         from = null;
+        edge = null;
     }
 
     public double getLength()
@@ -41,5 +43,15 @@ public class Linked
     public void setLength(double l)
     {
         length = l;
+    }
+    
+    public void setEdge(DirectedEdge e)
+    {
+        edge = e;
+    }
+    
+    public DirectedEdge getEdge()
+    {
+        return edge;
     }
 }
