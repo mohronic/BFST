@@ -28,10 +28,11 @@ public class MapRoute
         
         DijkstraSP SP = new DijkstraSP(roads);
         ArrayList<Linked> route = SP.mapRoute(from, to);
-        for (Linked l : route)
-        {
-            System.out.println(l.getFrom());
-        }
+//        for (Linked l : route)
+//        {
+//            System.out.println(l.getFrom());
+//            System.out.println(l.getEdge().getName());
+//        }
     }
 
     private void sortRoads()
