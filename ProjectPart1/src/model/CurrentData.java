@@ -15,7 +15,7 @@ import javax.swing.JLabel;
  */
 public class CurrentData extends Observable
 {
-
+    
     private static CurrentData instance = null;
     private final QuadTree qt;
     private double xmax = 0, ymax = 0;

@@ -197,6 +197,7 @@ public class ML implements MouseListener, MouseMotionListener
 
             if (!closestRoad.getEd().VEJNAVN.isEmpty())
             {
+                
                 CurrentData.setCurrentRoadLabel(closestRoad.getEd().VEJNAVN);
             } else
             {
