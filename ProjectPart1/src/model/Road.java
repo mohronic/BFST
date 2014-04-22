@@ -12,9 +12,9 @@ public class Road
 {
 
     private final EdgeData ed;
-    public final double midX, midY;
-    private final NodeData fn;
-    private final NodeData tn;
+    public double midX, midY;
+    private NodeData fn;
+    private NodeData tn;
     
     /**
      * Contructor for the road object.
@@ -56,6 +56,17 @@ public class Road
     public NodeData getTn()
     {
         return tn;
+    }
+    
+    public void setFn(NodeData nodedata){
+        fn = nodedata;
+    }
+    
+    public void setTn(NodeData nodedata){
+        tn = nodedata;
+        
+        midX = (fn.getX_COORD() + tn.getX_COORD()) / 2;
+        midY = (fn.getY_COORD() + tn.getY_COORD()) / 2;
     }
 
 }
