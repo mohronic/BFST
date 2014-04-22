@@ -8,6 +8,7 @@ import krakloader.EdgeData;
 import krakloader.KrakLoader;
 import krakloader.NodeData;
 import QuadTreePack.QuadTree;
+import SearchEngine.SearchLabel;
 import java.awt.BorderLayout;
 import java.awt.geom.Rectangle2D;
 import model.Road;
@@ -26,6 +27,7 @@ public class StartMap {
     private JFrame frame;
     private CurrentData cd;
     private static QuadTree qt;
+    private static SearchLabel sl;
     
     /**
      * Constructor for the StartMap object.
@@ -45,14 +47,19 @@ public class StartMap {
         frame = new JFrame("Map Draw");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(970, 770);
+        
         Canvas c = new Canvas(cd);
         ML ml = new ML(c);
         c.addMouseListener(ml);
         c.addMouseMotionListener(ml);
         cd.addObserver(c);
+        
+        KL kl = new KL(sl);
+        sl.addKeyListener(kl);
         frame.setLayout(new BorderLayout());
         frame.add(c, BorderLayout.CENTER);
         frame.add(CurrentData.getCurrentRoadLabel(), BorderLayout.SOUTH);
+        frame.add(sl, BorderLayout.NORTH);
         frame.setVisible(true);
     }
     
@@ -98,6 +105,7 @@ public class StartMap {
             qt.insert(r);
         }
         cd.updateArea(new Rectangle2D.Double(0, 0, xmax, ymax));
+        sl = new SearchLabel(roads);
     }
     
     /**
