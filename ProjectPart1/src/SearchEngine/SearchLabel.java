@@ -47,12 +47,10 @@ public class SearchLabel extends JTextField
     
     public void autoComplete()
     {
-        System.out.println("Called2");
         String searchRoadName = searchRoadName();
         
         if(searchRoadName != null && searchRoadName.length() > currentString.length())
         {
-            System.out.println("Called3");
             String autoCompleted = currentString + searchRoadName.substring(currentString.length());
             this.setText(autoCompleted);
             this.select(currentString.length(), autoCompleted.length());
@@ -73,7 +71,6 @@ public class SearchLabel extends JTextField
                 break;
             }
         }
-        System.out.println(temp);
         return temp;
     }
     
