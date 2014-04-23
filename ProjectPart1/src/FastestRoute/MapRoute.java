@@ -23,16 +23,23 @@ public class MapRoute
         this.roads = roads;
         sortRoads();
         DirectedEdge from = new DirectedEdge(roads.get(509400));
-        DirectedEdge to = new DirectedEdge(roads.get(459389));
+        DirectedEdge to = new DirectedEdge(roads.get(715000));
         System.out.println(from.getName() + " " + to.getName());
-        
-        DijkstraSP SP = new DijkstraSP(roads);
+
+        DijkstraSP SP = new FastestRoad(roads);
         ArrayList<Linked> route = SP.mapRoute(from, to);
-//        for (Linked l : route)
-//        {
-//            System.out.println(l.getFrom());
-//            System.out.println(l.getEdge().getName());
-//        }
+        String old = "hej";
+        double time = 0.0;
+        for (Linked l : route)
+        {
+            time = time + l.getRoad().getEd().DRIVETIME;
+            System.out.println("køretid: " + time);
+            if (!old.matches(l.getEdge().getName()))
+            {
+                System.out.println(l.getEdge().getName());
+            }
+            old = l.getEdge().getName();
+        }
     }
 
     private void sortRoads()

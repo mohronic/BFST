@@ -1,7 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ *  The <tt>Bag</tt> class represents a bag (or multiset) of 
+ *  generic items. It supports insertion and iterating over the 
+ *  items in arbitrary order.
+ *  <p>
+ *  This implementation uses a singly-linked list with a static nested class Node.
  */
 package FastestRoute;
 
@@ -10,7 +12,8 @@ import java.util.NoSuchElementException;
 
 /**
  *
- * @author Adam Engsig (adae@itu.dk)
+ * @author Robert Sedgewick
+ * @author Kevin Wayne
  * @param <Item>
  */
 public class Bag<Item> implements Iterable<Item>

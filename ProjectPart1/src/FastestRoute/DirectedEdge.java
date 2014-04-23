@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package FastestRoute;
 
 import java.awt.geom.Point2D;
@@ -19,9 +14,10 @@ public class DirectedEdge
 
     private final Point2D.Double source; //coordinate
     private final Point2D.Double target; //coordiante
-    private /*final*/ Road road;
+    private final Road road;
     private final double length;
-    private /*final*/ String name;
+    private final String name;
+    private final double drivetime;
 
     public DirectedEdge(Road r, boolean b) // if b == true normal, if false inverted
     {
@@ -33,6 +29,7 @@ public class DirectedEdge
         name = edge.VEJNAVN;
         source = new Point2D.Double();
         target = new Point2D.Double();
+        drivetime = edge.DRIVETIME;
         if (b)
         {
             source.setLocation(nodeFrom.getX_COORD(), nodeFrom.getY_COORD());
@@ -55,6 +52,7 @@ public class DirectedEdge
         name = edge.VEJNAVN;
         source = new Point2D.Double();
         target = new Point2D.Double();
+        drivetime = edge.DRIVETIME;
         source.setLocation(nodeFrom.getX_COORD(), nodeFrom.getY_COORD());
         target.setLocation(nodeTo.getX_COORD(), nodeTo.getY_COORD());
     }
@@ -74,7 +72,7 @@ public class DirectedEdge
         return road;
     }
 
-    public double weight()
+    public double length()
     {
         return length;
     }
@@ -82,6 +80,11 @@ public class DirectedEdge
     public String getName()
     {
         return name;
+    }
+
+    public double drivetime()
+    {
+        return drivetime;
     }
 
 }
