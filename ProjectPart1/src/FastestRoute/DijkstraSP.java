@@ -16,33 +16,55 @@ import model.Road;
  *
  * @author Adam Engsig (adae@itu.dk)
  */
-public class DijkstraSP
+public abstract class DijkstraSP
 {
 
-    private HashMap distTo; //(point, Linked) distTo[w] = edgeTo[w].weight();
-    private PriorityQueue<DirectedEdge> pq;
-    private HashMap adj; // naboer
+    protected HashMap distTo; //(point, Linked) distTo[w] = edgeTo[w].weight();
+    protected PriorityQueue<DirectedEdge> pq;
+    protected HashMap adj; // naboer
 
     public DijkstraSP(ArrayList<Road> allEdges) // konstruktor tager kun allEdges, laver ny metode med til og fra som retunere listen med Linked
     {
         adj = new HashMap();
         distTo = new HashMap();
-        pq = new PriorityQueue<DirectedEdge>(10, new Comparator<DirectedEdge>()
-        {
+        pq = new PriorityQueue<>(10, getComparator());
+        buildHashMaps(allEdges);
+    }
 
-            @Override
-            public int compare(DirectedEdge t, DirectedEdge t1) //omvendt?
-            {
-                return Double.compare(t.weight(), t1.weight());
-            }
+    abstract Comparator<DirectedEdge> getComparator();
 
-        });
+    abstract void relax(Point2D.Double p);
 
+    private void buildHashMaps(ArrayList<Road> allEdges)
+    {
         for (Road r : allEdges)
         {
-            DirectedEdge e = new DirectedEdge(r);
-            addEdge(e);
-            buildDistTo(e);
+            DirectedEdge e1 = new DirectedEdge(r, true);
+            switch (r.getEd().ONE_WAY)
+            {
+                case "":
+                {
+                    addEdge(e1);
+                    DirectedEdge e2 = new DirectedEdge(r, false);
+                    addEdge(e2);
+                    buildDistTo(e1);
+                    break;
+                }
+                case "tf":
+                    addEdge(e1);
+                    buildDistTo(e1);
+                    break;
+                case "ft":
+                {
+                    DirectedEdge e2 = new DirectedEdge(r, false);
+                    addEdge(e2);
+                    buildDistTo(e1);
+                    break;
+                }
+                default:
+                    //should not happen
+                    break;
+            }
         }
     }
 
@@ -50,24 +72,25 @@ public class DijkstraSP
     {
         Linked source = new Linked();
         source.setLength(0.0);
+        source.setDrivetime(0.0);
+        source.setEdge(s);
         distTo.put(s.from(), source);
         relax(s.from());
-        int count = 0;
         while (!pq.isEmpty())
         {
-            if(count == 23)
-            {
-                System.out.println("STOP : BREAKPOINT HER");
-            }
             DirectedEdge e = pq.poll();
-            relax(e.to());
-            count++;
+            if (e.from().getX() == t.from().getX() && e.from().getY() == t.from().getY())
+            {
+                break;
+            } else
+            {
+                relax(e.to());
+            }
         }
-        System.out.println(count);
         return getRoute(t);
     }
 
-    private ArrayList<Linked> getRoute(DirectedEdge t) // når aldrig ud til den her edge af en eller anden grund????
+    private ArrayList<Linked> getRoute(DirectedEdge t)
     {
         ArrayList<Linked> list = new ArrayList<>();
         Point2D.Double loc = t.to();
@@ -80,50 +103,9 @@ public class DijkstraSP
         return list;
     }
 
-    private void relax(Point2D.Double p)
-    {
-        Bag<DirectedEdge> b = (Bag<DirectedEdge>) adj.get(p);
-        if (b != null) // Blindvej, slutpunkt
-        {
-            for (DirectedEdge e : b)
-            {
-                Point2D.Double t = e.to();
-                Linked from = (Linked) distTo.get(p);
-                Linked to = (Linked) distTo.get(t);
-
-                if (to.getLength() > from.getLength() + e.weight()) // er t ikke det samme for alle, siden alle i den bag netop har samme udgangspunkt
-                {
-                    to.setFrom(p);
-                    to.setLength(from.getLength() + e.weight());
-                    distTo.put(t, to);
-                    if (!pq.contains(e)) // hvorfor er det her if statment ikke uden for det andet ovenstående if statment?
-                    {
-                        pq.add(e);
-                    }
-                }
-
-                //KOPI TIL ALTERNATIV LØSNING HVOR MAN IKKE TILFØJER SLUT PUNKTER, MEN TJEKKER FOR DET HER OGSÅ GØR
-//            if (distTo.get(t) == null) // slut punkter ikke tilføjet
-//            {
-//                distTo.put(t, (double) distTo.get(p) + e.weight());
-//
-//            } else if ((double) distTo.get(t) > (double) distTo.get(p) + e.weight()) // er t ikke det samme for alle, siden alle i den bag netop har samme udgangspunkt
-//            {
-//                distTo.put(t, (double) distTo.get(p) + e.weight());
-//                //edgeTo[t] = e;
-//                if (!pq.contains(e))
-//                {
-//                    pq.add(e);
-//                }
-//            }
-            }
-        }
-
-    }
-
     private void addEdge(DirectedEdge e)
     {
-        if (adj.get(e.from()) == null) // Contains key istedet??
+        if (adj.get(e.from()) == null) // Contains key istedet?? OGSÅ BAGS FOR e.to HVAD NU HVIS 2 veje peger mod hinanden som --> <--- så vil midten aldrig få en bag
         {
             Bag<DirectedEdge> bag = new Bag<>();
             bag.add(e);

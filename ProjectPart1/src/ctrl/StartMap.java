@@ -1,7 +1,6 @@
 package ctrl;
 
 import FastestRoute.MapRoute;
-import FastestRoute.test;
 import static QuadTreePack.NSEW.ROOT;
 import javax.swing.JFrame;
 import java.io.IOException;
@@ -39,7 +38,7 @@ public class StartMap {
      */
     public StartMap() throws IOException {
         setData();
-        //MapRoute mr = new MapRoute(allRoads);
+        MapRoute mr = new MapRoute(allRoads);
         setup();
     }
     

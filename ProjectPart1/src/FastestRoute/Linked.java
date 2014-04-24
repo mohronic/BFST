@@ -7,6 +7,7 @@
 package FastestRoute;
 
 import java.awt.geom.Point2D;
+import model.Road;
 
 /**
  *
@@ -15,12 +16,16 @@ import java.awt.geom.Point2D;
 public class Linked
 {
     private double length;
+    private double drivetime;
     private Point2D.Double from; // Only null where the road search starts
+    private DirectedEdge edge; // edge which contains the original road
     
     public Linked()
     {
         length = Double.POSITIVE_INFINITY;
+        drivetime = Double.POSITIVE_INFINITY;
         from = null;
+        edge = null;
     }
 
     public double getLength()
@@ -41,5 +46,30 @@ public class Linked
     public void setLength(double l)
     {
         length = l;
+    }
+    
+    public void setEdge(DirectedEdge e)
+    {
+        edge = e;
+    }
+    
+    public void setDrivetime(double d)
+    {
+        drivetime = d;
+    }
+    
+    public DirectedEdge getEdge()
+    {
+        return edge;
+    }
+    
+    public Road getRoad()
+    {
+        return edge.getRoad();
+    }
+    
+    public double getDrivetime()
+    {
+        return drivetime;
     }
 }

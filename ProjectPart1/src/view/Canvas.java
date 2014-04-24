@@ -121,7 +121,7 @@ public class Canvas extends JComponent implements Observer
         {
             maxScale = cd.getYmax() / (double) this.getHeight();
         }
-        if (typ == 1 || typ == 3 || typ == 2 || typ == 48)
+        if (typ == 1 || typ == 3 || typ == 2 || typ == 48) //type 48 represents coastlines.
         {
             return true;
         }

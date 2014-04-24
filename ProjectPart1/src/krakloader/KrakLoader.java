@@ -1,8 +1,10 @@
 package krakloader;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 /**
@@ -12,12 +14,12 @@ import java.nio.charset.Charset;
  * example in main.
  *
  * Original author Peter Tiedemann petert@itu.dk; updates (2014) by Søren
- * Debois, debois@itu.dk
- * Updates by group A.
+ * Debois, debois@itu.dk Updates by group A.
  */
 public abstract class KrakLoader {
 
     public double xmax = 0, ymax = 0, xmin = 0, ymin = 0;
+    final static String encoding = "iso8859-1";
 
     public abstract void processNode(NodeData nd);
 
@@ -27,7 +29,7 @@ public abstract class KrakLoader {
      * Load krak-data from given files, invoking processNode and processEdge
      * once for each node- and edge- specification in the input file,
      * respectively.
-     * 
+     *
      * Updated to also find the min and max values of x and y (by group A).
      *
      * @param nodeFile
@@ -66,14 +68,19 @@ public abstract class KrakLoader {
         br.close();
 
         /* Edges. */
-        br = new BufferedReader(new FileReader(edgeFile));
-        br.readLine(); // Again, first line is column names, not data.
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(new FileInputStream(edgeFile), "iso8859-1"));
 
-        while ((line = br.readLine()) != null) {
+//        Charset.forName(encoding);
+//        br = new BufferedReader(new FileReader(edgeFile));
+
+        in.readLine(); // Again, first line is column names, not data.
+
+        while ((line = in.readLine()) != null) {
             processEdge(new EdgeData(line));
 
         }
-        br.close();
+        in.close();
 
         DataLine.resetInterner();
         System.gc();

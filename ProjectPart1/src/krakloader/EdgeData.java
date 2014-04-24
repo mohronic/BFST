@@ -37,6 +37,7 @@ public class EdgeData {
 	public final int VEJNR;
 	public final String AENDR_DATO;
 	public final int TJEK_ID;
+        
 
 	public String toString() {
 		return 
@@ -119,7 +120,7 @@ public class EdgeData {
 		LENGTH = 0;
 		DAV_DK = 0;
 		DAV_DK_ID = 0;
-		TYP = 48;
+		TYP = 48; //48 represents coastlines.
 		VEJNAVN = "";
 		FROMLEFT = 0;
 		TOLEFT = 0;
