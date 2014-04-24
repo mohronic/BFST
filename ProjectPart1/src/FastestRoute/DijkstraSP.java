@@ -23,7 +23,7 @@ public abstract class DijkstraSP
     protected PriorityQueue<DirectedEdge> pq;
     protected HashMap adj; // naboer
 
-    public DijkstraSP(ArrayList<Road> allEdges) // konstruktor tager kun allEdges, laver ny metode med til og fra som retunere listen med Linked
+    public DijkstraSP(ArrayList<Road> allEdges)
     {
         adj = new HashMap();
         distTo = new HashMap();
@@ -31,9 +31,9 @@ public abstract class DijkstraSP
         buildHashMaps(allEdges);
     }
 
-    abstract Comparator<DirectedEdge> getComparator();
+    protected abstract Comparator<DirectedEdge> getComparator();
 
-    abstract void relax(Point2D.Double p);
+    protected abstract void relax(Point2D.Double p);
 
     private void buildHashMaps(ArrayList<Road> allEdges)
     {

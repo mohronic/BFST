@@ -23,7 +23,7 @@ public class FastestRoad extends DijkstraSP
     }
 
     @Override
-    public Comparator<DirectedEdge> getComparator()
+    protected Comparator<DirectedEdge> getComparator()
     {
         Comparator<DirectedEdge> comp = new Comparator<DirectedEdge>()
         {
@@ -43,7 +43,7 @@ public class FastestRoad extends DijkstraSP
     }
 
     @Override
-    public void relax(Point2D.Double p)
+    protected void relax(Point2D.Double p)
     {
         Bag<DirectedEdge> b = (Bag<DirectedEdge>) adj.get(p);
         if (b != null) // Blindvej, slutpunkt
