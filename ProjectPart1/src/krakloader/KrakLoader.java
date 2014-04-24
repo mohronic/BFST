@@ -3,6 +3,7 @@ package krakloader;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 /**
  * Parse Krak data files (kdv_node_unload.txt, kdv_unload.txt).
@@ -37,6 +38,7 @@ public abstract class KrakLoader {
      */
     public void load(String nodeFile, String edgeFile) throws IOException {
         /* Nodes. */
+        Charset.forName("UTF-8");
         BufferedReader br;
         br = new BufferedReader(new FileReader(nodeFile));
         br.readLine(); // First line is column names, not data.
