@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Observable;
@@ -23,6 +25,8 @@ public class Canvas extends JComponent implements Observer
     private Rectangle2D view;
     private double scale = 1;
     private final DrawInterface j2d;
+    private boolean dragbool = false; 
+    private Rectangle2D dragrect;
     
     /**
      * Constructor for Canvas, getting the data to draw and instantiates the
@@ -94,6 +98,10 @@ public class Canvas extends JComponent implements Observer
         super.paintComponent(g);
         j2d.setGraphics(g);
         drawMap();
+        if(dragbool){                       //paints the dragzoom rectangle
+            Graphics2D g2 = (Graphics2D) g;
+            g2.draw(dragrect);
+        }
     }
     
     /**
@@ -102,6 +110,8 @@ public class Canvas extends JComponent implements Observer
      * @param o
      * @param arg 
      */
+    
+    
     @Override
     public void update(Observable o, Object arg)
     {
@@ -151,6 +161,14 @@ public class Canvas extends JComponent implements Observer
     public double getScale()
     {
         return scale;
+    }
+    
+    public void setDragrect(Rectangle2D rect){
+        dragrect = rect;
+    }
+    
+    public void setDragbool(boolean bool){
+        dragbool = bool;
     }
 
 }
