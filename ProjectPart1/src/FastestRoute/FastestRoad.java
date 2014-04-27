@@ -56,6 +56,7 @@ public class FastestRoad extends DijkstraSP
                 if (to.getDrivetime()> from.getDrivetime()+ e.drivetime()) // er t ikke det samme for alle, siden alle i den bag netop har samme udgangspunkt
                 {
                     to.setFrom(p);
+                    to.setLength(from.getLength() + e.length());
                     to.setDrivetime(from.getDrivetime()+ e.drivetime());
                     to.setEdge(e);
                     distTo.put(t, to);

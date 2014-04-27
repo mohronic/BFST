@@ -57,6 +57,7 @@ public class ShortestRoad extends DijkstraSP
                 {
                     to.setFrom(p);
                     to.setLength(from.getLength() + e.length());
+                    to.setDrivetime(from.getDrivetime()+ e.drivetime());
                     to.setEdge(e);
                     distTo.put(t, to);
                     if (!pq.contains(e)) // hvorfor er det her if statment ikke uden for det andet ovenstående if statment?

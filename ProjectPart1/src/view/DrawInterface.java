@@ -50,6 +50,11 @@ public interface DrawInterface {
      * Changes the color being drawn with to black.
      */
     public void setBlack();
+    
+     /**
+     * Changes the color being drawn with to black.
+     */
+    public void setOrange();
 
     /**
      * set the graphics object to use (since it implementation uses Graphics2D).
