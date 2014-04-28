@@ -16,18 +16,20 @@ import model.Road;
 public class MapRoute
 {
 
-    private final ArrayList<Road> roads;
+    private final ArrayList<Road> allRoads;
+    private static ArrayList<Linked> route;
 
     public MapRoute(ArrayList<Road> roads)
     {
-        this.roads = roads;
+        route = null;
+        this.allRoads = roads;
         sortRoads();
         DirectedEdge from = new DirectedEdge(roads.get(509400));
         DirectedEdge to = new DirectedEdge(roads.get(715000));
         System.out.println(from.getName() + " " + to.getName());
 
         DijkstraSP SP = new FastestRoad(roads);
-        ArrayList<Linked> route = SP.mapRoute(from, to);
+        route = SP.mapRoute(from, to);
         String old = "hej";
         double time = 0.0;
         for (Linked l : route)
@@ -41,10 +43,27 @@ public class MapRoute
             old = l.getEdge().getName();
         }
     }
+    
+    public static ArrayList<Road> getRouteRoads()
+    {
+        if(route == null)
+        {
+            return null;
+        } else
+        {
+            ArrayList<Road> roads = new ArrayList<>();
+            for(Linked l : route)
+            {
+                roads.add(l.getRoad());
+            }
+            return roads;
+        }
+        
+    }
 
     private void sortRoads()
     {
-        Collections.sort(roads, new Comparator<Road>()
+        Collections.sort(allRoads, new Comparator<Road>()
         {
             @Override
             public int compare(Road r1, Road r2)
@@ -53,10 +72,4 @@ public class MapRoute
             }
         });
     }
-
-//    private DirectedEdge getDirectedEdgeFromName(String s)
-//    {
-//        Collections.binarySearch(roads, s);
-//        
-//    }
 }

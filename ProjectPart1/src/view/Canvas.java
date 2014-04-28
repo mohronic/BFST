@@ -1,6 +1,9 @@
 package view;
 
+import FastestRoute.MapRoute;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Observable;
@@ -13,6 +16,7 @@ import model.Road;
 /**
  * The class Canvas extends JComponent and implements Observer. It is used to
  * draw the data in the class CurrentData.
+ *
  * @author Gruppe A
  */
 public class Canvas extends JComponent implements Observer
@@ -23,11 +27,14 @@ public class Canvas extends JComponent implements Observer
     private Rectangle2D view;
     private double scale = 1;
     private final DrawInterface j2d;
-    
+    private boolean dragbool = false;
+    private Rectangle2D dragrect;
+
     /**
      * Constructor for Canvas, getting the data to draw and instantiates the
      * DrawInterface.
-     * @param cd 
+     *
+     * @param cd
      */
     public Canvas(CurrentData cd)
     {
@@ -36,7 +43,7 @@ public class Canvas extends JComponent implements Observer
         rd = cd.getRoads();
         j2d = Graphics2DDraw.getInstance();
     }
-    
+
     /* Method that scales and draws the relevant Road objects from CurrentData,
      * in correct colors.
      */
@@ -82,11 +89,30 @@ public class Canvas extends JComponent implements Observer
             }
             j2d.drawLine(x1, y1, x2, y2);
         }
+        
+        // draws the fastest road
+        if (MapRoute.getRouteRoads() != null)
+        {
+            j2d.setOrange();
+            for (Road r : MapRoute.getRouteRoads())
+            {
+                double x1, x2, y1, y2;
+                NodeData n1 = r.getFn();
+                NodeData n2 = r.getTn();
+                x1 = (n1.getX_COORD() - view.getMinX()) / scale;
+                y1 = (n1.getY_COORD() - view.getMinY()) / scale;
+                x2 = (n2.getX_COORD() - view.getMinX()) / scale;
+                y2 = (n2.getY_COORD() - view.getMinY()) / scale;
+                j2d.drawLine(x1, y1, x2, y2);
+            }
+            j2d.setBlack();
+        }
     }
-    
+
     /**
      * Overrides paintComponent from JComponent, to also draw the map.
-     * @param g 
+     *
+     * @param g
      */
     @Override
     public void paintComponent(Graphics g)
@@ -94,13 +120,19 @@ public class Canvas extends JComponent implements Observer
         super.paintComponent(g);
         j2d.setGraphics(g);
         drawMap();
+        if (dragbool)
+        {                       //paints the dragzoom rectangle
+            Graphics2D g2 = (Graphics2D) g;
+            g2.draw(dragrect);
+        }
     }
-    
+
     /**
      * Overrides update from Observer pattern, to get the data from CurrentData
      * and repaint.
+     *
      * @param o
-     * @param arg 
+     * @param arg
      */
     @Override
     public void update(Observable o, Object arg)
@@ -109,7 +141,7 @@ public class Canvas extends JComponent implements Observer
         view = cd.getView();
         repaint();
     }
-    
+
     /* Method to check if a road is to be drawn.
      *
      */
@@ -143,14 +175,25 @@ public class Canvas extends JComponent implements Observer
         }
         return false;
     }
-    
+
     /**
      * Returns the current scale of the map.
+     *
      * @return double scale.
      */
     public double getScale()
     {
         return scale;
+    }
+
+    public void setDragrect(Rectangle2D rect)
+    {
+        dragrect = rect;
+    }
+
+    public void setDragbool(boolean bool)
+    {
+        dragbool = bool;
     }
 
 }

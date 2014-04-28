@@ -105,6 +105,7 @@ public class ML implements MouseListener, MouseMotionListener
 
             }
         }
+        c.setDragbool(false);
         mousePressed = false;
     }
     
@@ -238,10 +239,12 @@ public class ML implements MouseListener, MouseMotionListener
 
             double w = endx - startx;
             double h = endy - starty;
-            Shape rect = new Rectangle2D.Double(startx, starty, w, h);
-            g.draw(rect);
+            Rectangle2D rect = new Rectangle2D.Double(startx, starty, w, h);
+            c.setDragrect(rect);    //Set up rectangle for nondisapearing draw
+            c.setDragbool(true);
+            c.repaint();
+
         }
-        c.repaint();
 
     }
     

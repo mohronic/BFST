@@ -23,7 +23,7 @@ public class ShortestRoad extends DijkstraSP
     }
 
     @Override
-    public Comparator<DirectedEdge> getComparator()
+    protected Comparator<DirectedEdge> getComparator()
     {
         Comparator<DirectedEdge> comp = new Comparator<DirectedEdge>()
         {
@@ -43,7 +43,7 @@ public class ShortestRoad extends DijkstraSP
     }
 
     @Override
-    public void relax(Point2D.Double p)
+    protected void relax(Point2D.Double p)
     {
         Bag<DirectedEdge> b = (Bag<DirectedEdge>) adj.get(p);
         if (b != null) // Blindvej, slutpunkt
@@ -57,6 +57,7 @@ public class ShortestRoad extends DijkstraSP
                 {
                     to.setFrom(p);
                     to.setLength(from.getLength() + e.length());
+                    to.setDrivetime(from.getDrivetime()+ e.drivetime());
                     to.setEdge(e);
                     distTo.put(t, to);
                     if (!pq.contains(e)) // hvorfor er det her if statment ikke uden for det andet ovenstående if statment?

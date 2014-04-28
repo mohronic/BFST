@@ -80,4 +80,10 @@ public class Graphics2DDraw implements DrawInterface
         g2.setColor(Color.BLACK);
     }
 
+    @Override
+    public void setOrange()
+    {
+        g2.setColor(Color.ORANGE);
+    }
+
 }

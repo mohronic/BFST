@@ -23,7 +23,7 @@ public abstract class DijkstraSP
     protected PriorityQueue<DirectedEdge> pq;
     protected HashMap adj; // naboer
 
-    public DijkstraSP(ArrayList<Road> allEdges) // konstruktor tager kun allEdges, laver ny metode med til og fra som retunere listen med Linked
+    public DijkstraSP(ArrayList<Road> allEdges)
     {
         adj = new HashMap();
         distTo = new HashMap();
@@ -31,42 +31,9 @@ public abstract class DijkstraSP
         buildHashMaps(allEdges);
     }
 
-    abstract Comparator<DirectedEdge> getComparator();
+    protected abstract Comparator<DirectedEdge> getComparator();
 
-    abstract void relax(Point2D.Double p);
-
-    private void buildHashMaps(ArrayList<Road> allEdges)
-    {
-        for (Road r : allEdges)
-        {
-            DirectedEdge e1 = new DirectedEdge(r, true);
-            switch (r.getEd().ONE_WAY)
-            {
-                case "":
-                {
-                    addEdge(e1);
-                    DirectedEdge e2 = new DirectedEdge(r, false);
-                    addEdge(e2);
-                    buildDistTo(e1);
-                    break;
-                }
-                case "tf":
-                    addEdge(e1);
-                    buildDistTo(e1);
-                    break;
-                case "ft":
-                {
-                    DirectedEdge e2 = new DirectedEdge(r, false);
-                    addEdge(e2);
-                    buildDistTo(e1);
-                    break;
-                }
-                default:
-                    //should not happen
-                    break;
-            }
-        }
-    }
+    protected abstract void relax(Point2D.Double p);
 
     public ArrayList<Linked> mapRoute(DirectedEdge s, DirectedEdge t)
     {
@@ -79,7 +46,7 @@ public abstract class DijkstraSP
         while (!pq.isEmpty())
         {
             DirectedEdge e = pq.poll();
-            if (e.from().getX() == t.from().getX() && e.from().getY() == t.from().getY())
+            if (e.from().getX() == t.from().getX() && e.from().getY() == t.from().getY()) //Skal det være from eller to?
             {
                 break;
             } else
@@ -115,6 +82,39 @@ public abstract class DijkstraSP
             Bag<DirectedEdge> bag = (Bag<DirectedEdge>) adj.get(e.from());
             bag.add(e);
             adj.put(e.from(), bag);
+        }
+    }
+
+    private void buildHashMaps(ArrayList<Road> allEdges)
+    {
+        for (Road r : allEdges)
+        {
+            DirectedEdge e1 = new DirectedEdge(r, true);
+            switch (r.getEd().ONE_WAY)
+            {
+                case "":
+                {
+                    addEdge(e1);
+                    DirectedEdge e2 = new DirectedEdge(r, false);
+                    addEdge(e2);
+                    buildDistTo(e1);
+                    break;
+                }
+                case "tf":
+                    addEdge(e1);
+                    buildDistTo(e1);
+                    break;
+                case "ft":
+                {
+                    DirectedEdge e2 = new DirectedEdge(r, false);
+                    addEdge(e2);
+                    buildDistTo(e1);
+                    break;
+                }
+                default:
+                    //should not happen
+                    break;
+            }
         }
     }
 

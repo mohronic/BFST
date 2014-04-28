@@ -23,7 +23,7 @@ public class FastestRoad extends DijkstraSP
     }
 
     @Override
-    public Comparator<DirectedEdge> getComparator()
+    protected Comparator<DirectedEdge> getComparator()
     {
         Comparator<DirectedEdge> comp = new Comparator<DirectedEdge>()
         {
@@ -43,7 +43,7 @@ public class FastestRoad extends DijkstraSP
     }
 
     @Override
-    public void relax(Point2D.Double p)
+    protected void relax(Point2D.Double p)
     {
         Bag<DirectedEdge> b = (Bag<DirectedEdge>) adj.get(p);
         if (b != null) // Blindvej, slutpunkt
@@ -56,6 +56,7 @@ public class FastestRoad extends DijkstraSP
                 if (to.getDrivetime()> from.getDrivetime()+ e.drivetime()) // er t ikke det samme for alle, siden alle i den bag netop har samme udgangspunkt
                 {
                     to.setFrom(p);
+                    to.setLength(from.getLength() + e.length());
                     to.setDrivetime(from.getDrivetime()+ e.drivetime());
                     to.setEdge(e);
                     distTo.put(t, to);
