@@ -58,7 +58,7 @@ public class StartMap {
         c.addMouseMotionListener(ml);
         cd.addObserver(c);
         
-        KL kl = new KL(sl);
+        KL kl = new KL(sl, c);
         sl.addKeyListener(kl);
         frame.setLayout(new BorderLayout());
         frame.add(c, BorderLayout.CENTER);
