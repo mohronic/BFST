@@ -1,8 +1,8 @@
 package krakloader;
 
 /**
- * An object storing the raw node data from the krak data file.
- * Changed by group A, check method recalc().
+ * An object storing the raw node data from the krak data file. Changed by group
+ * A, check method recalc().
  */
 public class NodeData {
 
@@ -26,12 +26,13 @@ public class NodeData {
         X_COORD = dl.getDouble();
         Y_COORD = dl.getDouble();
     }
-    
+
     /**
      * Overloaded constructor for use with coastline data which does not have
      * krak information.
-     * @param line 
-     * @param overload 
+     *
+     * @param line
+     * @param overload
      */
     public NodeData(String line, String overload) {
         DataLine dl = new DataLine(line);
@@ -42,6 +43,14 @@ public class NodeData {
         Y_COORD = dl.getDouble();
     }
 
+    public NodeData(long id, double x, double y) {
+        ARC = 0;
+        KDV = 0;
+        KDV_ID = 0;
+        X_COORD = x;
+        Y_COORD = y;
+    }
+
     /**
      * Returns a string representing the node data in the same format as used in
      * the kdv_node_unload.txt file.
@@ -50,18 +59,19 @@ public class NodeData {
     public String toString() {
         return ARC + "," + KDV + "," + KDV_ID + "," + X_COORD + "," + Y_COORD;
     }
-    
+
     /**
-     * Added method by group A, to recalculate the coordinates of a node,
-     * to fit with the coordinates used in Java.
+     * Added method by group A, to recalculate the coordinates of a node, to fit
+     * with the coordinates used in Java.
+     *
      * @param ymax
-     * @param xmin 
+     * @param xmin
      */
     public void recalc(double ymax, double xmin) {
         X_COORD = X_COORD - xmin;
         Y_COORD = (-Y_COORD) + ymax;
     }
-    
+
     public void recalcCoast(double ymax, double xmin) {
         X_COORD = X_COORD - xmin;
         Y_COORD = (-Y_COORD) + ymax;

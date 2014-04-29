@@ -14,7 +14,7 @@ import org.xml.sax.XMLReader;
 public class OSMParser {
 
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-        String filename = "./data/output.osm";
+        String filename = "D:\\ITU\\out.osm";
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setNamespaceAware(true);
         SAXParser saxParser = spf.newSAXParser();

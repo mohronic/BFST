@@ -11,6 +11,12 @@ package osmparser;
  * @author z3ss
  */
 public class Node {
+    private long id;
     public Node(long id, double lat, double lon){
+        this.id = id;
+    }
+    
+    public long getID(){
+        return id;
     }
 }

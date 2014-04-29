@@ -8,19 +8,22 @@ package osmparser;
 
 /**
  *
- * @author z3ss
+ * @author KristianMohr
  */
-public class Way {
-    private long id;
-    public Way(long id) {
-        this.id = id;
+public class Edge {
+
+    public Edge(long id) {
     }
     
-    public void addNode(long nID){
+    public void addNode(Node nd){
         
-    } 
+    }
     
-    public long getID(){
-        return id;
+    public void setName(String name){
+        
+    }
+    
+    public void setType(String typ){
+        
     }
 }
