@@ -11,6 +11,7 @@ public class NodeData {
     final int KDV_ID;
     private double X_COORD;
     private double Y_COORD;
+    final long OSMID;
 
     /**
      * Parses node data from line, throws an IOException if something unexpected
@@ -19,6 +20,7 @@ public class NodeData {
      * @param line The source line from which the NodeData fields are parsed
      */
     public NodeData(String line) {
+        OSMID = 0;
         DataLine dl = new DataLine(line);
         ARC = dl.getInt();
         KDV = dl.getInt();
@@ -35,6 +37,7 @@ public class NodeData {
      * @param overload
      */
     public NodeData(String line, String overload) {
+        OSMID = 0;
         DataLine dl = new DataLine(line);
         ARC = 0;
         KDV = 0;
@@ -44,6 +47,7 @@ public class NodeData {
     }
 
     public NodeData(long id, double x, double y) {
+        OSMID = id;
         ARC = 0;
         KDV = 0;
         KDV_ID = 0;
@@ -83,6 +87,10 @@ public class NodeData {
 
     public double getY_COORD() {
         return Y_COORD;
+    }
+    
+    public long getOSMID(){
+        return OSMID;
     }
 
 }

@@ -6,6 +6,9 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import krakloader.EdgeData;
+import krakloader.NodeData;
+import model.Road;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -15,16 +18,18 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  * @author z3ss
  */
-class SAXHandler extends DefaultHandler {
+public class SAXHandler extends DefaultHandler {
 
-    HashMap<Long, Node> nodes = new HashMap<>();
-    List<Edge> edges = new ArrayList<>();
-    Node cNode = null;
-    Way cWay = null;
-    Edge cEdge = null;
-    String content = null;
-    ArrayList<Edge> cEdges = null;
-    double minlat, maxlat, minlon, maxlon;
+    private HashMap<Long, NodeData> nodes = new HashMap<>();
+    private List<EdgeData> edges = new ArrayList<>();
+    private List<Road> roads = new ArrayList<>();
+    private NodeData cNode = null;
+    private Road cRoad = null;
+    private Way cWay = null;
+    private EdgeData cEdge = null;
+    private String content = null;
+    private ArrayList<EdgeData> cEdges = null;
+    private double minlat, maxlat, minlon, maxlon;
 
     private Hashtable tags;
 
@@ -51,7 +56,7 @@ class SAXHandler extends DefaultHandler {
                 long id = Long.parseLong(atts.getValue("id"));
                 double lat = Double.parseDouble(atts.getValue("lat"));
                 double lon = Double.parseDouble(atts.getValue("lon"));
-                cNode = new Node(id, lat, lon);
+                cNode = new NodeData(id, lat, lon);
                 break;
             case "way":
                 cWay = new Way(Long.parseLong(atts.getValue("id")));
@@ -62,7 +67,7 @@ class SAXHandler extends DefaultHandler {
                 cWay.addNode(Long.parseLong(atts.getValue("ref")));
                 if (c % 2 == 1) {
                     c++;
-                    cEdge = new Edge(cWay.getID());
+                    cEdge = new EdgeData(cWay.getID());
                     cEdge.addNode(nodes.get(Long.parseLong(atts.getValue("ref"))));
                 } else {
                     c++;
@@ -74,13 +79,13 @@ class SAXHandler extends DefaultHandler {
                 if (isWay) {
                     switch (atts.getValue("k")) {
                         case "highway":
-                            for (Edge e : cEdges) {
-                                e.setType(atts.getValue("v"));
+                            for (EdgeData e : cEdges) {
+                                e.TYP = toTyp(atts.getValue("v"));
                             }
                             break;
                         case "name":
-                            for (Edge e : cEdges) {
-                                e.setType(atts.getValue("v"));
+                            for (EdgeData e : cEdges) {
+                                e.VEJNAVN = atts.getValue("v");
                             }
                             break;
                     }
@@ -102,7 +107,7 @@ class SAXHandler extends DefaultHandler {
         String key = localName;
         switch (key) {
             case "node":
-                nodes.put(cNode.getID(), cNode);
+                nodes.put(cNode.getOSMID(), cNode);
                 break;
             case "way":
                 edges.addAll(cEdges);
@@ -119,6 +124,7 @@ class SAXHandler extends DefaultHandler {
             System.out.println("Local Name \"" + tag + "\" occurs "
                     + count + " times");
         }
+        OSMParser.setData(edges, nodes);
     }
 
     public static String convertToFileURL(String filename) {
@@ -131,5 +137,9 @@ class SAXHandler extends DefaultHandler {
             path = "/" + path;
         }
         return "file:" + path;
+    }
+    
+    private int toTyp(String typ){
+        return 1;
     }
 }
