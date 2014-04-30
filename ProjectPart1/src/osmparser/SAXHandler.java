@@ -1,5 +1,6 @@
 package osmparser;
 
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -122,7 +123,7 @@ public class SAXHandler extends DefaultHandler {
             System.out.println("Local Name \"" + tag + "\" occurs "
                     + count + " times");
         }
-        OSMParser.setData(edges, nodes);
+        OSMParser.setData(edges, nodes, new Rectangle2D.Double(minlat, minlon, maxlat, maxlon));
     }
 
     public static String convertToFileURL(String filename) {
