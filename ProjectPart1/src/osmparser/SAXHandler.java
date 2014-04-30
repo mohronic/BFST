@@ -22,14 +22,13 @@ public class SAXHandler extends DefaultHandler {
 
     private HashMap<Long, NodeData> nodes = new HashMap<>();
     private List<EdgeData> edges = new ArrayList<>();
-    private List<Road> roads = new ArrayList<>();
     private NodeData cNode = null;
-    private Road cRoad = null;
     private Way cWay = null;
     private EdgeData cEdge = null;
     private String content = null;
     private ArrayList<EdgeData> cEdges = null;
     private double minlat, maxlat, minlon, maxlon;
+    private int c = 1;
 
     private Hashtable tags;
 
@@ -42,7 +41,6 @@ public class SAXHandler extends DefaultHandler {
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
         String key = localName;
         Object value = tags.get(key);
-        int c = 1;
         boolean isWay = false;
 
         switch (key) {
@@ -65,13 +63,13 @@ public class SAXHandler extends DefaultHandler {
                 break;
             case "nd":
                 cWay.addNode(Long.parseLong(atts.getValue("ref")));
-                if (c % 2 == 1) {
+                if ((c % 2) == 1) {
                     c++;
                     cEdge = new EdgeData(cWay.getID());
-                    cEdge.addNode(nodes.get(Long.parseLong(atts.getValue("ref"))));
+                    cEdge.NODEONE = Long.parseLong(atts.getValue("ref"));
                 } else {
                     c++;
-                    cEdge.addNode(nodes.get(Long.parseLong(atts.getValue("ref"))));
+                    cEdge.NODETWO = Long.parseLong(atts.getValue("ref"));
                     cEdges.add(cEdge);
                 }
                 break;

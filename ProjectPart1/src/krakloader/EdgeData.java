@@ -4,7 +4,9 @@ package krakloader;
  * Represents the raw data from a line in kdv_unload.txt.
  */
 public class EdgeData {
-
+    
+    public long NODEONE = 0;
+    public long NODETWO = 0;
     public final int FNODE;
     public final int TNODE;
     public final double LENGTH;
