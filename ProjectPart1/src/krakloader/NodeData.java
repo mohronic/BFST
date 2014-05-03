@@ -5,13 +5,12 @@ package krakloader;
  * A, check method recalc().
  */
 public class NodeData {
-
-    final int ARC;
+    
+    final long OSMID;
     final int KDV;
-    final int KDV_ID;
     private double X_COORD;
     private double Y_COORD;
-    final long OSMID;
+    
 
     /**
      * Parses node data from line, throws an IOException if something unexpected
@@ -22,9 +21,9 @@ public class NodeData {
     public NodeData(String line) {
         OSMID = 0;
         DataLine dl = new DataLine(line);
-        ARC = dl.getInt();
+        int ARC = dl.getInt();
         KDV = dl.getInt();
-        KDV_ID = dl.getInt();
+        int KDV_ID = dl.getInt();
         X_COORD = dl.getDouble();
         Y_COORD = dl.getDouble();
     }
@@ -39,18 +38,14 @@ public class NodeData {
     public NodeData(String line, String overload) {
         OSMID = 0;
         DataLine dl = new DataLine(line);
-        ARC = 0;
         KDV = 0;
-        KDV_ID = 0;
         X_COORD = dl.getDouble();
         Y_COORD = dl.getDouble();
     }
 
     public NodeData(long id, double x, double y) {
         OSMID = id;
-        ARC = 0;
         KDV = 0;
-        KDV_ID = 0;
         X_COORD = x;
         Y_COORD = y;
     }
@@ -61,7 +56,7 @@ public class NodeData {
      */
     @Override
     public String toString() {
-        return ARC + "," + KDV + "," + KDV_ID + "," + X_COORD + "," + Y_COORD;
+        return KDV + "," + X_COORD + "," + Y_COORD;
     }
 
     /**

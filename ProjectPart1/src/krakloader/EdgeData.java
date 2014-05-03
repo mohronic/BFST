@@ -4,14 +4,11 @@ package krakloader;
  * Represents the raw data from a line in kdv_unload.txt.
  */
 public class EdgeData {
-    
-    public long NODEONE = 0;
-    public long NODETWO = 0;
+    public final long NODEONE;
+    public final long NODETWO;
     public final int FNODE;
     public final int TNODE;
     public final double LENGTH;
-    public final int DAV_DK;
-    public final int DAV_DK_ID;
     public int TYP; //Final?
     public String VEJNAVN; //Final?
     public final int FROMLEFT;
@@ -22,32 +19,18 @@ public class EdgeData {
     public final String TOLEFT_BOGSTAV;
     public final String FROMRIGHT_BOGSTAV;
     public final String TORIGHT_BOGSTAV;
-    public final int V_SOGNENR;
-    public final int H_SOGNENR;
-    public final int V_POSTNR;
-    public final int H_POSTNR;
-    public final int KOMMUNENR;
-    public final int VEJKODE;
-    public final int SUBNET;
-    public final String RUTENR;
     public final int FRAKOERSEL;
-    public final int ZONE;
     public final int SPEED;
     public final double DRIVETIME;
     public final String ONE_WAY;
     public final String F_TURN;
     public final String T_TURN;
-    public final int VEJNR;
-    public final String AENDR_DATO;
-    public final int TJEK_ID;
 
     @Override
     public String toString() {
         return FNODE + ","
                 + TNODE + ","
                 + String.format("%.5f,", LENGTH)
-                + DAV_DK + ","
-                + DAV_DK_ID + ","
                 + TYP + ","
                 + "'" + VEJNAVN + "',"
                 + FROMLEFT + ","
@@ -58,24 +41,12 @@ public class EdgeData {
                 + "'" + TOLEFT_BOGSTAV + "',"
                 + "'" + FROMRIGHT_BOGSTAV + "',"
                 + "'" + TORIGHT_BOGSTAV + "',"
-                + V_SOGNENR + ","
-                + H_SOGNENR + ","
-                + V_POSTNR + ","
-                + H_POSTNR + ","
-                + KOMMUNENR + ","
-                + VEJKODE + ","
-                + SUBNET + ","
-                + "'" + RUTENR + "',"
                 + FRAKOERSEL + ","
-                + ZONE + ","
                 + SPEED + ","
                 + String.format("%.3f,", DRIVETIME)
                 + "'" + ONE_WAY + "',"
                 + "'" + F_TURN + "',"
-                + "'" + T_TURN + "',"
-                + (VEJNR == -1 ? "**********," : VEJNR + ",")
-                + "'" + AENDR_DATO + "',"
-                + TJEK_ID;
+                + "'" + T_TURN + "',";
     }
 
     public EdgeData(String line) {
@@ -83,8 +54,8 @@ public class EdgeData {
         FNODE = dl.getInt();
         TNODE = dl.getInt();
         LENGTH = dl.getDouble();
-        DAV_DK = dl.getInt();
-        DAV_DK_ID = dl.getInt();
+        int DAV_DK = dl.getInt();
+        int DAV_DK_ID = dl.getInt();
         TYP = dl.getInt();
         VEJNAVN = dl.getString();
         FROMLEFT = dl.getInt();
@@ -95,24 +66,26 @@ public class EdgeData {
         TOLEFT_BOGSTAV = dl.getString();
         FROMRIGHT_BOGSTAV = dl.getString();
         TORIGHT_BOGSTAV = dl.getString();
-        V_SOGNENR = dl.getInt();
-        H_SOGNENR = dl.getInt();
-        V_POSTNR = dl.getInt();
-        H_POSTNR = dl.getInt();
-        KOMMUNENR = dl.getInt();
-        VEJKODE = dl.getInt();
-        SUBNET = dl.getInt();
-        RUTENR = dl.getString();
+        int V_SOGNENR = dl.getInt();
+        int H_SOGNENR = dl.getInt();
+        int V_POSTNR = dl.getInt();
+        int H_POSTNR = dl.getInt();
+        int KOMMUNENR = dl.getInt();
+        int VEJKODE = dl.getInt();
+        int SUBNET = dl.getInt();
+        String RUTENR = dl.getString();
         FRAKOERSEL = dl.getInt();
-        ZONE = dl.getInt();
+        int ZONE = dl.getInt();
         SPEED = dl.getInt();
         DRIVETIME = dl.getDouble();
         ONE_WAY = dl.getString();
         F_TURN = dl.getString();
         T_TURN = dl.getString();
-        VEJNR = dl.getInt();
-        AENDR_DATO = dl.getString();
-        TJEK_ID = dl.getInt();
+        int VEJNR = dl.getInt();
+        String AENDR_DATO = dl.getString();
+        int TJEK_ID = dl.getInt();
+        NODEONE = 0;
+        NODETWO = 0;
     }
 
     public EdgeData() {
@@ -120,8 +93,6 @@ public class EdgeData {
         FNODE = 0;
         TNODE = 0;
         LENGTH = 0;
-        DAV_DK = 0;
-        DAV_DK_ID = 0;
         TYP = 48; //48 represents coastlines.
         VEJNAVN = "";
         FROMLEFT = 0;
@@ -132,32 +103,22 @@ public class EdgeData {
         TOLEFT_BOGSTAV = "";
         FROMRIGHT_BOGSTAV = "";
         TORIGHT_BOGSTAV = "";
-        V_SOGNENR = 0;
-        H_SOGNENR = 0;
-        V_POSTNR = 0;
-        H_POSTNR = 0;
-        KOMMUNENR = 0;
-        VEJKODE = 0;
-        SUBNET = 0;
-        RUTENR = "";
         FRAKOERSEL = 0;
-        ZONE = 0;
         SPEED = 0;
         DRIVETIME = 0;
         ONE_WAY = "";
         F_TURN = "";
         T_TURN = "";
-        VEJNR = 0;
-        AENDR_DATO = "";
-        TJEK_ID = 0;
+        NODEONE = 0;
+        NODETWO = 0;
     }
 
-    public EdgeData(long id) {
+    public EdgeData(long id, long refOne, long refTwo) {
+        NODEONE = refOne;
+        NODETWO = refTwo;
         FNODE = 0;
         TNODE = 0;
         LENGTH = 0;
-        DAV_DK = 0;
-        DAV_DK_ID = 0;
         TYP = 1;
         VEJNAVN = "";
         FROMLEFT = 0;
@@ -168,23 +129,11 @@ public class EdgeData {
         TOLEFT_BOGSTAV = "";
         FROMRIGHT_BOGSTAV = "";
         TORIGHT_BOGSTAV = "";
-        V_SOGNENR = 0;
-        H_SOGNENR = 0;
-        V_POSTNR = 0;
-        H_POSTNR = 0;
-        KOMMUNENR = 0;
-        VEJKODE = 0;
-        SUBNET = 0;
-        RUTENR = "";
         FRAKOERSEL = 0;
-        ZONE = 0;
         SPEED = 0;
         DRIVETIME = 0;
         ONE_WAY = "";
         F_TURN = "";
         T_TURN = "";
-        VEJNR = 0;
-        AENDR_DATO = "";
-        TJEK_ID = 0;
     }
 }

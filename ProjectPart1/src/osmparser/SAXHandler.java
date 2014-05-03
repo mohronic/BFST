@@ -7,9 +7,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
-import krakloader.EdgeData;
 import krakloader.NodeData;
-import model.Road;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -22,14 +20,12 @@ import org.xml.sax.helpers.DefaultHandler;
 public class SAXHandler extends DefaultHandler {
 
     private HashMap<Long, NodeData> nodes = new HashMap<>();
-    private List<EdgeData> edges = new ArrayList<>();
+    private List<Way> ways = new ArrayList<>();
     private NodeData cNode = null;
     private Way cWay = null;
-    private EdgeData cEdge = null;
-    private String content = null;
-    private ArrayList<EdgeData> cEdges = null;
-    private double minlat, maxlat, minlon, maxlon;
-    private int c = 1;
+    private boolean isWay = false;
+
+    private double miny, maxy, minx, maxx;
 
     private Hashtable tags;
 
@@ -42,50 +38,36 @@ public class SAXHandler extends DefaultHandler {
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
         String key = localName;
         Object value = tags.get(key);
-        boolean isWay = false;
 
         switch (key) {
             case "bounds":
-                minlat = Double.parseDouble(atts.getValue("minlat"));
-                maxlat = Double.parseDouble(atts.getValue("maxlat"));
-                minlon = Double.parseDouble(atts.getValue("minlon"));
-                maxlon = Double.parseDouble(atts.getValue("maxlon"));
+                minx = Double.parseDouble(atts.getValue("minlon"));
+                miny = Double.parseDouble(atts.getValue("minlat"));
+                maxx = Double.parseDouble(atts.getValue("maxlon"));
+                maxy = Double.parseDouble(atts.getValue("maxlat"));
                 break;
             case "node":
                 long id = Long.parseLong(atts.getValue("id"));
                 double lat = Double.parseDouble(atts.getValue("lat"));
+                lat = (-lat) + maxy + miny;
                 double lon = Double.parseDouble(atts.getValue("lon"));
-                cNode = new NodeData(id, lat, lon);
+                cNode = new NodeData(id, lon, lat);
                 break;
             case "way":
                 cWay = new Way(Long.parseLong(atts.getValue("id")));
-                cEdges = new ArrayList<>();
                 isWay = true;
                 break;
             case "nd":
                 cWay.addNode(Long.parseLong(atts.getValue("ref")));
-                if ((c % 2) == 1) {
-                    c++;
-                    cEdge = new EdgeData(cWay.getID());
-                    cEdge.NODEONE = Long.parseLong(atts.getValue("ref"));
-                } else {
-                    c++;
-                    cEdge.NODETWO = Long.parseLong(atts.getValue("ref"));
-                    cEdges.add(cEdge);
-                }
                 break;
             case "tag":
                 if (isWay) {
                     switch (atts.getValue("k")) {
                         case "highway":
-                            for (EdgeData e : cEdges) {
-                                e.TYP = toTyp(atts.getValue("v"));
-                            }
+                            cWay.setTyp(toTyp(atts.getValue("v")));
                             break;
                         case "name":
-                            for (EdgeData e : cEdges) {
-                                e.VEJNAVN = atts.getValue("v");
-                            }
+                            cWay.setName(atts.getValue("v"));
                             break;
                     }
                 }
@@ -109,7 +91,7 @@ public class SAXHandler extends DefaultHandler {
                 nodes.put(cNode.getOSMID(), cNode);
                 break;
             case "way":
-                edges.addAll(cEdges);
+                ways.add(cWay);
                 break;
         }
     }
@@ -123,7 +105,8 @@ public class SAXHandler extends DefaultHandler {
             System.out.println("Local Name \"" + tag + "\" occurs "
                     + count + " times");
         }
-        OSMParser.setData(edges, nodes, new Rectangle2D.Double(minlat, minlon, maxlat, maxlon));
+        Rectangle2D rect = new Rectangle2D.Double(minx, miny, maxx - minx, maxy - miny);
+        OSMParser.setData(ways, nodes, rect);
     }
 
     public static String convertToFileURL(String filename) {
@@ -137,8 +120,26 @@ public class SAXHandler extends DefaultHandler {
         }
         return "file:" + path;
     }
-    
-    private int toTyp(String typ){
-        return 1;
+
+    private int toTyp(String typ) {
+        int type = 0;
+        switch (typ) {
+            case "motorway":
+                type = 1;
+                break;
+            case "trunk" :
+                type = 1;
+                break;
+            case "primary" :
+                type = 1;
+                break;
+            case "path":
+                type = 8;
+                break;
+            default :
+                type = 4;
+                break;
+        }
+        return type;
     }
 }

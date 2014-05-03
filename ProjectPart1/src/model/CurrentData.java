@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import javax.swing.JLabel;
+import osmparser.OSMParser;
 
 /**
  * Class containing the current data, which is to be drawn by Canvas.
@@ -18,7 +19,7 @@ public class CurrentData extends Observable
     
     private static CurrentData instance = null;
     private final QuadTree qt;
-    private double xmax = 0, ymax = 0;
+    private double xmin = 0, ymin = 0, xmax = 0, ymax = 0;
     private double oldx = 0, oldy = 0;
     private List<Road> roads = new ArrayList<>();
     private Rectangle2D view;
@@ -42,6 +43,7 @@ public class CurrentData extends Observable
      */
     private CurrentData()
     {
+        //qt = OSMParser.qt;
         qt = StartMap.getQuadTree();
         view = new Rectangle2D.Double();
     }
@@ -66,7 +68,7 @@ public class CurrentData extends Observable
         oldy = view.getMinY();
         oldx = view.getMinX();
         roads.clear();
-        roads = qt.search(r.getX() * 0.75, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.75, (r.getY() + r.getHeight()) * 1.25);
+        roads = qt.search(r.getX() * 0.875, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.875, (r.getY() + r.getHeight()) * 1.25);
         setChanged();
         notifyObservers();
     }
@@ -162,5 +164,21 @@ public class CurrentData extends Observable
     public static JLabel getCurrentRoadLabel()
     {
         return crl;
+    }
+
+    public void setXmin(double xmin) {
+        this.xmin = xmin;
+    }
+
+    public void setYmin(double ymin) {
+        this.ymin = ymin;
+    }
+
+    public double getXmin() {
+        return xmin;
+    }
+
+    public double getYmin() {
+        return ymin;
     }
 }

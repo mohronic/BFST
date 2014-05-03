@@ -29,7 +29,8 @@ import view.Canvas;
  */
 public class OSMParser {
 
-    public static List<EdgeData> edges;
+    public static List<EdgeData> edges = new ArrayList<>();
+    public static List<Way> ways;
     public static HashMap<Long, NodeData> nodes;
     public static Rectangle2D bounds;
     private static JFrame frame;
@@ -39,7 +40,7 @@ public class OSMParser {
     private static final ArrayList<Road> allRoads = new ArrayList<>();
 
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-        String filename = "D:\\ITU\\out.osm";
+        String filename = "E:\\ITU\\GitHub\\BFST\\ProjectPart1\\data\\output.osm";
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setNamespaceAware(true);
         SAXParser saxParser = spf.newSAXParser();
@@ -49,20 +50,43 @@ public class OSMParser {
         setupData();
         setup();
     }
-    
-    private static void setupData(){
+
+    private static void setupData() {
         qt = new QuadTree(ROOT, null);
         cd = CurrentData.getInstance();
-        for(EdgeData e : edges){
+        cd.setXmax(bounds.getMaxX());
+        cd.setXmin(bounds.getMinX());
+        cd.setYmax(bounds.getMaxY());
+        cd.setYmin(bounds.getMinY());
+        long refOne = 0, refTwo = 0;
+        for (Way w : ways) {
+            boolean isFirst = true;
+            ArrayList<Long> nodeList = w.getNodes();
+            for (Long s : nodeList) {
+                if (isFirst) {
+                    refOne = s;
+                    isFirst = false;
+                }else{
+                    refTwo = s;
+                    EdgeData e = new EdgeData(w.getID(), refOne, refTwo);
+                    e.VEJNAVN = w.getName();
+                    e.TYP = w.getTyp();
+                    edges.add(e);
+                    refOne = refTwo;
+                }
+            }
+        }
+
+        for (EdgeData e : edges) {
             Road r = new Road(e, nodes.get(e.NODEONE), nodes.get(e.NODETWO));
             allRoads.add(r);
             qt.insert(r);
         }
-        
+
         cd.updateArea(bounds);
         sl = new SearchLabel(allRoads);
     }
-    
+
     private static void setup() throws IOException {
         frame = new JFrame("Map Draw");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,8 +107,8 @@ public class OSMParser {
         frame.setVisible(true);
     }
 
-    public static void setData(List<EdgeData> edges, HashMap<Long, NodeData> nodes, Rectangle2D bounds) {
-        OSMParser.edges = edges;
+    public static void setData(List<Way> ways, HashMap<Long, NodeData> nodes, Rectangle2D bounds) {
+        OSMParser.ways = ways;
         OSMParser.nodes = nodes;
         OSMParser.bounds = bounds;
     }

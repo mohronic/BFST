@@ -3,7 +3,6 @@ package view;
 import FastestRoute.MapRoute;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Observable;
@@ -151,7 +150,7 @@ public class Canvas extends JComponent implements Observer
         double maxScale = cd.getXmax() / (double) this.getWidth();
         if (maxScale < cd.getYmax() / (double) this.getHeight())
         {
-            maxScale = cd.getYmax() / (double) this.getHeight();
+            maxScale = (cd.getYmax()-cd.getYmin()) / (double) this.getHeight();
         }
         if (typ == 1 || typ == 3 || typ == 2 || typ == 48) //type 48 represents coastlines.
         {
