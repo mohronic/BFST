@@ -21,7 +21,6 @@ public class SAXHandler extends DefaultHandler {
 
     private HashMap<Long, NodeData> nodes = new HashMap<>();
     private List<Way> ways = new ArrayList<>();
-    private List<Way> coast = new ArrayList<>();
     private NodeData cNode = null;
     private Way cWay = null;
     private boolean isWay = false;
@@ -95,8 +94,7 @@ public class SAXHandler extends DefaultHandler {
                 nodes.put(cNode.getOSMID(), cNode);
                 break;
             case "way":
-                if(cWay.getTyp() != 48) ways.add(cWay);
-                else coast.add(cWay);
+                ways.add(cWay);
                 break;
         }
     }
