@@ -94,6 +94,7 @@ public class SAXHandler extends DefaultHandler {
                 nodes.put(cNode.getOSMID(), cNode);
                 break;
             case "way":
+                if(cWay.getTyp() != 49)
                 ways.add(cWay);
                 break;
         }
@@ -143,7 +144,7 @@ public class SAXHandler extends DefaultHandler {
                 type = 48;
                 break;
             case "water":
-                type = 48;
+                type = 49;
                 break;
             default :
                 type = 4;

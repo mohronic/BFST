@@ -1,7 +1,7 @@
 package QuadTreePack;
 
 import java.awt.geom.Rectangle2D;
-//import osmparser.OSMParser;
+import osmparser.OSMParser;
 
 /**
  * Class which contains a boundary and methods to check if something if is inside the borders
@@ -59,7 +59,7 @@ public class Boundary
     public Boundary(NSEW direction)
     {
         
-       /* center.xc = (OSMParser.bounds.getMaxX()+OSMParser.bounds.getMinX()) / 2;
+        /*center.xc = (OSMParser.bounds.getMaxX()+OSMParser.bounds.getMinX()) / 2;
         center.yc = (OSMParser.bounds.getMaxY()+OSMParser.bounds.getMinY()) / 2;
         xdim = (OSMParser.bounds.getWidth()) / 2;
         ydim = (OSMParser.bounds.getHeight()) / 2;*/
