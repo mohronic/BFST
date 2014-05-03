@@ -21,6 +21,7 @@ public class SAXHandler extends DefaultHandler {
 
     private HashMap<Long, NodeData> nodes = new HashMap<>();
     private List<Way> ways = new ArrayList<>();
+    private List<Way> coast = new ArrayList<>();
     private NodeData cNode = null;
     private Way cWay = null;
     private boolean isWay = false;
@@ -69,6 +70,9 @@ public class SAXHandler extends DefaultHandler {
                         case "name":
                             cWay.setName(atts.getValue("v"));
                             break;
+                        case "natural":
+                            cWay.setTyp(toTyp(atts.getValue("v")));
+                            break;
                     }
                 }
                 break;
@@ -91,7 +95,8 @@ public class SAXHandler extends DefaultHandler {
                 nodes.put(cNode.getOSMID(), cNode);
                 break;
             case "way":
-                ways.add(cWay);
+                if(cWay.getTyp() != 48) ways.add(cWay);
+                else coast.add(cWay);
                 break;
         }
     }
@@ -122,7 +127,7 @@ public class SAXHandler extends DefaultHandler {
     }
 
     private int toTyp(String typ) {
-        int type = 0;
+        int type;
         switch (typ) {
             case "motorway":
                 type = 1;
@@ -135,6 +140,12 @@ public class SAXHandler extends DefaultHandler {
                 break;
             case "path":
                 type = 8;
+                break;
+            case "coastline":
+                type = 48;
+                break;
+            case "water":
+                type = 48;
                 break;
             default :
                 type = 4;
