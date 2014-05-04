@@ -9,7 +9,6 @@ import krakloader.EdgeData;
 import krakloader.KrakLoader;
 import krakloader.NodeData;
 import QuadTreePack.QuadTree;
-import SearchEngine.SearchLabel;
 import java.awt.BorderLayout;
 import java.awt.geom.Rectangle2D;
 import krakloader.LoadCoast;
@@ -59,11 +58,6 @@ public class StartMap {
         c.addMouseMotionListener(ml);
         cd.addObserver(c);
         
-<<<<<<< HEAD
-=======
-        KL kl = new KL(sl, c);
-        sl.addKeyListener(kl);
->>>>>>> a5ec2c1395474a75aa514893cad0a711ba56514a
         frame.setLayout(new BorderLayout());
         frame.add(c, BorderLayout.CENTER);
         frame.add(CurrentData.getCurrentRoadLabel(), BorderLayout.SOUTH);

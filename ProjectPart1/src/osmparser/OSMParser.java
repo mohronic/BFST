@@ -22,12 +22,14 @@ import model.Road;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import view.Canvas;
+import view.SideBar;
 
 /**
  *
  * @author z3ss
  */
-public class OSMParser {
+public class OSMParser
+{
 
     public static List<EdgeData> edges = new ArrayList<>();
     public static List<Way> ways;
@@ -36,10 +38,10 @@ public class OSMParser {
     private static JFrame frame;
     private static CurrentData cd;
     public static QuadTree qt;
-    private static SearchLabel sl;
     private static final ArrayList<Road> allRoads = new ArrayList<>();
 
-    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException
+    {
         String filename = "D:\\ITU\\out.osm";
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setNamespaceAware(true);
@@ -51,7 +53,8 @@ public class OSMParser {
         setup();
     }
 
-    private static void setupData() {
+    private static void setupData()
+    {
         qt = new QuadTree(ROOT, null);
         cd = CurrentData.getInstance();
         cd.setXmax(bounds.getMaxX());
@@ -59,14 +62,18 @@ public class OSMParser {
         cd.setYmax(bounds.getMaxY());
         cd.setYmin(bounds.getMinY());
         long refOne = 0, refTwo = 0;
-        for (Way w : ways) {
+        for (Way w : ways)
+        {
             boolean isFirst = true;
             ArrayList<Long> nodeList = w.getNodes();
-            for (Long s : nodeList) {
-                if (isFirst) {
+            for (Long s : nodeList)
+            {
+                if (isFirst)
+                {
                     refOne = s;
                     isFirst = false;
-                }else{
+                } else
+                {
                     refTwo = s;
                     EdgeData e = new EdgeData(w.getID(), refOne, refTwo);
                     e.VEJNAVN = w.getName();
@@ -77,37 +84,37 @@ public class OSMParser {
             }
         }
 
-        for (EdgeData e : edges) {
+        for (EdgeData e : edges)
+        {
             Road r = new Road(e, nodes.get(e.NODEONE), nodes.get(e.NODETWO));
             allRoads.add(r);
             qt.insert(r);
         }
 
         cd.updateArea(bounds);
-        sl = new SearchLabel(allRoads);
     }
 
-    private static void setup() throws IOException {
+    private static void setup() throws IOException
+    {
         frame = new JFrame("Map Draw");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(970, 770);
-
+        SideBar SB = new SideBar();
         Canvas c = new Canvas(cd);
         ML ml = new ML(c);
         c.addMouseListener(ml);
         c.addMouseMotionListener(ml);
         cd.addObserver(c);
 
-        KL kl = new KL(sl, c);
-        sl.addKeyListener(kl);
         frame.setLayout(new BorderLayout());
         frame.add(c, BorderLayout.CENTER);
         frame.add(CurrentData.getCurrentRoadLabel(), BorderLayout.SOUTH);
-        frame.add(sl, BorderLayout.NORTH);
+        frame.add(SB.getSideBar(), BorderLayout.WEST);
         frame.setVisible(true);
     }
 
-    public static void setData(List<Way> ways, HashMap<Long, NodeData> nodes, Rectangle2D bounds) {
+    public static void setData(List<Way> ways, HashMap<Long, NodeData> nodes, Rectangle2D bounds)
+    {
         OSMParser.ways = ways;
         OSMParser.nodes = nodes;
         OSMParser.bounds = bounds;

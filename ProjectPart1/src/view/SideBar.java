@@ -43,11 +43,11 @@ public class SideBar
         sideBar.setPreferredSize(new Dimension(300, 0));
         JButton bSearch = new JButton("Search");
 
-        final SearchLabel slTo = new SearchLabel(StartMap.allRoads);
+        final SearchLabel slTo = new SearchLabel(StartMap.allRoads, "To");
         KL klTo = new KL(slTo);
         slTo.addKeyListener(klTo);
         slTo.setColumns(25);
-        final SearchLabel slFrom = new SearchLabel(StartMap.allRoads);
+        final SearchLabel slFrom = new SearchLabel(StartMap.allRoads, "From");
         KL klFrom = new KL(slFrom);
         slFrom.addKeyListener(klFrom);
         slFrom.setColumns(25);
@@ -169,46 +169,46 @@ public class SideBar
 
     }
 
-    private class HintTextField extends JTextField implements FocusListener
-    {
-
-        private final String hint;
-        private boolean showingHint;
-
-        public HintTextField(final String hint)
-        {
-            super(hint);
-            this.hint = hint;
-            this.showingHint = true;
-            super.addFocusListener(this);
-        }
-
-        @Override
-        public void focusGained(FocusEvent e)
-        {
-            if (this.getText().isEmpty())
-            {
-                super.setText("");
-                showingHint = false;
-            }
-        }
-
-        @Override
-        public void focusLost(FocusEvent e)
-        {
-            if (this.getText().isEmpty())
-            {
-                super.setText(hint);
-                showingHint = true;
-            }
-        }
-
-        @Override
-        public String getText()
-        {
-            return showingHint ? "" : super.getText();
-        }
-    }
+//    private class HintTextField extends JTextField implements FocusListener
+//    {
+//
+//        private final String hint;
+//        private boolean showingHint;
+//
+//        public HintTextField(final String hint)
+//        {
+//            super(hint);
+//            this.hint = hint;
+//            this.showingHint = true;
+//            super.addFocusListener(this);
+//        }
+//
+//        @Override
+//        public void focusGained(FocusEvent e)
+//        {
+//            if (this.getText().isEmpty())
+//            {
+//                super.setText("");
+//                showingHint = false;
+//            }
+//        }
+//
+//        @Override
+//        public void focusLost(FocusEvent e)
+//        {
+//            if (this.getText().isEmpty())
+//            {
+//                super.setText(hint);
+//                showingHint = true;
+//            }
+//        }
+//
+//        @Override
+//        public String getText()
+//        {
+//            return showingHint ? "" : super.getText();
+//        }
+//    }
 
     public JPanel getSideBar()
     {
