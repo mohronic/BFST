@@ -1,5 +1,6 @@
 package view;
 
+import FastestRoute.Linked;
 import FastestRoute.MapRoute;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -91,11 +92,12 @@ public class Canvas extends JComponent implements Observer
         }
         
         // draws the fastest road
-        if (MapRoute.getRouteRoads() != null)
+        if (MapRoute.getRoute() != null)
         {
             j2d.setOrange();
-            for (Road r : MapRoute.getRouteRoads())
+            for (Linked l : MapRoute.getRoute())
             {
+                Road r = l.getRoad();
                 double x1, x2, y1, y2;
                 NodeData n1 = r.getFn();
                 NodeData n2 = r.getTn();
