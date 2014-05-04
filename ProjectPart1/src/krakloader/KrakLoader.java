@@ -40,6 +40,7 @@ public abstract class KrakLoader {
      */
     public void load(String nodeFile, String edgeFile) throws IOException {
         /* Nodes. */
+        Charset.forName("UTF-8");
         BufferedReader br;
         br = new BufferedReader(new FileReader(nodeFile));
         br.readLine(); // First line is column names, not data.

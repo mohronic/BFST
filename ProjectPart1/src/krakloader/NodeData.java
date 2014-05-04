@@ -1,16 +1,16 @@
 package krakloader;
 
 /**
- * An object storing the raw node data from the krak data file.
- * Changed by group A, check method recalc().
+ * An object storing the raw node data from the krak data file. Changed by group
+ * A, check method recalc().
  */
 public class NodeData {
-
-    final int ARC;
+    
+    final long OSMID;
     final int KDV;
-    final int KDV_ID;
     private double X_COORD;
     private double Y_COORD;
+    
 
     /**
      * Parses node data from line, throws an IOException if something unexpected
@@ -19,27 +19,35 @@ public class NodeData {
      * @param line The source line from which the NodeData fields are parsed
      */
     public NodeData(String line) {
+        OSMID = 0;
         DataLine dl = new DataLine(line);
-        ARC = dl.getInt();
+        int ARC = dl.getInt();
         KDV = dl.getInt();
-        KDV_ID = dl.getInt();
+        int KDV_ID = dl.getInt();
         X_COORD = dl.getDouble();
         Y_COORD = dl.getDouble();
     }
-    
+
     /**
      * Overloaded constructor for use with coastline data which does not have
      * krak information.
-     * @param line 
-     * @param overload 
+     *
+     * @param line
+     * @param overload
      */
     public NodeData(String line, String overload) {
+        OSMID = 0;
         DataLine dl = new DataLine(line);
-        ARC = 0;
         KDV = 0;
-        KDV_ID = 0;
         X_COORD = dl.getDouble();
         Y_COORD = dl.getDouble();
+    }
+
+    public NodeData(long id, double x, double y) {
+        OSMID = id;
+        KDV = 0;
+        X_COORD = x;
+        Y_COORD = y;
     }
 
     /**
@@ -48,20 +56,21 @@ public class NodeData {
      */
     @Override
     public String toString() {
-        return ARC + "," + KDV + "," + KDV_ID + "," + X_COORD + "," + Y_COORD;
+        return KDV + "," + X_COORD + "," + Y_COORD;
     }
-    
+
     /**
-     * Added method by group A, to recalculate the coordinates of a node,
-     * to fit with the coordinates used in Java.
+     * Added method by group A, to recalculate the coordinates of a node, to fit
+     * with the coordinates used in Java.
+     *
      * @param ymax
-     * @param xmin 
+     * @param xmin
      */
     public void recalc(double ymax, double xmin) {
         X_COORD = X_COORD - xmin;
         Y_COORD = (-Y_COORD) + ymax;
     }
-    
+
     public void recalcCoast(double ymax, double xmin) {
         X_COORD = X_COORD - xmin;
         Y_COORD = (-Y_COORD) + ymax;
@@ -73,6 +82,10 @@ public class NodeData {
 
     public double getY_COORD() {
         return Y_COORD;
+    }
+    
+    public long getOSMID(){
+        return OSMID;
     }
 
 }
