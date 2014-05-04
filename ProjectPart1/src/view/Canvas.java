@@ -19,12 +19,12 @@ import model.Road;
  *
  * @author Gruppe A
  */
-public class Canvas extends JComponent implements Observer
+public class Canvas extends JComponent implements ObserverC
 {
 
     private List<Road> rd;
     private final CurrentData cd;
-    private Rectangle2D view;
+    public Rectangle2D view;
     private double scale = 1;
     private final DrawInterface j2d;
     private boolean dragbool = false;
@@ -136,7 +136,7 @@ public class Canvas extends JComponent implements Observer
      * @param arg
      */
     @Override
-    public void update(Observable o, Object arg)
+    public void update()
     {
         rd = cd.getRoads();
         view = cd.getView();

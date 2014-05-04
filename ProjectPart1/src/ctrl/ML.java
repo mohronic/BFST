@@ -2,6 +2,7 @@ package ctrl;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -101,6 +102,7 @@ public class ML implements MouseListener, MouseMotionListener
                 double h = endy - starty;
 
                 currentView = new Rectangle2D.Double(startx, starty, w, h);
+                
                 calcView(currentView);
 
             }
@@ -256,6 +258,31 @@ public class ML implements MouseListener, MouseMotionListener
         double y = r.getMinY() * c.getScale() + cd.getOldy();
         double w = r.getWidth() * c.getScale();
         double h = r.getHeight() * c.getScale();
+        
+        
+//        double vdiffx, vdiffy;
+//        vdiffx = (Math.abs(c.view.getMaxX()) - Math.abs(c.view.getMinX()))
+//                - (Math.abs(x+w) - Math.abs(x));
+//        vdiffy = (Math.abs(c.view.getMaxY()) - Math.abs(c.view.getMinY()))
+//                - (Math.abs(y+h) - Math.abs(y));
+//        
+//        for (int i = 0; i < 4; i++) {
+//
+//            
+//            c.view = new Rectangle2D.Double(
+//                    c.view.getMinX() + (0.25 * vdiffx),
+//                    c.view.getMinY() + (0.25 * vdiffy),
+//                    c.view.getMaxX() - (0.25 * vdiffx),
+//                    c.view.getMaxY() - (0.25 * vdiffy)
+//            );
+//         c.paintImmediately(new Rectangle((int) c.view.getMinX(), (int) c.view.getMinY(), (int) c.view.getMaxX(), (int) c.view.getMaxY()));
+//        }
+        
+        
+        
+        
+        
+        
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
 
     }
