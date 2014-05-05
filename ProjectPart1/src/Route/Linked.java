@@ -164,7 +164,7 @@ public class Linked
                 }
             } else
             {
-                if (from.getX() > to.getX())
+                if (from.getX() < to.getX())
                 {
                     turn = Turn.LEFT;
                 } else

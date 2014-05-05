@@ -1,7 +1,10 @@
 package view;
 
+import Route.DijkstraSP;
+import Route.FastestRoad;
 import Route.Linked;
 import Route.MapRoute;
+import Route.ShortestRoad;
 import SearchEngine.SearchLabel;
 import ctrl.KL;
 import ctrl.StartMap;
@@ -17,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import model.Road;
 
 /**
  *
@@ -27,6 +31,7 @@ public class SideBar
 
     private JPanel sideBar;
     private final static String newline = "\n";
+    private static ArrayList<Linked> roadRoute;
 
     public SideBar()
     {
@@ -42,7 +47,7 @@ public class SideBar
         KL klFrom = new KL(slFrom);
         slFrom.addKeyListener(klFrom);
         slFrom.setColumns(25);
-        
+
         JRadioButton rFastest = new JRadioButton("Fastest Road");
         JRadioButton rShortest = new JRadioButton("Shortest Road");
         rFastest.setSelected(true);
@@ -96,66 +101,133 @@ public class SideBar
                     JOptionPane.showMessageDialog(sideBar, "Nothing was typed in");
                 } else
                 {
-                    ButtonModel routeAnswer = route.getSelection();
-                    ButtonModel dataAnswer = data.getSelection();
-                    if (routeAnswer.getActionCommand().equals("Fastest"))
+                    Road roadFrom = slFrom.checkRoadName(from);
+                    Road roadTo = slTo.checkRoadName(to);
+                    if (roadFrom == null || roadTo == null)
                     {
-                        ArrayList<Linked> route = MapRoute.getRoute();
-                        int length = (int) route.get(0).getLength();
-                        int time = (int) route.get(0).getDrivetime();
-                        area.setText("Total længde: " + length + " " + "Total tid: " + time + newline);
-                        String s = route.get(route.size() - 1).getRoad().getEd().VEJNAVN;
-                        Linked l;
-                        int tmpLength = 0;
-                        for (int i = route.size() - 1; i > 0; i--)
-                        {
-                            l = route.get(i);
-                            if (l.getEdge().getName().equals(route.get(i - 1).getEdge().getName()))
-                            {
-                                tmpLength = (int) (tmpLength + l.getEdge().length());
-                            } else
-                            {
-                                String turn;
-                                switch (l.getTurn())
-                                {
-                                    case RIGHT:
-                                        turn = "højre";
-                                        break;
-                                    case LEFT:
-                                        turn = "venstre";
-                                        break;
-                                    default:
-                                        turn = " ";
-                                        break;
-                                }
+                        JOptionPane.showMessageDialog(sideBar, "Road was not found");
+                    } else
+                    {
 
-                                tmpLength = (int) (tmpLength + l.getEdge().length());
-                                area.append("Tag " + turn + " " + l.getEdge().getName() + " - " + tmpLength + " m" + newline);
-                                tmpLength = 0;
-                                s = route.get(i - 1).getEdge().getName();
+                        ButtonModel routeAnswer = route.getSelection();
+                        ButtonModel dataAnswer = data.getSelection();
+                        if (routeAnswer.getActionCommand().equals("Fastest"))
+                        {
+                            DijkstraSP SP = new FastestRoad(StartMap.allRoads);
+                            roadRoute = SP.mapRoute(roadFrom, roadTo);
+
+                            int length = (int) roadRoute.get(0).getLength();
+                            int time = (int) roadRoute.get(0).getDrivetime();
+                            area.setText("Total længde: " + length + " m " + "Total tid: " + time + " min" + newline);
+
+                            Linked l;
+                            int tmpLength = 0;
+
+                            for (int i = 0; i < roadRoute.size() - 1; i++)
+                            {
+                                l = roadRoute.get(i);
+                                if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName()))
+                                {
+                                    tmpLength = (int) (tmpLength + l.getEdge().length());
+                                } else
+                                {
+                                    String turn;
+                                    switch (l.getTurn())
+                                    {
+                                        case RIGHT:
+                                            turn = "højre";
+                                            break;
+                                        case LEFT:
+                                            turn = "venstre";
+                                            break;
+                                        default:
+                                            turn = " ";
+                                            break;
+                                    }
+
+                                    tmpLength = (int) (tmpLength + l.getEdge().length());
+                                    area.append(l.getEdge().getName() + ": " + "Tag " + turn + " om " + tmpLength + " m" + " mod" + newline);
+
+                                    tmpLength = 0;
+                                }
+                                if (i == roadRoute.size() - 2)
+                                {
+                                    Linked l2 = roadRoute.get(i + 1);
+                                    area.append(l2.getEdge().getName() + " og destinationen er nået!");
+                                }
+                            }
+
+                        } else
+                        {
+                            DijkstraSP SP = new ShortestRoad(StartMap.allRoads);
+                            roadRoute = SP.mapRoute(roadFrom, roadTo);
+
+                            int length = (int) roadRoute.get(0).getLength();
+                            int time = (int) roadRoute.get(0).getDrivetime();
+                            area.setText("Total længde: " + length + " m " + "Total tid: " + time + " min" + newline);
+
+                            Linked l;
+                            int tmpLength = 0;
+
+                            for (int i = 0; i < roadRoute.size() - 1; i++)
+                            {
+                                l = roadRoute.get(i);
+                                if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName()))
+                                {
+                                    tmpLength = (int) (tmpLength + l.getEdge().length());
+                                } else
+                                {
+                                    String turn;
+                                    switch (l.getTurn())
+                                    {
+                                        case RIGHT:
+                                            turn = "højre";
+                                            break;
+                                        case LEFT:
+                                            turn = "venstre";
+                                            break;
+                                        default:
+                                            turn = " ";
+                                            break;
+                                    }
+
+                                    tmpLength = (int) (tmpLength + l.getEdge().length());
+                                    area.append(l.getEdge().getName() + ": " + "Tag " + turn + " om " + tmpLength + " m" + " mod" + newline);
+
+                                    tmpLength = 0;
+                                }
+                                if (i == roadRoute.size() - 2)
+                                {
+                                    Linked l2 = roadRoute.get(i + 1);
+                                    area.append(l2.getEdge().getName() + " og destinationen er nået!");
+                                }
                             }
                         }
 
-                    } else
-                    {
-                        System.out.println("Shortest");
-                    }
-
-                    if (dataAnswer.getActionCommand().equals("OSM"))
-                    {
-                        System.out.println("Open Street Maps");
-                    } else
-                    {
-                        System.out.println("Krak");
+                        if (dataAnswer.getActionCommand().equals("OSM"))
+                        {
+                            System.out.println("Open Street Maps");
+                        } else
+                        {
+                            System.out.println("Krak");
+                        }
                     }
                 }
             }
-        });
+
+        }
+        );
 
     }
 
     public JPanel getSideBar()
     {
         return sideBar;
+    }
+
+    public static ArrayList<Linked> getRoute()
+    {
+        return roadRoute;
+
     }
 }

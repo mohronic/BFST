@@ -40,9 +40,8 @@ public class OSMParser
     public static QuadTree qt;
     private static final ArrayList<Road> allRoads = new ArrayList<>();
 
-    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException
-    {
-        String filename = "D:\\ITU\\out.osm";
+    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+        String filename = "D:\\ITU\\outs.osm";
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setNamespaceAware(true);
         SAXParser saxParser = spf.newSAXParser();

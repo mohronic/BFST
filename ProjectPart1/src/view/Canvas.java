@@ -1,15 +1,12 @@
 package view;
 
 import Route.Linked;
-import Route.MapRoute;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import javax.swing.JComponent;
 import krakloader.*;
 import model.CurrentData;
@@ -26,7 +23,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener
 
     private List<Road> rd;
     private final CurrentData cd;
-    public Rectangle2D view;
+    private Rectangle2D view;
     private double scale = 1;
     private final DrawInterface j2d;
     private boolean dragbool = false;
@@ -60,21 +57,10 @@ public class Canvas extends JComponent implements ObserverC, FocusListener
      */
     private void drawMap()
     {
-        double scaley = view.getHeight() / (double) this.getHeight();
-        double scalex = view.getWidth() / (double) this.getWidth();
-        if (scaley > scalex)
-        {
-            scale = view.getHeight() / (double) this.getHeight();
-        } else
-        {
-            scale = view.getWidth() / (double) this.getWidth();
-        }
+        
         for (Road r : rd)
         {
-            if (!filterRoad(r))
-            {
-                continue;
-            }
+
             double x1, x2, y1, y2;
             NodeData n1 = r.getFn();
             NodeData n2 = r.getTn();
@@ -102,10 +88,10 @@ public class Canvas extends JComponent implements ObserverC, FocusListener
         }
         
         // draws the fastest road
-        if (MapRoute.getRoute() != null)
+        if (SideBar.getRoute() != null)
         {
             j2d.setOrange();
-            for (Linked l : MapRoute.getRoute())
+            for (Linked l : SideBar.getRoute())
             {
                 Road r = l.getRoad();
                 double x1, x2, y1, y2;
@@ -149,6 +135,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener
     @Override
     public void update()
     {
+        rd.clear();
         rd = cd.getRoads();
         view = cd.getView();
         repaint();
@@ -157,36 +144,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener
     /* Method to check if a road is to be drawn.
      *
      */
-    private boolean filterRoad(Road r)
-    {
-        int typ = r.getEd().TYP;
-        double maxScale = cd.getXmax() / (double) this.getWidth();
-        if (maxScale < cd.getYmax() / (double) this.getHeight())
-        {
-            maxScale = (cd.getYmax()-cd.getYmin()) / (double) this.getHeight();
-        }
-        if (typ == 1 || typ == 3 || typ == 2 || typ == 48) //type 48 represents coastlines.
-        {
-            return true;
-        }
-        if (scale < maxScale * 0.75 && scale > maxScale * 0.15)
-        {
-            if (typ == 4)
-            {
-                return true;
-            }
-        } else if (scale <= maxScale * 0.15 && scale > maxScale * 0.08)
-        {
-            if (typ != 8)
-            {
-                return true;
-            }
-        } else if (scale <= maxScale * 0.08)
-        {
-            return true;
-        }
-        return false;
-    }
+    
 
     /**
      * Returns the current scale of the map.
@@ -223,5 +181,17 @@ public class Canvas extends JComponent implements ObserverC, FocusListener
     public boolean isFocused()
     {
         return isFocused;
+    }
+    
+    public void calcScale(Rectangle2D view){
+        double scaley = view.getHeight() / (double) this.getHeight();
+        double scalex = view.getWidth() / (double) this.getWidth();
+        if (scaley > scalex)
+        {
+            scale = view.getHeight() / (double) this.getHeight();
+        } else
+        {
+            scale = view.getWidth() / (double) this.getWidth();
+        }
     }
 }

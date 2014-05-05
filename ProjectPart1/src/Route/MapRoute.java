@@ -27,12 +27,9 @@ public class MapRoute
     {
         route = null;
         this.allRoads = roads;
-        DirectedEdge from = new DirectedEdge(roads.get(509400), true);
-        DirectedEdge to = new DirectedEdge(roads.get(715000), true);
-        System.out.println(from.getName() + " " + to.getName());
 
         DijkstraSP SP = new FastestRoad(roads);
-        route = SP.mapRoute(from, to);
+        route = SP.mapRoute(roads.get(509400), roads.get(715000));
 
     }
 

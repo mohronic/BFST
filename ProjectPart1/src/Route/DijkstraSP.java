@@ -68,8 +68,10 @@ public abstract class DijkstraSP
      * @param t Point To
      * @return ArrayList<Linked> The route
      */
-    public ArrayList<Linked> mapRoute(DirectedEdge s, DirectedEdge t)
+    public ArrayList<Linked> mapRoute(Road sourceRoad, Road targetRoad)
     {
+        DirectedEdge s = new DirectedEdge(sourceRoad, true);
+        DirectedEdge t = new DirectedEdge(targetRoad, true);
         Linked source = new Linked();
         source.setLength(0.0);
         source.setDrivetime(0.0);
