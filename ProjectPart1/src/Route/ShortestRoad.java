@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package FastestRoute;
+package Route;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -11,25 +6,26 @@ import java.util.Comparator;
 import model.Road;
 
 /**
- * Finds the fastest road (drivetime). Extends DijkstraSP, and overrides the
- * abstract methods
+ * Finds the shortest route. Extends DijkstraSP, and overrides the abstract
+ * methods
  *
  * @author Adam Engsig (adae@itu.dk)
  */
-public class FastestRoad extends DijkstraSP
+public class ShortestRoad extends DijkstraSP
 {
 
     /**
      *
      * @param allEdges
      */
-    public FastestRoad(ArrayList<Road> allEdges)
+    public ShortestRoad(ArrayList<Road> allEdges)
     {
         super(allEdges);
     }
 
     /**
-     * Makes the Comparator used by the priorityqueue. Compares the DriveTime
+     * Makes the Comparator used by the priorityqueue. Compares the accumulated
+     * length
      *
      * @return Comparator<DirectedEdge>
      */
@@ -45,7 +41,7 @@ public class FastestRoad extends DijkstraSP
                 Linked tmp = (Linked) distTo.get(t.from());
                 Linked tmp2 = (Linked) distTo.get(t1.from());
 
-                return Double.compare(tmp.getDrivetime(), tmp2.getDrivetime());
+                return Double.compare(tmp.getLength(), tmp2.getLength());
             }
         };
 
@@ -53,8 +49,9 @@ public class FastestRoad extends DijkstraSP
     }
 
     /**
-     * Finds the fastest path to all points from Point p, by known edges. If a
-     * faster path to Point t is found, t will be added to the PriorityQueue
+     * Finds the shortest path to all points from Point p, by known edges. If a
+     * shorter path to Point t is found, t will be upated and added to the
+     * PriorityQueue
      *
      * @param p Point in which the bag will be retrieved, and going through
      */
@@ -69,7 +66,7 @@ public class FastestRoad extends DijkstraSP
                 Point2D.Double t = e.to();
                 Linked from = (Linked) distTo.get(p);
                 Linked to = (Linked) distTo.get(t);
-                if (to.getDrivetime() > from.getDrivetime() + e.drivetime())
+                if (to.getLength() > from.getLength() + e.length())
                 {
                     to.setFrom(p);
                     to.setLength(from.getLength() + e.length());

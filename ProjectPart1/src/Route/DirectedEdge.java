@@ -1,4 +1,4 @@
-package FastestRoute;
+package Route;
 
 import java.awt.geom.Point2D;
 import krakloader.EdgeData;

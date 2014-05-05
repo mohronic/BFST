@@ -74,7 +74,7 @@ public class KL implements KeyListener
         {
             //Should be written to a method call
             System.out.println("Searching for: " + searchLabel.getText());
-            System.out.println("Found: " + searchLabel.checkRoadName(searchLabel.getText()));
+            System.out.println("Road found: " + searchLabel.checkRoadName(searchLabel.getText()).getEd().VEJNAVN);
         }
         
         if(e.getKeyCode() == 38) //Op

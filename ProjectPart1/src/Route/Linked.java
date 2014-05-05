@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package FastestRoute;
+package Route;
 
 import java.awt.geom.Point2D;
 import model.Road;
 
 /**
+ * This class is used to make a linked list of the final fastest/shortest route.
+ * Each instance will point to its former instance.
  *
  * @author Adam Engsig (adae@itu.dk)
  */
@@ -19,9 +16,11 @@ public class Linked
     private double drivetime;
     private Point2D.Double from; // Only null where the road search starts
     private DirectedEdge edge; // edge which contains the original road
-    private Turn turn; //Actually the turn from the edge before, to this. So this is turn-1
+    private Turn turn;
 
     /**
+     * Initially, as a part of the Dijkstra algorithm, the length and drivetime
+     * will be infinity.
      *
      */
     public Linked()
@@ -33,8 +32,9 @@ public class Linked
     }
 
     /**
+     * Returns the length
      *
-     * @return
+     * @return double length
      */
     public double getLength()
     {
@@ -42,8 +42,9 @@ public class Linked
     }
 
     /**
+     * Returns the former point of the linked list
      *
-     * @return
+     * @return Point2D.Double From
      */
     public Point2D.Double getFrom()
     {
@@ -51,8 +52,9 @@ public class Linked
     }
 
     /**
+     * Sets the former point
      *
-     * @param f
+     * @param f Point2D.Double From
      */
     public void setFrom(Point2D.Double f)
     {
@@ -60,8 +62,9 @@ public class Linked
     }
 
     /**
+     * Sets length
      *
-     * @param l
+     * @param l double Length
      */
     public void setLength(double l)
     {
@@ -69,8 +72,9 @@ public class Linked
     }
 
     /**
+     * Set the corresponding edge, and calculates which way the turn is
      *
-     * @param e
+     * @param e DirectedEdge edge
      */
     public void setEdge(DirectedEdge e)
     {
@@ -79,8 +83,9 @@ public class Linked
     }
 
     /**
-     *
-     * @param d
+     * Set drivetime
+     * 
+     * @param d double drivetime
      */
     public void setDrivetime(double d)
     {
@@ -88,8 +93,9 @@ public class Linked
     }
 
     /**
-     *
-     * @return
+     * Returns the edge
+     * 
+     * @return DirectedEdge edge
      */
     public DirectedEdge getEdge()
     {
@@ -97,8 +103,9 @@ public class Linked
     }
 
     /**
-     *
-     * @return
+     * Returns the road, which is stored in the edge
+     * 
+     * @return Road
      */
     public Road getRoad()
     {
@@ -106,8 +113,9 @@ public class Linked
     }
 
     /**
-     *
-     * @return
+     * Gets the drivetime
+     * 
+     * @return double Drivetime
      */
     public double getDrivetime()
     {
@@ -115,8 +123,9 @@ public class Linked
     }
 
     /**
-     *
-     * @param t
+     * Set next turn
+     * 
+     * @param t Turn
      */
     public void setTurn(Turn t)
     {
@@ -124,8 +133,9 @@ public class Linked
     }
 
     /**
-     *
-     * @return
+     * Get turn
+     * 
+     * @return Turn
      */
     public Turn getTurn()
     {

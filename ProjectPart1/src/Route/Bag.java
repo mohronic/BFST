@@ -5,7 +5,7 @@
  *  <p>
  *  This implementation uses a singly-linked list with a static nested class Node.
  */
-package FastestRoute;
+package Route;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
