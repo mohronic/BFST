@@ -143,9 +143,6 @@ public class SAXHandler extends DefaultHandler {
             case "coastline":
                 type = 48;
                 break;
-            case "water":
-                type = 49;
-                break;
             default :
                 type = 4;
                 break;
