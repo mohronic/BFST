@@ -100,8 +100,8 @@ public class OSMParser
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(970, 770);
         SideBar SB = new SideBar();
-        Canvas c = new Canvas(cd);
-        ML ml = new ML(c);
+        Canvas c = Canvas.getInstance(cd);
+        ML ml = new ML();
         c.addMouseListener(ml);
         c.addMouseMotionListener(ml);
         cd.addObserver(c);

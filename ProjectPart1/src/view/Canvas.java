@@ -29,6 +29,7 @@ public class Canvas extends JComponent implements ObserverC
     private final DrawInterface j2d;
     private boolean dragbool = false;
     private Rectangle2D dragrect;
+    private static Canvas instance = null;
 
     /**
      * Constructor for Canvas, getting the data to draw and instantiates the
@@ -36,7 +37,7 @@ public class Canvas extends JComponent implements ObserverC
      *
      * @param cd
      */
-    public Canvas(CurrentData cd)
+    private Canvas(CurrentData cd)
     {
         this.cd = cd;
         this.view = cd.getView();
@@ -44,6 +45,13 @@ public class Canvas extends JComponent implements ObserverC
         j2d = Graphics2DDraw.getInstance();
     }
 
+    public static Canvas getInstance(CurrentData cd) {
+        if (instance == null) {
+            instance = new Canvas(cd);
+        }
+        return instance;
+    }
+    
     /* Method that scales and draws the relevant Road objects from CurrentData,
      * in correct colors.
      */
@@ -196,5 +204,4 @@ public class Canvas extends JComponent implements ObserverC
     {
         dragbool = bool;
     }
-
 }

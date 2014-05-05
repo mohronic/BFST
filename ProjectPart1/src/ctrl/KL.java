@@ -31,16 +31,10 @@ public class KL implements KeyListener
      * @param searchLabel SearchLabel which key listener is connected to.
      * @param canvas Canvas which it is connected to.
      */
-    public KL(Canvas canvas)
-    {
-        this.searchLabel = null;
-        this.c = canvas;
-    }
-
     public KL(SearchLabel searchLabel)
     {
         this.searchLabel = searchLabel;
-        this.c = null;
+        this.c = Canvas.getInstance(cd);
     }
 
     /**

@@ -52,8 +52,8 @@ public class StartMap {
         frame.setSize(970, 770);
         
         SideBar SB = new SideBar();
-        Canvas c = new Canvas(cd);
-        ML ml = new ML(c);
+        Canvas c = Canvas.getInstance(cd);
+        ML ml = new ML();
         c.addMouseListener(ml);
         c.addMouseMotionListener(ml);
         cd.addObserver(c);

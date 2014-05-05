@@ -21,7 +21,6 @@ import view.Graphics2DDraw;
  */
 public class ML implements MouseListener, MouseMotionListener, MouseWheelListener
 {
-
     private final Canvas c;
     private final CurrentData cd = CurrentData.getInstance();
     private final Graphics2DDraw j2d = null;
@@ -38,11 +37,11 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
      * takes a Canvas 'c' as parameter, which it uses to calculate the scale.
      * @param c Canvas which it is connected too.
      */
-    public ML(Canvas c)
+    public ML()
     {
         currentView = new Rectangle2D.Double(0, 0, cd.getXmax(), cd.getYmax());
         originalView = new Rectangle2D.Double(0, 0, cd.getXmax(), cd.getYmax());
-        this.c = c;
+        c = Canvas.getInstance(cd);
     }
 
     @Override
