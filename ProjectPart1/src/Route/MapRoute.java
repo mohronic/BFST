@@ -2,7 +2,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FastestRoute;
+package Route;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,46 +19,34 @@ public class MapRoute
     private final ArrayList<Road> allRoads;
     private static ArrayList<Linked> route;
 
+    /**
+     *
+     * @param roads
+     */
     public MapRoute(ArrayList<Road> roads)
     {
         route = null;
         this.allRoads = roads;
-        sortRoads();
-        DirectedEdge from = new DirectedEdge(roads.get(509400));
-        DirectedEdge to = new DirectedEdge(roads.get(715000));
-        System.out.println(from.getName() + " " + to.getName());
 
         DijkstraSP SP = new FastestRoad(roads);
-        route = SP.mapRoute(from, to);
-        String old = "hej";
-        double time = 0.0;
-        for (Linked l : route)
-        {
-            time = time + l.getRoad().getEd().DRIVETIME;
-            System.out.println("køretid: " + time);
-            if (!old.matches(l.getEdge().getName()))
-            {
-                System.out.println(l.getEdge().getName());
-            }
-            old = l.getEdge().getName();
-        }
+        route = SP.mapRoute(roads.get(509400), roads.get(715000));
+
     }
-    
-    public static ArrayList<Road> getRouteRoads()
+
+    /**
+     *
+     * @return
+     */
+    public static ArrayList<Linked> getRoute()
     {
-        if(route == null)
+        if (route == null)
         {
             return null;
         } else
         {
-            ArrayList<Road> roads = new ArrayList<>();
-            for(Linked l : route)
-            {
-                roads.add(l.getRoad());
-            }
-            return roads;
+            return route;
         }
-        
+
     }
 
     private void sortRoads()

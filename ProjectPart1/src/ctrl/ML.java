@@ -2,10 +2,11 @@ package ctrl;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import model.CurrentData;
@@ -18,9 +19,8 @@ import view.Graphics2DDraw;
  * road.
  * @author Gruppe A
  */
-public class ML implements MouseListener, MouseMotionListener
+public class ML implements MouseListener, MouseMotionListener, MouseWheelListener
 {
-
     private final Canvas c;
     private final CurrentData cd = CurrentData.getInstance();
     private final Graphics2DDraw j2d = null;
@@ -37,11 +37,11 @@ public class ML implements MouseListener, MouseMotionListener
      * takes a Canvas 'c' as parameter, which it uses to calculate the scale.
      * @param c Canvas which it is connected too.
      */
-    public ML(Canvas c)
+    public ML()
     {
         currentView = new Rectangle2D.Double(0, 0, cd.getXmax(), cd.getYmax());
         originalView = new Rectangle2D.Double(0, 0, cd.getXmax(), cd.getYmax());
-        this.c = c;
+        c = Canvas.getInstance(cd);
     }
 
     @Override
@@ -272,4 +272,12 @@ public class ML implements MouseListener, MouseMotionListener
         //does nothing
     }
 
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e)
+    {
+        //System.out.println("Scroll events: " + e.getPreciseWheelRotation());
+        System.out.println("Scroll events: " + e.paramString());
+        System.out.println("Scroll events: " + e.toString());
+        System.out.println("Scroll events: " + e.getX());
+    }
 }

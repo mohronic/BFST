@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -78,12 +79,14 @@ public class Graphics2DDraw implements DrawInterface
     public void setBlack()
     {
         g2.setColor(Color.BLACK);
+        g2.setStroke(new BasicStroke(1));
     }
 
     @Override
     public void setOrange()
     {
         g2.setColor(Color.ORANGE);
+        g2.setStroke(new BasicStroke(2));
     }
 
 }

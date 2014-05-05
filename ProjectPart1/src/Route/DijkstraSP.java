@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package FastestRoute;
+package Route;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -13,16 +8,37 @@ import java.util.PriorityQueue;
 import model.Road;
 
 /**
+ * This class uses an algorithem inspired by Dijkstra for Shortest Path. This
+ * class has 2 childs, one which finds the shortest road, and one which finds
+ * the fastest road.
  *
  * @author Adam Engsig (adae@itu.dk)
  */
 public abstract class DijkstraSP
 {
 
-    protected HashMap distTo; //(point, Linked) distTo[w] = edgeTo[w].weight();
+    /**
+     * HashMap with Point as key and Linked as value. The length/drivetime to
+     * this point is accumulated, so it is the total distance from "From"
+     */
+    protected HashMap distTo;
+
+    /**
+     * A PriorityQueue sorted by either the accumulated Drivetime or Length.
+     */
     protected PriorityQueue<DirectedEdge> pq;
+
+    /**
+     * A Hashmap with Point as key and a Bag as value. The Bag contains all the
+     * Directededges that uses the point
+     */
     protected HashMap adj; // naboer
 
+    /**
+     * Sets up the HashMaps with data from allEdges.
+     *
+     * @param allEdges ArrayList<Road> with all edges to build the DirectedGraph
+     */
     public DijkstraSP(ArrayList<Road> allEdges)
     {
         adj = new HashMap();
@@ -31,12 +47,31 @@ public abstract class DijkstraSP
         buildHashMaps(allEdges);
     }
 
+    /**
+     * Makes the Comparator used by the priorityqueue.
+     *
+     * @return Comparator<DirectedEdge>
+     */
     protected abstract Comparator<DirectedEdge> getComparator();
 
+    /**
+     * Finds the shortest path to a point.
+     *
+     * @param p Point in which the bag will be retrieved, and going through
+     */
     protected abstract void relax(Point2D.Double p);
 
-    public ArrayList<Linked> mapRoute(DirectedEdge s, DirectedEdge t)
+    /**
+     * Gets the route from at point to another.
+     *
+     * @param s Point From
+     * @param t Point To
+     * @return ArrayList<Linked> The route
+     */
+    public ArrayList<Linked> mapRoute(Road sourceRoad, Road targetRoad)
     {
+        DirectedEdge s = new DirectedEdge(sourceRoad, true);
+        DirectedEdge t = new DirectedEdge(targetRoad, true);
         Linked source = new Linked();
         source.setLength(0.0);
         source.setDrivetime(0.0);
@@ -46,7 +81,7 @@ public abstract class DijkstraSP
         while (!pq.isEmpty())
         {
             DirectedEdge e = pq.poll();
-            if (e.from().getX() == t.from().getX() && e.from().getY() == t.from().getY()) //Skal det være from eller to?
+            if (e.from().getX() == t.from().getX() && e.from().getY() == t.from().getY()) //Can compare the 'to' values aswell.
             {
                 break;
             } else
@@ -57,6 +92,11 @@ public abstract class DijkstraSP
         return getRoute(t);
     }
 
+    /**
+     * Backtrack the route through the linked list
+     *
+     * @return ArrayList<Linked> The route
+     */
     private ArrayList<Linked> getRoute(DirectedEdge t)
     {
         ArrayList<Linked> list = new ArrayList<>();
@@ -70,9 +110,13 @@ public abstract class DijkstraSP
         return list;
     }
 
+    /**
+     * Adds the directed edges to the bag from their "from" point
+     *
+     */
     private void addEdge(DirectedEdge e)
     {
-        if (adj.get(e.from()) == null) // Contains key istedet?? OGSÅ BAGS FOR e.to HVAD NU HVIS 2 veje peger mod hinanden som --> <--- så vil midten aldrig få en bag
+        if (adj.get(e.from()) == null)
         {
             Bag<DirectedEdge> bag = new Bag<>();
             bag.add(e);
@@ -90,7 +134,7 @@ public abstract class DijkstraSP
         for (Road r : allEdges)
         {
             DirectedEdge e1 = new DirectedEdge(r, true);
-            switch (r.getEd().ONE_WAY)
+            switch (r.getEd().ONE_WAY) // One way routes, should be put in the correct direction
             {
                 case "":
                 {

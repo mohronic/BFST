@@ -1,12 +1,12 @@
 package view;
 
-import FastestRoute.MapRoute;
+import Route.Linked;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import javax.swing.JComponent;
 import krakloader.*;
 import model.CurrentData;
@@ -18,7 +18,7 @@ import model.Road;
  *
  * @author Gruppe A
  */
-public class Canvas extends JComponent implements Observer
+public class Canvas extends JComponent implements ObserverC, FocusListener
 {
 
     private List<Road> rd;
@@ -28,6 +28,8 @@ public class Canvas extends JComponent implements Observer
     private final DrawInterface j2d;
     private boolean dragbool = false;
     private Rectangle2D dragrect;
+    private static Canvas instance = null;
+    private boolean isFocused = false;
 
     /**
      * Constructor for Canvas, getting the data to draw and instantiates the
@@ -35,7 +37,7 @@ public class Canvas extends JComponent implements Observer
      *
      * @param cd
      */
-    public Canvas(CurrentData cd)
+    private Canvas(CurrentData cd)
     {
         this.cd = cd;
         this.view = cd.getView();
@@ -43,26 +45,22 @@ public class Canvas extends JComponent implements Observer
         j2d = Graphics2DDraw.getInstance();
     }
 
+    public static Canvas getInstance(CurrentData cd) {
+        if (instance == null) {
+            instance = new Canvas(cd);
+        }
+        return instance;
+    }
+    
     /* Method that scales and draws the relevant Road objects from CurrentData,
      * in correct colors.
      */
     private void drawMap()
     {
-        double scaley = view.getHeight() / (double) this.getHeight();
-        double scalex = view.getWidth() / (double) this.getWidth();
-        if (scaley > scalex)
-        {
-            scale = view.getHeight() / (double) this.getHeight();
-        } else
-        {
-            scale = view.getWidth() / (double) this.getWidth();
-        }
+        
         for (Road r : rd)
         {
-            if (!filterRoad(r))
-            {
-                continue;
-            }
+
             double x1, x2, y1, y2;
             NodeData n1 = r.getFn();
             NodeData n2 = r.getTn();
@@ -90,11 +88,12 @@ public class Canvas extends JComponent implements Observer
         }
         
         // draws the fastest road
-        if (MapRoute.getRouteRoads() != null)
+        if (SideBar.getRoute() != null)
         {
             j2d.setOrange();
-            for (Road r : MapRoute.getRouteRoads())
+            for (Linked l : SideBar.getRoute())
             {
+                Road r = l.getRoad();
                 double x1, x2, y1, y2;
                 NodeData n1 = r.getFn();
                 NodeData n2 = r.getTn();
@@ -134,8 +133,9 @@ public class Canvas extends JComponent implements Observer
      * @param arg
      */
     @Override
-    public void update(Observable o, Object arg)
+    public void update()
     {
+        rd.clear();
         rd = cd.getRoads();
         view = cd.getView();
         repaint();
@@ -144,36 +144,7 @@ public class Canvas extends JComponent implements Observer
     /* Method to check if a road is to be drawn.
      *
      */
-    private boolean filterRoad(Road r)
-    {
-        int typ = r.getEd().TYP;
-        double maxScale = cd.getXmax() / (double) this.getWidth();
-        if (maxScale < cd.getYmax() / (double) this.getHeight())
-        {
-            maxScale = (cd.getYmax()-cd.getYmin()) / (double) this.getHeight();
-        }
-        if (typ == 1 || typ == 3 || typ == 2 || typ == 48) //type 48 represents coastlines.
-        {
-            return true;
-        }
-        if (scale < maxScale * 0.75 && scale > maxScale * 0.15)
-        {
-            if (typ == 4)
-            {
-                return true;
-            }
-        } else if (scale <= maxScale * 0.15 && scale > maxScale * 0.08)
-        {
-            if (typ != 8)
-            {
-                return true;
-            }
-        } else if (scale <= maxScale * 0.08)
-        {
-            return true;
-        }
-        return false;
-    }
+    
 
     /**
      * Returns the current scale of the map.
@@ -195,4 +166,32 @@ public class Canvas extends JComponent implements Observer
         dragbool = bool;
     }
 
+    @Override
+    public void focusGained(FocusEvent e)
+    {
+        System.out.println("Focus gained:");
+    }
+
+    @Override
+    public void focusLost(FocusEvent e)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public boolean isFocused()
+    {
+        return isFocused;
+    }
+    
+    public void calcScale(Rectangle2D view){
+        double scaley = view.getHeight() / (double) this.getHeight();
+        double scalex = view.getWidth() / (double) this.getWidth();
+        if (scaley > scalex)
+        {
+            scale = view.getHeight() / (double) this.getHeight();
+        } else
+        {
+            scale = view.getWidth() / (double) this.getWidth();
+        }
+    }
 }
