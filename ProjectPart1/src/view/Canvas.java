@@ -61,10 +61,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener
         
         for (Road r : rd)
         {
-//            if (!filterRoad(r))
-//            {
-//                continue;
-//            }
+
             double x1, x2, y1, y2;
             NodeData n1 = r.getFn();
             NodeData n2 = r.getTn();
@@ -148,36 +145,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener
     /* Method to check if a road is to be drawn.
      *
      */
-    private boolean filterRoad(Road r)
-    {
-        int typ = r.getEd().TYP;
-        double maxScale = cd.getXmax() / (double) this.getWidth();
-        if (maxScale < cd.getYmax() / (double) this.getHeight())
-        {
-            maxScale = (cd.getYmax()-cd.getYmin()) / (double) this.getHeight();
-        }
-        if (typ == 1 || typ == 3 || typ == 2 || typ == 48) //type 48 represents coastlines.
-        {
-            return true;
-        }
-        if (scale < maxScale * 0.75 && scale > maxScale * 0.15)
-        {
-            if (typ == 4)
-            {
-                return true;
-            }
-        } else if (scale <= maxScale * 0.15 && scale > maxScale * 0.08)
-        {
-            if (typ != 8)
-            {
-                return true;
-            }
-        } else if (scale <= maxScale * 0.08)
-        {
-            return true;
-        }
-        return false;
-    }
+    
 
     /**
      * Returns the current scale of the map.
