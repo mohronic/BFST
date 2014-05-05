@@ -35,7 +35,6 @@ public class FastestRoad extends DijkstraSP
                 Linked tmp2 = (Linked) distTo.get(t1.from()); // SKAL DET VÆRE TO ELLER FROM HER? SAMME LIGE OVER, TO ELLER FROM?
 
                 return Double.compare(tmp.getDrivetime(), tmp2.getDrivetime());
-                //return Double.compare(t.weight(), t1.weight());
             }
         };
 

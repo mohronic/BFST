@@ -1,9 +1,9 @@
 package view;
 
+import FastestRoute.Linked;
 import FastestRoute.MapRoute;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Observable;
@@ -19,12 +19,12 @@ import model.Road;
  *
  * @author Gruppe A
  */
-public class Canvas extends JComponent implements Observer
+public class Canvas extends JComponent implements ObserverC
 {
 
     private List<Road> rd;
     private final CurrentData cd;
-    private Rectangle2D view;
+    public Rectangle2D view;
     private double scale = 1;
     private final DrawInterface j2d;
     private boolean dragbool = false;
@@ -91,11 +91,12 @@ public class Canvas extends JComponent implements Observer
         }
         
         // draws the fastest road
-        if (MapRoute.getRouteRoads() != null)
+        if (MapRoute.getRoute() != null)
         {
             j2d.setOrange();
-            for (Road r : MapRoute.getRouteRoads())
+            for (Linked l : MapRoute.getRoute())
             {
+                Road r = l.getRoad();
                 double x1, x2, y1, y2;
                 NodeData n1 = r.getFn();
                 NodeData n2 = r.getTn();
@@ -135,7 +136,7 @@ public class Canvas extends JComponent implements Observer
      * @param arg
      */
     @Override
-    public void update(Observable o, Object arg)
+    public void update()
     {
         rd = cd.getRoads();
         view = cd.getView();
@@ -151,7 +152,7 @@ public class Canvas extends JComponent implements Observer
         double maxScale = cd.getXmax() / (double) this.getWidth();
         if (maxScale < cd.getYmax() / (double) this.getHeight())
         {
-            maxScale = cd.getYmax() / (double) this.getHeight();
+            maxScale = (cd.getYmax()-cd.getYmin()) / (double) this.getHeight();
         }
         if (typ == 1 || typ == 3 || typ == 2 || typ == 48) //type 48 represents coastlines.
         {
