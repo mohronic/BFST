@@ -1,15 +1,12 @@
 package view;
 
 import Route.Linked;
-import Route.MapRoute;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import javax.swing.JComponent;
 import krakloader.*;
 import model.CurrentData;
@@ -102,10 +99,10 @@ public class Canvas extends JComponent implements ObserverC, FocusListener
         }
         
         // draws the fastest road
-        if (MapRoute.getRoute() != null)
+        if (SideBar.getRoute() != null)
         {
             j2d.setOrange();
-            for (Linked l : MapRoute.getRoute())
+            for (Linked l : SideBar.getRoute())
             {
                 Road r = l.getRoad();
                 double x1, x2, y1, y2;

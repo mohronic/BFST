@@ -38,7 +38,6 @@ public class StartMap {
      */
     public StartMap() throws IOException {
         setData();
-        MapRoute mr = new MapRoute(allRoads);
         setup();
     }
     
