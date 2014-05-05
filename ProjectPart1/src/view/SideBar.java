@@ -1,21 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
-import FastestRoute.Linked;
-import FastestRoute.MapRoute;
-import FastestRoute.Turn;
+import Route.Linked;
+import Route.MapRoute;
 import SearchEngine.SearchLabel;
 import ctrl.KL;
 import ctrl.StartMap;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
@@ -25,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 /**
  *
@@ -51,11 +42,7 @@ public class SideBar
         KL klFrom = new KL(slFrom);
         slFrom.addKeyListener(klFrom);
         slFrom.setColumns(25);
-
-//        final JTextField tFrom = new HintTextField("From");
-//        final JTextField tTo = new HintTextField("To");
-//        tFrom.setColumns(25);
-//        tTo.setColumns(25);
+        
         JRadioButton rFastest = new JRadioButton("Fastest Road");
         JRadioButton rShortest = new JRadioButton("Shortest Road");
         rFastest.setSelected(true);
@@ -86,8 +73,6 @@ public class SideBar
 
         sideBar.add(slTo);
         sideBar.add(slFrom);
-//        sideBar.add(tFrom);
-//        sideBar.add(tTo);
         sideBar.add(rFastest);
         sideBar.add(rShortest);
         sideBar.add(rKrak);
@@ -168,47 +153,6 @@ public class SideBar
         });
 
     }
-
-//    private class HintTextField extends JTextField implements FocusListener
-//    {
-//
-//        private final String hint;
-//        private boolean showingHint;
-//
-//        public HintTextField(final String hint)
-//        {
-//            super(hint);
-//            this.hint = hint;
-//            this.showingHint = true;
-//            super.addFocusListener(this);
-//        }
-//
-//        @Override
-//        public void focusGained(FocusEvent e)
-//        {
-//            if (this.getText().isEmpty())
-//            {
-//                super.setText("");
-//                showingHint = false;
-//            }
-//        }
-//
-//        @Override
-//        public void focusLost(FocusEvent e)
-//        {
-//            if (this.getText().isEmpty())
-//            {
-//                super.setText(hint);
-//                showingHint = true;
-//            }
-//        }
-//
-//        @Override
-//        public String getText()
-//        {
-//            return showingHint ? "" : super.getText();
-//        }
-//    }
 
     public JPanel getSideBar()
     {

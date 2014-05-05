@@ -1,7 +1,7 @@
 package view;
 
-import FastestRoute.Linked;
-import FastestRoute.MapRoute;
+import Route.Linked;
+import Route.MapRoute;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.FocusEvent;

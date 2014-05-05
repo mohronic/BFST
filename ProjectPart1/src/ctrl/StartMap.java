@@ -1,6 +1,6 @@
 package ctrl;
 
-import FastestRoute.MapRoute;
+import Route.MapRoute;
 import static QuadTreePack.NSEW.ROOT;
 import javax.swing.JFrame;
 import java.io.IOException;
