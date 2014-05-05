@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
-import FastestRoute.Linked;
-import FastestRoute.MapRoute;
+import Route.Linked;
+import Route.MapRoute;
 import SearchEngine.SearchLabel;
 import ctrl.KL;
 import ctrl.StartMap;
@@ -47,11 +42,7 @@ public class SideBar
         KL klFrom = new KL(slFrom);
         slFrom.addKeyListener(klFrom);
         slFrom.setColumns(25);
-
-//        final JTextField tFrom = new HintTextField("From");
-//        final JTextField tTo = new HintTextField("To");
-//        tFrom.setColumns(25);
-//        tTo.setColumns(25);
+        
         JRadioButton rFastest = new JRadioButton("Fastest Road");
         JRadioButton rShortest = new JRadioButton("Shortest Road");
         rFastest.setSelected(true);
@@ -82,8 +73,6 @@ public class SideBar
 
         sideBar.add(slTo);
         sideBar.add(slFrom);
-//        sideBar.add(tFrom);
-//        sideBar.add(tTo);
         sideBar.add(rFastest);
         sideBar.add(rShortest);
         sideBar.add(rKrak);

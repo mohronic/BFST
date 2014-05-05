@@ -4,27 +4,28 @@
  * and open the template in the editor.
  */
 
-package FastestRoute;
+package Route;
 
 /**
- *
+ * Used to print the route.
+ * 
  * @author Adam Engsig (adae@itu.dk)
  */
 public enum Turn
 {
 
     /**
-     *
+     * Next turn is to the right
      */
     RIGHT,
 
     /**
-     *
+     * Next turn is to the left
      */
     LEFT,
 
     /**
-     *
+     * Dont take a turn
      */
     FORWARD
 }
