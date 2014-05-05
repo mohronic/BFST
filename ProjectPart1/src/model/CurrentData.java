@@ -18,7 +18,7 @@ import view.ObservableC;
 public class CurrentData extends ObservableC {
 
     private static CurrentData instance = null;
-    private final QuadTree qtlvl1, qtlvl2, qtlvl3;
+    private final QuadTree qtlvl1, qtlvl2, qtlvl3, qtlvl4;
     private double xmin = 0, ymin = 0, xmax = 0, ymax = 0;
     private double oldx = 0, oldy = 0;
     private List<Road> roads = new ArrayList<>();
@@ -46,6 +46,7 @@ public class CurrentData extends ObservableC {
         qtlvl1 = qtlist[0];
         qtlvl2 = qtlist[1];
         qtlvl3 = qtlist[2];
+        qtlvl4 = qtlist[3];
         view = new Rectangle2D.Double();
     }
 
@@ -106,9 +107,13 @@ public class CurrentData extends ObservableC {
 
         if (c.getScale() < maxScale * 0.75 && c.getScale() > maxScale * 0.05) {
             roads.addAll(qtlvl2.search(r.getX() * 0.875, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.875, (r.getY() + r.getHeight()) * 1.25));
-        } else if (c.getScale() <= maxScale * 0.05) {
+        } else if (c.getScale() <= maxScale * 0.05 && c.getScale() > maxScale * 0.025) {
             roads.addAll(qtlvl2.search(r.getX() * 0.875, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.875, (r.getY() + r.getHeight()) * 1.25));
             roads.addAll(qtlvl3.search(r.getX() * 0.875, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.875, (r.getY() + r.getHeight()) * 1.25));
+        } else if (c.getScale() <= maxScale * 0.025) {
+            roads.addAll(qtlvl2.search(r.getX() * 0.875, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.875, (r.getY() + r.getHeight()) * 1.25));
+            roads.addAll(qtlvl3.search(r.getX() * 0.875, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.875, (r.getY() + r.getHeight()) * 1.25));
+            roads.addAll(qtlvl4.search(r.getX() * 0.875, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.875, (r.getY() + r.getHeight()) * 1.25));
         }
         setChanged();
         notifyObservers();

@@ -32,6 +32,7 @@ public class StartMap {
     private static QuadTree qtlvl1;
     private static QuadTree qtlvl2;
     private static QuadTree qtlvl3;
+    private static QuadTree qtlvl4;
     public final static ArrayList<Road> allRoads = new ArrayList<>();
     
     /**
@@ -116,6 +117,7 @@ public class StartMap {
         qtlvl1 = new QuadTree(ROOT, null);
         qtlvl2 = new QuadTree(ROOT, null);
         qtlvl3 = new QuadTree(ROOT, null);
+        qtlvl4 = new QuadTree(ROOT, null);
         cd = CurrentData.getInstance();
         cd.setXmax(xmax);
         cd.setYmax(ymax);
@@ -127,8 +129,11 @@ public class StartMap {
             else if(typ == 4){  
             qtlvl2.insert(r);
             }
-            else if(typ != 8){  
+            else if(typ == 5 || typ == 6){  
             qtlvl3.insert(r);
+            }
+            else {  
+            qtlvl4.insert(r);
             }
         }
         for (Road r : coastList) {
@@ -146,10 +151,11 @@ public class StartMap {
      */
     public static QuadTree[] getQuadTree() {
         
-        QuadTree[] qtlist = new QuadTree[3];
+        QuadTree[] qtlist = new QuadTree[4];
         qtlist[0] = qtlvl1;
         qtlist[1] = qtlvl2;
         qtlist[2] = qtlvl3;
+        qtlist[3] = qtlvl4;
         return qtlist;
     }
     
