@@ -2,10 +2,11 @@ package ctrl;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import model.CurrentData;
@@ -18,7 +19,7 @@ import view.Graphics2DDraw;
  * road.
  * @author Gruppe A
  */
-public class ML implements MouseListener, MouseMotionListener
+public class ML implements MouseListener, MouseMotionListener, MouseWheelListener
 {
 
     private final Canvas c;
@@ -272,4 +273,12 @@ public class ML implements MouseListener, MouseMotionListener
         //does nothing
     }
 
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e)
+    {
+        System.out.println("Scroll events: " + e.getPreciseWheelRotation());
+        System.out.println("Scroll events: " + e.paramString());
+        System.out.println("Scroll events: " + e.toString());
+        System.out.println("Scroll events: " + e.getX());
+    }
 }
