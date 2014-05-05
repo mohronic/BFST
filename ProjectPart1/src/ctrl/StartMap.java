@@ -10,6 +10,7 @@ import krakloader.KrakLoader;
 import krakloader.NodeData;
 import QuadTreePack.QuadTree;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import krakloader.LoadCoast;
 import model.Road;
@@ -49,7 +50,8 @@ public class StartMap {
     private void setup() throws IOException {
         frame = new JFrame("Map Draw");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(970, 770);
+        frame.setMinimumSize(new Dimension(880, 700));
+        frame.setSize(1110, 700);
         
         SideBar SB = new SideBar();
         Canvas c = Canvas.getInstance(cd);
