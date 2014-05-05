@@ -275,7 +275,7 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
     @Override
     public void mouseWheelMoved(MouseWheelEvent e)
     {
-        System.out.println("Scroll events: " + e.getPreciseWheelRotation());
+        //System.out.println("Scroll events: " + e.getPreciseWheelRotation());
         System.out.println("Scroll events: " + e.paramString());
         System.out.println("Scroll events: " + e.toString());
         System.out.println("Scroll events: " + e.getX());

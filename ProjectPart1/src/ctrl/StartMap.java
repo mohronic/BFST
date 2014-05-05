@@ -93,6 +93,8 @@ public class StartMap {
         //loads coastline data
         LoadCoast lc = new LoadCoast();
         ArrayList<Road> coastList = lc.load(dir + "correctedCoastLine.txt");
+        coastList.addAll(lc.load(dir + "correctedPoliticalBorder.txt"));
+        coastList.addAll(lc.load(dir + "correctedRiverLine.txt"));
         loadCoastHelper(kl, lc, coastList);
         
 
