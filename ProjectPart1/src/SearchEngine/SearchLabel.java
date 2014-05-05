@@ -53,7 +53,6 @@ public class SearchLabel extends JTextField implements FocusListener
      */
     public Road checkRoadName(String s)
     {
-        boolean found = false;
         for (Road road : roadList)
         {
             //System.out.println(road.midX);
@@ -129,7 +128,7 @@ public class SearchLabel extends JTextField implements FocusListener
     {
         if (this.getText().isEmpty())
         {
-            super.setText("");
+            this.setText("");
             showingHint = false;
         }
     }
@@ -139,7 +138,7 @@ public class SearchLabel extends JTextField implements FocusListener
     {
         if (this.getText().isEmpty())
         {
-            super.setText(hint);
+            this.setText(hint);
             showingHint = true;
         }
     }
@@ -147,6 +146,7 @@ public class SearchLabel extends JTextField implements FocusListener
     @Override
     public String getText()
     {
-        return showingHint ? "" : super.getText();
+        if(showingHint) return "";
+        else return super.getText();
     }
 }

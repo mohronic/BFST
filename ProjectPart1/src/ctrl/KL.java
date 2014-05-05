@@ -120,7 +120,7 @@ public class KL implements KeyListener
     {
         Rectangle2D temp = cd.getView();
         double x = temp.getX();
-        double y = temp.getY() - (c.getHeight() / 50 * c.getScale()); //50 = antal gange der skal trykkes før bund = top
+        double y = temp.getY() - ((c.getHeight() / 50) * c.getScale()); //50 = antal gange der skal trykkes før bund = top
         double w = temp.getWidth();
         double h = temp.getHeight();
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
@@ -133,7 +133,7 @@ public class KL implements KeyListener
     {
         Rectangle2D temp = cd.getView();
         double x = temp.getX();
-        double y = temp.getY() + (c.getHeight() / 50 * c.getScale()); //50 = antal gange der skal trykkes før bund = top
+        double y = temp.getY() + ((c.getHeight() / 50) * c.getScale()); //50 = antal gange der skal trykkes før bund = top
         double w = temp.getWidth();
         double h = temp.getHeight();
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
@@ -145,7 +145,7 @@ public class KL implements KeyListener
     public void keyPanRight()
     {
         Rectangle2D temp = cd.getView();
-        double x = temp.getX() + (c.getWidth() / 50 * c.getScale()); //50 = antal gange der skal trykkes før bund = top
+        double x = temp.getX() + ((c.getWidth() / 50) * c.getScale()); //50 = antal gange der skal trykkes før bund = top
         double y = temp.getY();
         double w = temp.getWidth();
         double h = temp.getHeight();
@@ -158,7 +158,7 @@ public class KL implements KeyListener
     public void keyPanLeft()
     {
         Rectangle2D temp = cd.getView();
-        double x = temp.getX() - (c.getWidth() / 50 * c.getScale()); //50 = antal gange der skal trykkes før bund = top
+        double x = temp.getX() - ((c.getWidth() / 50) * c.getScale()); //50 = antal gange der skal trykkes før bund = top
         double y = temp.getY();
         double w = temp.getWidth();
         double h = temp.getHeight();

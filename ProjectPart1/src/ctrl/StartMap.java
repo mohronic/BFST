@@ -56,6 +56,7 @@ public class StartMap {
         ML ml = new ML();
         c.addMouseListener(ml);
         c.addMouseMotionListener(ml);
+        c.addMouseWheelListener(ml);
         cd.addObserver(c);
         
         frame.setLayout(new BorderLayout());

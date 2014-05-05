@@ -257,7 +257,6 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         double w = r.getWidth() * c.getScale();
         double h = r.getHeight() * c.getScale();
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
-
     }
 
     @Override
@@ -275,9 +274,50 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
     @Override
     public void mouseWheelMoved(MouseWheelEvent e)
     {
-        System.out.println("Scroll events: " + e.getPreciseWheelRotation());
-        System.out.println("Scroll events: " + e.paramString());
-        System.out.println("Scroll events: " + e.toString());
-        System.out.println("Scroll events: " + e.getX());
+        if(e.getPreciseWheelRotation() < 0)
+        {
+            zoomIn(e.getX(), e.getY());
+        }
+        if(e.getPreciseWheelRotation() > 0)
+        {
+            zoomOut(e.getX(), e.getY());
+        }
+        System.out.println("Rotation: " + e.getPreciseWheelRotation());
+        System.out.println("X value: " + e.getX());
+    }
+    
+    public void zoomIn(double MouseX, double MouseY)
+    {
+        Rectangle2D temp = cd.getView();
+        double w = temp.getWidth() * 0.90;
+        double h = temp.getHeight() * 0.90;
+        double x = temp.getX() + ((MouseX - temp.getX()) * 0.1);
+        double y = temp.getY() + ((MouseY - temp.getY()) * 0.1);
+        cd.updateArea(new Rectangle2D.Double(x, y, w, h));
+    }
+    
+    public void zoomOut(double MouseX, double MouseY)
+    {
+        System.out.println("Zooming out...");
+        Rectangle2D temp = cd.getView();
+        double w = temp.getWidth() * 1.10;
+        double h = temp.getHeight() * 1.10;
+        double x = temp.getX() + (MouseX - temp.getX());
+        double y = temp.getY() + (MouseY - temp.getY());
+        cd.updateArea(new Rectangle2D.Double(x, y, w, h));
+    }
+    
+    private double calculateDiagonal(double xStart, double yStart, double xEnd, double yEnd)
+    {
+        //A^2 + B^2 = C^2
+        double A;
+        if(xStart > xEnd) A = xStart - xEnd;
+        else A = xEnd - xStart;
+        
+        double B;
+        if(yStart > yEnd) B = yStart - yEnd; //Remember Y Coordinates are negative
+        else B = yEnd - yStart;
+        
+        return Math.sqrt(Math.pow(A, 2) + Math.pow(B,2));
     }
 }
