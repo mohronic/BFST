@@ -29,7 +29,10 @@ public class StartMap {
     public static double xmax, ymax, xmin, ymin;
     private JFrame frame;
     private CurrentData cd;
-    private static QuadTree qt;
+    private static QuadTree qtlvl1;
+    private static QuadTree qtlvl2;
+    private static QuadTree qtlvl3;
+    private static QuadTree qtlvl4;
     public final static ArrayList<Road> allRoads = new ArrayList<>();
     
     /**
@@ -64,6 +67,8 @@ public class StartMap {
         frame.add(CurrentData.getCurrentRoadLabel(), BorderLayout.SOUTH);
         frame.add(SB.getSideBar(), BorderLayout.WEST);
         frame.setVisible(true);
+        cd.updateArea(new Rectangle2D.Double(0, 0, xmax, ymax));
+        
     }
     
     /*
@@ -108,28 +113,49 @@ public class StartMap {
             allRoads.add(rd);
         }
         
-        qt = new QuadTree(ROOT, null);
+        qtlvl1 = new QuadTree(ROOT, null);
+        qtlvl2 = new QuadTree(ROOT, null);
+        qtlvl3 = new QuadTree(ROOT, null);
+        qtlvl4 = new QuadTree(ROOT, null);
         cd = CurrentData.getInstance();
         cd.setXmax(xmax);
         cd.setYmax(ymax);
         for (Road r : roads) {
-            qt.insert(r);
+            int typ = r.getEd().TYP;
+            if(typ == 1 || typ == 3 || typ == 2 || typ == 48){  
+            qtlvl1.insert(r);
+            }
+            else if(typ == 4){  
+            qtlvl2.insert(r);
+            }
+            else if(typ == 5 || typ == 6){  
+            qtlvl3.insert(r);
+            }
+            else {  
+            qtlvl4.insert(r);
+            }
         }
         for (Road r : coastList) {
-            qt.insert(r);
+            qtlvl1.insert(r);
         }
         System.out.println(xmax + " " + ymax);
         System.out.println(kl.xmax + " " + kl.ymax);
         
-        cd.updateArea(new Rectangle2D.Double(0, 0, xmax, ymax));
+        
     }
     
     /**
      * Returns the instance of the Quadtree root.
      * @return The root of the Quadtree.
      */
-    public static QuadTree getQuadTree() {
-        return qt;
+    public static QuadTree[] getQuadTree() {
+        
+        QuadTree[] qtlist = new QuadTree[4];
+        qtlist[0] = qtlvl1;
+        qtlist[1] = qtlvl2;
+        qtlist[2] = qtlvl3;
+        qtlist[3] = qtlvl4;
+        return qtlist;
     }
     
     /**
