@@ -51,19 +51,18 @@ public class SearchLabel extends JTextField implements FocusListener
      * @param s String roadname
      * @return Boolean found
      */
-    public boolean checkRoadName(String s)
+    public Road checkRoadName(String s)
     {
         boolean found = false;
         for (Road road : roadList)
         {
             //System.out.println(road.midX);
-            if (!found && s.equals(road.getEd().VEJNAVN))
+            if (s.equals(road.getEd().VEJNAVN))
             {
-                found = true;
-                break;
+                return road;
             }
         }
-        return found;
+        return null;
     }
 
     /**

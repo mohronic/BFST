@@ -4,6 +4,8 @@ import FastestRoute.Linked;
 import FastestRoute.MapRoute;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Observable;
@@ -19,7 +21,7 @@ import model.Road;
  *
  * @author Gruppe A
  */
-public class Canvas extends JComponent implements ObserverC
+public class Canvas extends JComponent implements ObserverC, FocusListener
 {
 
     private List<Road> rd;
@@ -30,6 +32,7 @@ public class Canvas extends JComponent implements ObserverC
     private boolean dragbool = false;
     private Rectangle2D dragrect;
     private static Canvas instance = null;
+    private boolean isFocused = false;
 
     /**
      * Constructor for Canvas, getting the data to draw and instantiates the
@@ -203,5 +206,22 @@ public class Canvas extends JComponent implements ObserverC
     public void setDragbool(boolean bool)
     {
         dragbool = bool;
+    }
+
+    @Override
+    public void focusGained(FocusEvent e)
+    {
+        System.out.println("Focus gained:");
+    }
+
+    @Override
+    public void focusLost(FocusEvent e)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public boolean isFocused()
+    {
+        return isFocused;
     }
 }
