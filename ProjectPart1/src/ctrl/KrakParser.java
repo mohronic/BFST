@@ -8,14 +8,13 @@ package ctrl;
 import static QuadTreePack.NSEW.ROOT;
 import QuadTreePack.QuadTree;
 import static ctrl.StartMap.allRoads;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.JFrame;
 import krakloader.EdgeData;
 import krakloader.KrakLoader;
 import krakloader.LoadCoast;
 import krakloader.NodeData;
-import model.CurrentData;
 import model.Road;
 
 /**
@@ -25,12 +24,6 @@ import model.Road;
 public class KrakParser {
 
     public static double xmax, ymax, xmin, ymin;
-    private JFrame frame;
-    private CurrentData cd;
-    private static QuadTree qtlvl1;
-    private static QuadTree qtlvl2;
-    private static QuadTree qtlvl3;
-    private static QuadTree qtlvl4;
     private StartMap sm;
 
     public KrakParser(StartMap sm) {
@@ -42,7 +35,7 @@ public class KrakParser {
      * coordinates and inserts the data into the Quadtree.
      * @throws IOException 
      */
-    private void setData() throws IOException {
+    public void setData() throws IOException {
         final ArrayList<NodeData> nodes = new ArrayList<>();
         final ArrayList<EdgeData> edges = new ArrayList<>();
         final ArrayList<Road> roads = new ArrayList<>();
@@ -78,10 +71,12 @@ public class KrakParser {
             allRoads.add(rd);
         }
         
-        qtlvl1 = new QuadTree(ROOT, null);
-        qtlvl2 = new QuadTree(ROOT, null);
-        qtlvl3 = new QuadTree(ROOT, null);
-        qtlvl4 = new QuadTree(ROOT, null);
+        sm.setBounds(new Rectangle2D.Double(0,0,xmax,ymax));
+        
+        QuadTree qtlvl1 = new QuadTree(ROOT, null);
+        QuadTree qtlvl2 = new QuadTree(ROOT, null);
+        QuadTree qtlvl3 = new QuadTree(ROOT, null);
+        QuadTree qtlvl4 = new QuadTree(ROOT, null);
         for (Road r : roads) {
             int typ = r.getEd().TYP;
             if (typ == 1 || typ == 3 || typ == 2 || typ == 48) {
@@ -98,7 +93,9 @@ public class KrakParser {
             qtlvl1.insert(r);
         }
         
+        QuadTree[] qts = new QuadTree[]{qtlvl1, qtlvl2, qtlvl3, qtlvl4};
         
+        sm.setData(qts);
 
     }
 

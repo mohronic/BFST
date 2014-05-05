@@ -2,17 +2,12 @@ package osmparser;
 
 import static QuadTreePack.NSEW.ROOT;
 import QuadTreePack.QuadTree;
-import SearchEngine.SearchLabel;
-import ctrl.KL;
-import ctrl.ML;
 import ctrl.StartMap;
-import java.awt.BorderLayout;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javax.swing.JFrame;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -35,7 +30,6 @@ public class OSMParser
     public static HashMap<Long, NodeData> nodes;
     public static Rectangle2D bounds;
     private static CurrentData cd;
-    private static final ArrayList<Road> allRoads = new ArrayList<>();
     private StartMap sm;
 
     public OSMParser(StartMap sm) {
@@ -43,7 +37,7 @@ public class OSMParser
     }
     
     public void parseOSM() throws ParserConfigurationException, SAXException, IOException {
-        String filename = "D:\\ITU\\outs.osm";
+        String filename = "./data/output.osm";
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setNamespaceAware(true);
         SAXParser saxParser = spf.newSAXParser();
@@ -86,7 +80,7 @@ public class OSMParser
         for (EdgeData e : edges)
         {
             Road r = new Road(e, nodes.get(e.NODEONE), nodes.get(e.NODETWO));
-            allRoads.add(r);
+            StartMap.allRoads.add(r);
             if (e.TYP == 1 || e.TYP == 3 || e.TYP == 2 || e.TYP == 48) {
                 qtlvl1.insert(r);
             } else if (e.TYP == 4) {

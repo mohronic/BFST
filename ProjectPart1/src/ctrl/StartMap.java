@@ -40,6 +40,7 @@ public class StartMap {
             op.parseOSM();
         }else{
             KrakParser kp = new KrakParser(this);
+            kp.setData();
         }
         cd = CurrentData.getInstance();
         cd.setXmax(bounds.getMaxX());
