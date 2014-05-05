@@ -12,5 +12,19 @@ package FastestRoute;
  */
 public enum Turn
 {
-    RIGHT, LEFT, FORWARD
+
+    /**
+     *
+     */
+    RIGHT,
+
+    /**
+     *
+     */
+    LEFT,
+
+    /**
+     *
+     */
+    FORWARD
 }

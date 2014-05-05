@@ -5,7 +5,6 @@
  */
 package FastestRoute;
 
-import FastestRoute.Turn;
 import java.awt.geom.Point2D;
 import model.Road;
 
@@ -22,6 +21,9 @@ public class Linked
     private DirectedEdge edge; // edge which contains the original road
     private Turn turn; //Actually the turn from the edge before, to this. So this is turn-1
 
+    /**
+     *
+     */
     public Linked()
     {
         length = Double.POSITIVE_INFINITY;
@@ -30,57 +32,101 @@ public class Linked
         edge = null;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getLength()
     {
         return length;
     }
 
+    /**
+     *
+     * @return
+     */
     public Point2D.Double getFrom()
     {
         return from;
     }
 
+    /**
+     *
+     * @param f
+     */
     public void setFrom(Point2D.Double f)
     {
         from = f;
     }
 
+    /**
+     *
+     * @param l
+     */
     public void setLength(double l)
     {
         length = l;
     }
 
+    /**
+     *
+     * @param e
+     */
     public void setEdge(DirectedEdge e)
     {
         edge = e;
         calTurn();
     }
 
+    /**
+     *
+     * @param d
+     */
     public void setDrivetime(double d)
     {
         drivetime = d;
     }
 
+    /**
+     *
+     * @return
+     */
     public DirectedEdge getEdge()
     {
         return edge;
     }
 
+    /**
+     *
+     * @return
+     */
     public Road getRoad()
     {
         return edge.getRoad();
     }
 
+    /**
+     *
+     * @return
+     */
     public double getDrivetime()
     {
         return drivetime;
     }
 
+    /**
+     *
+     * @param t
+     */
     public void setTurn(Turn t)
     {
         turn = t;
     }
 
+    /**
+     *
+     * @return
+     */
     public Turn getTurn()
     {
         return turn;

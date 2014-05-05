@@ -17,11 +17,19 @@ import model.Road;
 public class ShortestRoad extends DijkstraSP
 {
 
+    /**
+     *
+     * @param allEdges
+     */
     public ShortestRoad(ArrayList<Road> allEdges)
     {
         super(allEdges);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     protected Comparator<DirectedEdge> getComparator()
     {
@@ -41,6 +49,10 @@ public class ShortestRoad extends DijkstraSP
         return comp;
     }
 
+    /**
+     *
+     * @param p
+     */
     @Override
     protected void relax(Point2D.Double p)
     {

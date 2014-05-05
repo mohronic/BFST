@@ -19,12 +19,16 @@ public class MapRoute
     private final ArrayList<Road> allRoads;
     private static ArrayList<Linked> route;
 
+    /**
+     *
+     * @param roads
+     */
     public MapRoute(ArrayList<Road> roads)
     {
         route = null;
         this.allRoads = roads;
-        DirectedEdge from = new DirectedEdge(roads.get(509400));
-        DirectedEdge to = new DirectedEdge(roads.get(715000));
+        DirectedEdge from = new DirectedEdge(roads.get(509400), true);
+        DirectedEdge to = new DirectedEdge(roads.get(715000), true);
         System.out.println(from.getName() + " " + to.getName());
 
         DijkstraSP SP = new FastestRoad(roads);
@@ -32,6 +36,10 @@ public class MapRoute
 
     }
 
+    /**
+     *
+     * @return
+     */
     public static ArrayList<Linked> getRoute()
     {
         if (route == null)
