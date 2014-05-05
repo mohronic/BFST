@@ -8,8 +8,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import javax.swing.JComponent;
 import krakloader.*;
 import model.CurrentData;
@@ -26,7 +24,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener
 
     private List<Road> rd;
     private final CurrentData cd;
-    public Rectangle2D view;
+    private Rectangle2D view;
     private double scale = 1;
     private final DrawInterface j2d;
     private boolean dragbool = false;
@@ -60,21 +58,13 @@ public class Canvas extends JComponent implements ObserverC, FocusListener
      */
     private void drawMap()
     {
-        double scaley = view.getHeight() / (double) this.getHeight();
-        double scalex = view.getWidth() / (double) this.getWidth();
-        if (scaley > scalex)
-        {
-            scale = view.getHeight() / (double) this.getHeight();
-        } else
-        {
-            scale = view.getWidth() / (double) this.getWidth();
-        }
+        
         for (Road r : rd)
         {
-            if (!filterRoad(r))
-            {
-                continue;
-            }
+//            if (!filterRoad(r))
+//            {
+//                continue;
+//            }
             double x1, x2, y1, y2;
             NodeData n1 = r.getFn();
             NodeData n2 = r.getTn();
@@ -149,6 +139,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener
     @Override
     public void update()
     {
+        rd.clear();
         rd = cd.getRoads();
         view = cd.getView();
         repaint();
@@ -223,5 +214,17 @@ public class Canvas extends JComponent implements ObserverC, FocusListener
     public boolean isFocused()
     {
         return isFocused;
+    }
+    
+    public void calcScale(Rectangle2D view){
+        double scaley = view.getHeight() / (double) this.getHeight();
+        double scalex = view.getWidth() / (double) this.getWidth();
+        if (scaley > scalex)
+        {
+            scale = view.getHeight() / (double) this.getHeight();
+        } else
+        {
+            scale = view.getWidth() / (double) this.getWidth();
+        }
     }
 }
