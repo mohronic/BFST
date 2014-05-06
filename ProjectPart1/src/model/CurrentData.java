@@ -41,7 +41,6 @@ public class CurrentData extends ObservableC {
     /* Constructor for CurrentData, gets the quadtree and instaciates view.
      */
     private CurrentData() {
-        //qt = OSMParser.qt;
         QuadTree[] qtlist = StartMap.getQuadTree();
         qtlvl1 = qtlist[0];
         qtlvl2 = qtlist[1];

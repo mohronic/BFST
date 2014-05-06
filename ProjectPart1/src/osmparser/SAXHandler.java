@@ -132,10 +132,10 @@ public class SAXHandler extends DefaultHandler {
                 type = 1;
                 break;
             case "trunk" :
-                type = 1;
+                type = 2;
                 break;
             case "primary" :
-                type = 1;
+                type = 3;
                 break;
             case "path":
                 type = 8;
@@ -143,11 +143,17 @@ public class SAXHandler extends DefaultHandler {
             case "coastline":
                 type = 48;
                 break;
-            case "water":
-                type = 49;
+            case "secondary":
+                type = 4;
+                break;
+            case "tertiary" :
+                type = 5;
+                break;
+            case "unclassified" :
+                type = 6;
                 break;
             default :
-                type = 4;
+                type = 6;
                 break;
         }
         return type;

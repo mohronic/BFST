@@ -2,16 +2,12 @@ package osmparser;
 
 import static QuadTreePack.NSEW.ROOT;
 import QuadTreePack.QuadTree;
-import SearchEngine.SearchLabel;
-import ctrl.KL;
-import ctrl.ML;
-import java.awt.BorderLayout;
+import ctrl.StartMap;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javax.swing.JFrame;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -21,8 +17,6 @@ import model.CurrentData;
 import model.Road;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-import view.Canvas;
-import view.SideBar;
 
 /**
  *
@@ -35,13 +29,15 @@ public class OSMParser
     public static List<Way> ways;
     public static HashMap<Long, NodeData> nodes;
     public static Rectangle2D bounds;
-    private static JFrame frame;
     private static CurrentData cd;
-    public static QuadTree qt;
-    private static final ArrayList<Road> allRoads = new ArrayList<>();
+    private StartMap sm;
 
-    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-        String filename = "D:\\ITU\\outs.osm";
+    public OSMParser(StartMap sm) {
+        this.sm = sm;
+    }
+    
+    public void parseOSM() throws ParserConfigurationException, SAXException, IOException {
+        String filename = "./data/osm.osm";
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setNamespaceAware(true);
         SAXParser saxParser = spf.newSAXParser();
@@ -49,17 +45,10 @@ public class OSMParser
         xmlReader.setContentHandler(new SAXHandler());
         xmlReader.parse(SAXHandler.convertToFileURL(filename));
         setupData();
-        setup();
     }
 
-    private static void setupData()
+    private void setupData()
     {
-        qt = new QuadTree(ROOT, null);
-        cd = CurrentData.getInstance();
-        cd.setXmax(bounds.getMaxX());
-        cd.setXmin(bounds.getMinX());
-        cd.setYmax(bounds.getMaxY());
-        cd.setYmin(bounds.getMinY());
         long refOne = 0, refTwo = 0;
         for (Way w : ways)
         {
@@ -82,34 +71,29 @@ public class OSMParser
                 }
             }
         }
-
+        sm.setBounds(OSMParser.bounds);
+        QuadTree qtlvl1 = new QuadTree(ROOT, null);
+        QuadTree qtlvl2 = new QuadTree(ROOT, null);
+        QuadTree qtlvl3 = new QuadTree(ROOT, null);
+        QuadTree qtlvl4 = new QuadTree(ROOT, null);
+        
         for (EdgeData e : edges)
         {
             Road r = new Road(e, nodes.get(e.NODEONE), nodes.get(e.NODETWO));
-            allRoads.add(r);
-            qt.insert(r);
+            StartMap.allRoads.add(r);
+            if (e.TYP == 1 || e.TYP == 3 || e.TYP == 2 || e.TYP == 48) {
+                qtlvl1.insert(r);
+            } else if (e.TYP == 4) {
+                qtlvl2.insert(r);
+            } else if (e.TYP == 5 || e.TYP == 6 || e.TYP == 8) {
+                qtlvl3.insert(r);
+            } else {
+                qtlvl4.insert(r);
+            }
         }
-
-        cd.updateArea(bounds);
-    }
-
-    private static void setup() throws IOException
-    {
-        frame = new JFrame("Map Draw");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(970, 770);
-        SideBar SB = new SideBar();
-        Canvas c = Canvas.getInstance(cd);
-        ML ml = new ML();
-        c.addMouseListener(ml);
-        c.addMouseMotionListener(ml);
-        cd.addObserver(c);
-
-        frame.setLayout(new BorderLayout());
-        frame.add(c, BorderLayout.CENTER);
-        frame.add(CurrentData.getCurrentRoadLabel(), BorderLayout.SOUTH);
-        frame.add(SB.getSideBar(), BorderLayout.WEST);
-        frame.setVisible(true);
+        QuadTree[] qts = new QuadTree[]{qtlvl1, qtlvl2, qtlvl3, qtlvl4};
+        sm.setData(qts);
+        
     }
 
     public static void setData(List<Way> ways, HashMap<Long, NodeData> nodes, Rectangle2D bounds)

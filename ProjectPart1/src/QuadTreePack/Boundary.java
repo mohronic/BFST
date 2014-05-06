@@ -54,20 +54,15 @@ public class Boundary
 
     /**
      * Overloaded constructor which creates the first boundary object when a quadtree is initiated.
-     * @param enum direction 
+     * @param direction
      */
     public Boundary(NSEW direction)
     {
         
-        /*center.xc = (OSMParser.bounds.getMaxX()+OSMParser.bounds.getMinX()) / 2;
-        center.yc = (OSMParser.bounds.getMaxY()+OSMParser.bounds.getMinY()) / 2;
-        xdim = (OSMParser.bounds.getWidth()) / 2;
-        ydim = (OSMParser.bounds.getHeight()) / 2;*/
-        
-        center.xc = ctrl.StartMap.xmax / 2;
-        center.yc = ctrl.StartMap.ymax / 2;
-        xdim = ctrl.StartMap.xmax / 2;
-        ydim = ctrl.StartMap.ymax / 2;
+        center.xc = ctrl.StartMap.bounds.getMinX()+(ctrl.StartMap.bounds.getWidth() / 2);
+        center.yc = ctrl.StartMap.bounds.getMinY()+(ctrl.StartMap.bounds.getHeight() / 2);
+        xdim = ctrl.StartMap.bounds.getWidth() / 2;
+        ydim = ctrl.StartMap.bounds.getHeight() / 2;
 
     }
 

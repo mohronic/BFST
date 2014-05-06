@@ -4,6 +4,7 @@ package krakloader;
  * Represents the raw data from a line in kdv_unload.txt.
  */
 public class EdgeData {
+
     public final long NODEONE;
     public final long NODETWO;
     public final int FNODE;
@@ -15,6 +16,8 @@ public class EdgeData {
     public final int TOLEFT;
     public final int FROMRIGHT;
     public final int TORIGHT;
+    public final int V_POSTNR;
+    public final int H_POSTNR;
     public final String FROMLEFT_BOGSTAV;
     public final String TOLEFT_BOGSTAV;
     public final String FROMRIGHT_BOGSTAV;
@@ -68,8 +71,8 @@ public class EdgeData {
         TORIGHT_BOGSTAV = dl.getString();
         int V_SOGNENR = dl.getInt();
         int H_SOGNENR = dl.getInt();
-        int V_POSTNR = dl.getInt();
-        int H_POSTNR = dl.getInt();
+        V_POSTNR = dl.getInt();
+        H_POSTNR = dl.getInt();
         int KOMMUNENR = dl.getInt();
         int VEJKODE = dl.getInt();
         int SUBNET = dl.getInt();
@@ -103,6 +106,8 @@ public class EdgeData {
         TOLEFT_BOGSTAV = "";
         FROMRIGHT_BOGSTAV = "";
         TORIGHT_BOGSTAV = "";
+        V_POSTNR = 0;
+        H_POSTNR = 0;
         FRAKOERSEL = 0;
         SPEED = 0;
         DRIVETIME = 0;
@@ -129,6 +134,8 @@ public class EdgeData {
         TOLEFT_BOGSTAV = "";
         FROMRIGHT_BOGSTAV = "";
         TORIGHT_BOGSTAV = "";
+        V_POSTNR = 0;
+        H_POSTNR = 0;
         FRAKOERSEL = 0;
         SPEED = 0;
         DRIVETIME = 0;
