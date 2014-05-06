@@ -58,9 +58,11 @@ public class StartMap {
         SideBar SB = new SideBar();
         Canvas c = Canvas.getInstance(cd);
         ML ml = new ML();
+        KL kl = new KL();
         c.addMouseListener(ml);
         c.addMouseMotionListener(ml);
         c.addMouseWheelListener(ml);
+        c.addKeyListener(kl);
         cd.addObserver(c);
         
         frame.setLayout(new BorderLayout());

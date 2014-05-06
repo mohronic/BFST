@@ -74,6 +74,7 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
             {
                 cd.updateArea(originalView);
                 currentView.setRect(originalView);
+                c.requestFocus();
             } else
             {
                 double startx = mouseStart.getX();
@@ -286,38 +287,33 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         System.out.println("X value: " + e.getX());
     }
     
+    /**
+     * Zooms in 10% (width and height becomes 10% smaller) when mousewheel 
+     * scrolls up. New picture is dependant on mouse position.
+     * @param MouseX
+     * @param MouseY 
+     */
     public void zoomIn(double MouseX, double MouseY)
     {
-        Rectangle2D temp = cd.getView();
-        double w = temp.getWidth() * 0.90;
-        double h = temp.getHeight() * 0.90;
-        double x = temp.getX() + ((MouseX - temp.getX()) * 0.1);
-        double y = temp.getY() + ((MouseY - temp.getY()) * 0.1);
-        cd.updateArea(new Rectangle2D.Double(x, y, w, h));
+        double x = MouseX * 0.1 ;
+        double y = MouseY * 0.1;
+        double w = c.getWidth() * 0.9;
+        double h = c.getHeight() * 0.9;
+        calcView(new Rectangle2D.Double(x, y, w, h));
     }
     
+    /**
+     * Zooms out 10% (width and height becomes 10% bigger) when mousewheel 
+     * scrolls down. New picture is dependant on mouse position.
+     * @param MouseX X coordinate from mouse on component
+     * @param MouseY Y coordinate from mouse on component
+     */
     public void zoomOut(double MouseX, double MouseY)
     {
-        System.out.println("Zooming out...");
-        Rectangle2D temp = cd.getView();
-        double w = temp.getWidth() * 1.10;
-        double h = temp.getHeight() * 1.10;
-        double x = temp.getX() + (MouseX - temp.getX());
-        double y = temp.getY() + (MouseY - temp.getY());
-        cd.updateArea(new Rectangle2D.Double(x, y, w, h));
-    }
-    
-    private double calculateDiagonal(double xStart, double yStart, double xEnd, double yEnd)
-    {
-        //A^2 + B^2 = C^2
-        double A;
-        if(xStart > xEnd) A = xStart - xEnd;
-        else A = xEnd - xStart;
-        
-        double B;
-        if(yStart > yEnd) B = yStart - yEnd; //Remember Y Coordinates are negative
-        else B = yEnd - yStart;
-        
-        return Math.sqrt(Math.pow(A, 2) + Math.pow(B,2));
+        double x = -(MouseX * 0.1);
+        double y = -(MouseY * 0.1);
+        double w = c.getWidth() * 1.1;
+        double h = c.getHeight() * 1.1;
+        calcView(new Rectangle2D.Double(x, y, w, h));
     }
 }

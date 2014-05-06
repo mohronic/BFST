@@ -32,6 +32,7 @@ public class SideBar
     private JPanel sideBar;
     private final static String newline = "\n";
     private static ArrayList<Linked> roadRoute;
+    private static SearchLabel slTo, slFrom;
 
     public SideBar()
     {
@@ -39,12 +40,14 @@ public class SideBar
         sideBar.setPreferredSize(new Dimension(300, 0));
         JButton bSearch = new JButton("Search");
 
-        final SearchLabel slTo = new SearchLabel(StartMap.allRoads, "To");
-        KL klTo = new KL(slTo);
+        slTo = new SearchLabel(StartMap.allRoads, "To");
+        KL klTo = new KL();
+        klTo.setSearchLabel(slTo);
         slTo.addKeyListener(klTo);
         slTo.setColumns(25);
-        final SearchLabel slFrom = new SearchLabel(StartMap.allRoads, "From");
-        KL klFrom = new KL(slFrom);
+        slFrom = new SearchLabel(StartMap.allRoads, "From");
+        KL klFrom = new KL();
+        klFrom.setSearchLabel(slFrom);
         slFrom.addKeyListener(klFrom);
         slFrom.setColumns(25);
 
@@ -230,4 +233,16 @@ public class SideBar
         return roadRoute;
 
     }
+
+    public static SearchLabel getSlTo()
+    {
+        return slTo;
+    }
+
+    public static SearchLabel getSlFrom()
+    {
+        return slFrom;
+    }
+    
+    
 }

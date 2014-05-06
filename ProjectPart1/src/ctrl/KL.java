@@ -21,7 +21,7 @@ import view.Canvas;
 public class KL implements KeyListener
 {
 
-    private final SearchLabel searchLabel;
+    private SearchLabel searchLabel;
     private final CurrentData cd = CurrentData.getInstance();
     private final Canvas c;
 
@@ -31,9 +31,9 @@ public class KL implements KeyListener
      * @param searchLabel SearchLabel which key listener is connected to.
      * @param canvas Canvas which it is connected to.
      */
-    public KL(SearchLabel searchLabel)
+    public KL()
     {
-        this.searchLabel = searchLabel;
+//        this.searchLabel = searchLabel;
         this.c = Canvas.getInstance(cd);
     }
 
@@ -70,29 +70,29 @@ public class KL implements KeyListener
         //searchLabel.updateCurrentString();
         //searchLabel.autoComplete();
         //}
-        if (e.getKeyCode() == 10) //10 = keycode for Enter-button
+        if (e.getKeyCode() == 10 && !c.hasFocus()) //10 = keycode for Enter-button
         {
             //Should be written to a method call
             System.out.println("Searching for: " + searchLabel.getText());
             System.out.println("Road found: " + searchLabel.checkRoadName(searchLabel.getText()).getEd().VEJNAVN);
         }
         
-        if(e.getKeyCode() == 38) //Op
+        if(e.getKeyCode() == 38 && c.hasFocus()) //Op
         {
             keyPanUp();
         }
 
-        if (e.getKeyCode() == 40) //Ned
+        if (e.getKeyCode() == 40 && c.hasFocus()) //Ned
         {
             keyPanDown();
         }
 
-        if (e.getKeyCode() == 39) //Højre
+        if (e.getKeyCode() == 39 && c.hasFocus()) //Højre
         {
             keyPanRight();
         }
 
-        if (e.getKeyCode() == 37) //Venstre
+        if (e.getKeyCode() == 37 && c.hasFocus()) //Venstre
         {
             keyPanLeft();
         }
@@ -106,7 +106,7 @@ public class KL implements KeyListener
     @Override
     public void keyReleased(KeyEvent e)
     {
-        if (e.getKeyCode() != 8)
+        if (e.getKeyCode() != 8 && !c.hasFocus())
         {
             searchLabel.updateCurrentString();
             searchLabel.autoComplete();
@@ -163,5 +163,9 @@ public class KL implements KeyListener
         double w = temp.getWidth();
         double h = temp.getHeight();
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
+    }
+    
+    public void setSearchLabel(SearchLabel sl){
+        searchLabel = sl;
     }
 }
