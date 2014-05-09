@@ -21,7 +21,7 @@ public abstract class DijkstraSP
      * HashMap with Point as key and Linked as value. The length/drivetime to
      * this point is accumulated, so it is the total distance from "From"
      */
-    protected HashMap distTo;
+    protected HashMap<Point2D.Double, Linked> distTo;
 
     /**
      * A PriorityQueue sorted by either the accumulated Drivetime or Length.
@@ -32,7 +32,7 @@ public abstract class DijkstraSP
      * A Hashmap with Point as key and a Bag as value. The Bag contains all the
      * Directededges that uses the point
      */
-    protected HashMap adj; // naboer
+    protected HashMap<Point2D.Double, Bag<DirectedEdge>> adj; // naboer
 
     /**
      * Sets up the HashMaps with data from allEdges.
@@ -41,8 +41,8 @@ public abstract class DijkstraSP
      */
     public DijkstraSP(ArrayList<Road> allEdges)
     {
-        adj = new HashMap();
-        distTo = new HashMap();
+        adj = new HashMap<>();
+        distTo = new HashMap<>();
         pq = new PriorityQueue<>(10, getComparator());
         buildHashMaps(allEdges);
     }
@@ -64,8 +64,8 @@ public abstract class DijkstraSP
     /**
      * Gets the route from at point to another.
      *
-     * @param s Point From
-     * @param t Point To
+     * @param sourceRoad
+     * @param targetRoad
      * @return ArrayList<Linked> The route
      */
     public ArrayList<Linked> mapRoute(Road sourceRoad, Road targetRoad)
@@ -103,7 +103,7 @@ public abstract class DijkstraSP
         Point2D.Double loc = t.to();
         while (loc != null)
         {
-            Linked l = (Linked) distTo.get(loc);
+            Linked l = distTo.get(loc);
             list.add(l);
             loc = l.getFrom();
         }
@@ -123,7 +123,7 @@ public abstract class DijkstraSP
             adj.put(e.from(), bag);
         } else
         {
-            Bag<DirectedEdge> bag = (Bag<DirectedEdge>) adj.get(e.from());
+            Bag<DirectedEdge> bag = adj.get(e.from());
             bag.add(e);
             adj.put(e.from(), bag);
         }

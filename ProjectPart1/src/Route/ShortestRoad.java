@@ -38,8 +38,8 @@ public class ShortestRoad extends DijkstraSP
             @Override
             public int compare(DirectedEdge t, DirectedEdge t1)
             {
-                Linked tmp = (Linked) distTo.get(t.from());
-                Linked tmp2 = (Linked) distTo.get(t1.from());
+                Linked tmp = distTo.get(t.from());
+                Linked tmp2 = distTo.get(t1.from());
 
                 return Double.compare(tmp.getLength(), tmp2.getLength());
             }
@@ -58,14 +58,14 @@ public class ShortestRoad extends DijkstraSP
     @Override
     protected void relax(Point2D.Double p)
     {
-        Bag<DirectedEdge> b = (Bag<DirectedEdge>) adj.get(p);
+        Bag<DirectedEdge> b = adj.get(p);
         if (b != null) // Blindvej, slutpunkt
         {
             for (DirectedEdge e : b)
             {
                 Point2D.Double t = e.to();
-                Linked from = (Linked) distTo.get(p);
-                Linked to = (Linked) distTo.get(t);
+                Linked from = distTo.get(p);
+                Linked to = distTo.get(t);
                 if (to.getLength() > from.getLength() + e.length())
                 {
                     to.setFrom(p);
