@@ -101,18 +101,18 @@ public class CurrentData extends ObservableC {
         oldy = view.getMinY();
         oldx = view.getMinX();
         roads.clear();
-        roads = qtlvl1.search(r.getX() * 0.875, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.875, (r.getY() + r.getHeight()) * 1.25);
+        roads = qtlvl1.search(r.getX() * 0.7, (r.getX() + r.getWidth()) * 1.6, r.getY() * 0.7, (r.getY() + r.getHeight()) * 1.6);
         
 
         if (c.getScale() < maxScale * 0.75 && c.getScale() > maxScale * 0.05) {
-            roads.addAll(qtlvl2.search(r.getX() * 0.875, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.875, (r.getY() + r.getHeight()) * 1.25));
+            roads.addAll(qtlvl2.search(r.getX() * 0.7, (r.getX() + r.getWidth()) * 1.6, r.getY() * 0.7, (r.getY() + r.getHeight()) * 1.6));
         } else if (c.getScale() <= maxScale * 0.05 && c.getScale() > maxScale * 0.025) {
-            roads.addAll(qtlvl2.search(r.getX() * 0.875, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.875, (r.getY() + r.getHeight()) * 1.25));
-            roads.addAll(qtlvl3.search(r.getX() * 0.875, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.875, (r.getY() + r.getHeight()) * 1.25));
+            roads.addAll(qtlvl2.search(r.getX() * 0.7, (r.getX() + r.getWidth()) * 1.6, r.getY() * 0.7, (r.getY() + r.getHeight()) * 1.6));
+            roads.addAll(qtlvl3.search(r.getX() * 0.7, (r.getX() + r.getWidth()) * 1.6, r.getY() * 0.7, (r.getY() + r.getHeight()) * 1.6));
         } else if (c.getScale() <= maxScale * 0.025) {
-            roads.addAll(qtlvl2.search(r.getX() * 0.875, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.875, (r.getY() + r.getHeight()) * 1.25));
-            roads.addAll(qtlvl3.search(r.getX() * 0.875, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.875, (r.getY() + r.getHeight()) * 1.25));
-            roads.addAll(qtlvl4.search(r.getX() * 0.875, (r.getX() + r.getWidth()) * 1.25, r.getY() * 0.875, (r.getY() + r.getHeight()) * 1.25));
+            roads.addAll(qtlvl2.search(r.getX() * 0.7, (r.getX() + r.getWidth()) * 1.6, r.getY() * 0.7, (r.getY() + r.getHeight()) * 1.6));
+            roads.addAll(qtlvl3.search(r.getX() * 0.7, (r.getX() + r.getWidth()) * 1.6, r.getY() * 0.7, (r.getY() + r.getHeight()) * 1.6));
+            roads.addAll(qtlvl4.search(r.getX() * 0.7, (r.getX() + r.getWidth()) * 1.6, r.getY() * 0.7, (r.getY() + r.getHeight()) * 1.6));
         }
         setChanged();
         notifyObservers();

@@ -41,17 +41,37 @@ public class SAXHandler extends DefaultHandler {
 
         switch (key) {
             case "bounds":
-                minx = Double.parseDouble(atts.getValue("minlon"));
-                miny = Double.parseDouble(atts.getValue("minlat"));
-                maxx = Double.parseDouble(atts.getValue("maxlon"));
-                maxy = Double.parseDouble(atts.getValue("maxlat"));
+                try {
+                    double[] xy = GeoConvert.toUtm(Double.parseDouble(atts.getValue("minlon")), Double.parseDouble(atts.getValue("minlat")));
+                    minx = xy[0];
+                    miny = xy[1];
+                    xy = GeoConvert.toUtm(Double.parseDouble(atts.getValue("maxlon")), Double.parseDouble(atts.getValue("maxlat")));
+                    maxx = xy[0];
+                    maxy = xy[1];
+                } catch (Exception ex) {
+                    System.out.println("SAX 54");
+                }
+                /*minx = Double.parseDouble(atts.getValue("minlon"));
+                 miny = Double.parseDouble(atts.getValue("minlat"));
+                 maxx = Double.parseDouble(atts.getValue("maxlon"));
+                 maxy = Double.parseDouble(atts.getValue("maxlat"));*/
                 break;
             case "node":
                 long id = Long.parseLong(atts.getValue("id"));
                 double lat = Double.parseDouble(atts.getValue("lat"));
-                lat = (-lat) + maxy + miny;
                 double lon = Double.parseDouble(atts.getValue("lon"));
-                cNode = new NodeData(id, lon, lat);
+                double[] xy = null;
+                try {
+                    xy = GeoConvert.toUtm(lon, lat);
+                } catch (Exception ex) {
+                    System.out.println("SAX 70");
+                }
+                xy[1] = (-xy[1]) + maxy + miny;
+                if(xy[0] > maxx) maxx = xy[0];
+                if(xy[1] > maxy) maxy = xy[1];
+                cNode = new NodeData(id, xy[0], xy[1]);
+                /*lat = (-lat)+maxy+miny;
+                cNode = new NodeData(id, lon, lat);*/
                 break;
             case "way":
                 cWay = new Way(Long.parseLong(atts.getValue("id")));
@@ -71,6 +91,9 @@ public class SAXHandler extends DefaultHandler {
                             break;
                         case "natural":
                             cWay.setTyp(toTyp(atts.getValue("v")));
+                            break;
+                        case "maxspeed" :
+                            cWay.setSpeed(Integer.parseInt(atts.getValue("v")));
                             break;
                     }
                 }
@@ -94,7 +117,7 @@ public class SAXHandler extends DefaultHandler {
                 nodes.put(cNode.getOSMID(), cNode);
                 break;
             case "way":
-                if(cWay.getTyp() != 49)
+                if (cWay.getSpeed() == 0) cWay.setSpeed(50);
                 ways.add(cWay);
                 break;
         }
@@ -131,10 +154,10 @@ public class SAXHandler extends DefaultHandler {
             case "motorway":
                 type = 1;
                 break;
-            case "trunk" :
+            case "trunk":
                 type = 2;
                 break;
-            case "primary" :
+            case "primary":
                 type = 3;
                 break;
             case "path":
@@ -146,16 +169,17 @@ public class SAXHandler extends DefaultHandler {
             case "secondary":
                 type = 4;
                 break;
-            case "tertiary" :
+            case "tertiary":
                 type = 5;
                 break;
-            case "unclassified" :
+            case "unclassified":
                 type = 6;
                 break;
-            default :
+            default:
                 type = 6;
                 break;
         }
         return type;
     }
 }
+

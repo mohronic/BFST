@@ -16,6 +16,8 @@ public class Way {
     private ArrayList<Long> nodes = new ArrayList<>();
     private String name = "";
     private int typ = 0;
+    private int speed = 0;
+    private int postal = 0;
     
     public Way(long id) {
         this.id = id;
@@ -48,4 +50,20 @@ public class Way {
     public void setTyp(int typ) {
         this.typ = typ;
     } 
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public int getPostal() {
+        return postal;
+    }
+
+    public void setPostal(int postal) {
+        this.postal = postal;
+    }
 }

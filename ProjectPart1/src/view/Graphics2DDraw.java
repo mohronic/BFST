@@ -8,6 +8,7 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 /**
  * Implementation of DrawInterface, which is a singleton, since only one is
@@ -19,6 +20,7 @@ public class Graphics2DDraw implements DrawInterface
 
     private Graphics2D g2;
     private static Graphics2DDraw instance = null;
+    private BufferedImage img;
 
     private Graphics2DDraw()
     {
@@ -33,13 +35,6 @@ public class Graphics2DDraw implements DrawInterface
         }
         
         return instance;
-    }
-
-    @Override
-    public void setGraphics(Graphics g)
-    {
-        g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
     @Override
@@ -87,6 +82,21 @@ public class Graphics2DDraw implements DrawInterface
     {
         g2.setColor(Color.ORANGE);
         g2.setStroke(new BasicStroke(2));
+    }
+
+    @Override
+    public void startDraw(int w, int h) {
+        img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        g2 = img.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    }
+
+    @Override
+    public BufferedImage endDraw() {
+        BufferedImage temp = img;
+        g2.dispose();
+        img = null;
+        return temp;
     }
 
 }
