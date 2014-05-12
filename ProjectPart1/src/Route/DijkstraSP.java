@@ -161,7 +161,8 @@ public abstract class DijkstraSP
                     buildDistTo(e1);
                     break;
                 }
-                default:
+                default: 
+                    System.out.println("hello 165");
                     //should not happen
                     break;
             }

@@ -118,12 +118,12 @@ public class EdgeData {
         NODETWO = 0;
     }
 
-    public EdgeData(long id, long refOne, long refTwo, String name, int typ, int speed, double dTime) {
+    public EdgeData(long id, long refOne, long refTwo, String name, int typ, int speed, double dTime, double length) {
         NODEONE = refOne;
         NODETWO = refTwo;
         FNODE = 0;
         TNODE = 0;
-        LENGTH = 0;
+        LENGTH = length;
         TYP = typ;
         VEJNAVN = name;
         FROMLEFT = 0;

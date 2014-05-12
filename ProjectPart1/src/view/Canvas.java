@@ -245,7 +245,6 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
             scale = view.getWidth() / (double) this.getWidth();
         }
         if(scale < 1) scale = 1;
-        System.out.println(""+scale);
     }
     
     @Override
