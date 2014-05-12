@@ -15,7 +15,7 @@ public class Linked
     private double length;
     private double drivetime;
     private Point2D.Double from; // Only null where the road search starts
-    private DirectedEdge edge; // edge which contains the original road
+    private Road edge; // edge which contains the original road
     private Turn turn;
 
     /**
@@ -76,9 +76,9 @@ public class Linked
      *
      * @param e DirectedEdge edge
      */
-    public void setEdge(DirectedEdge e)
+    public void setEdge(Road r)
     {
-        edge = e;
+        edge = r;
         calTurn();
     }
 
@@ -97,19 +97,9 @@ public class Linked
      * 
      * @return DirectedEdge edge
      */
-    public DirectedEdge getEdge()
+    public Road getEdge()
     {
         return edge;
-    }
-
-    /**
-     * Returns the road, which is stored in the edge
-     * 
-     * @return Road
-     */
-    public Road getRoad()
-    {
-        return edge.getRoad();
     }
 
     /**

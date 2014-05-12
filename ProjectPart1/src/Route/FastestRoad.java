@@ -29,13 +29,13 @@ public class FastestRoad extends DijkstraSP
      * @return Comparator<DirectedEdge>
      */
     @Override
-    protected Comparator<DirectedEdge> getComparator()
+    protected Comparator<Road> getComparator()
     {
-        Comparator<DirectedEdge> comp = new Comparator<DirectedEdge>()
+        Comparator<Road> comp = new Comparator<Road>()
         {
 
             @Override
-            public int compare(DirectedEdge t, DirectedEdge t1) //Doesnt work with A-Stary
+            public int compare(Road t, Road t1) //Doesnt work with A-Stary
             {
                 Linked tmp = distTo.get(t.from());
                 Linked tmp2 = distTo.get(t1.from());
@@ -57,24 +57,24 @@ public class FastestRoad extends DijkstraSP
     @Override
     protected void relax(Point2D.Double p)
     {
-        Bag<DirectedEdge> b = adj.get(p);
-        if (b != null) // Blindvej, slutpunkt
+        ArrayList<Road> list = adj.get(p);
+        if (list != null) // Blindvej, slutpunkt
         {
-            for (DirectedEdge e : b)
+            for (Road r : list)
             {
-                Point2D.Double t = e.to();
+                Point2D.Double t = r.to();
                 Linked from = distTo.get(p);
                 Linked to = distTo.get(t);
-                if (to.getDrivetime() > from.getDrivetime() + e.drivetime())
+                if (to.getDrivetime() > from.getDrivetime() + r.getDrivetime())
                 {
                     to.setFrom(p);
-                    to.setLength(from.getLength() + e.length());
-                    to.setDrivetime(from.getDrivetime() + e.drivetime());
-                    to.setEdge(e);
+                    to.setLength(from.getLength() + r.getLength());
+                    to.setDrivetime(from.getDrivetime() + r.getDrivetime());
+                    to.setEdge(r);
                     distTo.put(t, to);
-                    if (!pq.contains(e))
+                    if (!pq.contains(r))
                     {
-                        pq.add(e);
+                        pq.add(r);
                     }
                 }
             }

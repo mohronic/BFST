@@ -165,7 +165,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
                 RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(Color.orange);
             for (Linked l : SideBar.getRoute()) {
-                Road r = l.getRoad();
+                Road r = l.getEdge();
                 if (tileArea.contains(r.midX, r.midY)) {
                     double x1, x2, y1, y2;
                     NodeData n1 = r.getFn();

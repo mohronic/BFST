@@ -131,7 +131,7 @@ public class SideBar
                                 l = roadRoute.get(i);
                                 if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName())) //If the edge has the same name as the next, just add up the distance and only print road name once
                                 {
-                                    tmpLength = (int) (tmpLength + l.getEdge().length());
+                                    tmpLength = (int) (tmpLength + l.getEdge().getLength());
                                 } else
                                 {
                                     String turn;
@@ -148,7 +148,7 @@ public class SideBar
                                             break;
                                     }
 
-                                    tmpLength = (int) (tmpLength + l.getEdge().length());
+                                    tmpLength = (int) (tmpLength + l.getEdge().getLength());
                                     area.append(l.getEdge().getName() + ": " + "Tag " + turn + " om " + tmpLength + " m" + " mod" + newline);
 
                                     tmpLength = 0;
@@ -177,7 +177,7 @@ public class SideBar
                                 l = roadRoute.get(i);
                                 if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName())) //If the edge has the same name as the next, just add up the distance and only print road name once
                                 {
-                                    tmpLength = (int) (tmpLength + l.getEdge().length());
+                                    tmpLength = (int) (tmpLength + l.getEdge().getLength());
                                 } else
                                 {
                                     String turn;
@@ -194,7 +194,7 @@ public class SideBar
                                             break;
                                     }
 
-                                    tmpLength = (int) (tmpLength + l.getEdge().length());
+                                    tmpLength = (int) (tmpLength + l.getEdge().getLength());
                                     area.append(l.getEdge().getName() + ": " + "Tag " + turn + " om " + tmpLength + " m" + " mod" + newline);
 
                                     tmpLength = 0;
