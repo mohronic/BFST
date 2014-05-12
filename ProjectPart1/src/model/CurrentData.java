@@ -65,58 +65,36 @@ public class CurrentData extends ObservableC {
      * @param r, Rectangle2D which is the area to be drawn.
      */
     public void updateArea(Rectangle2D r) {
-//        double vdiffx, vdiffy;
-//        vdiffx = (Math.abs(view.getMaxX()) - Math.abs(view.getMinX()))
-//                - (Math.abs(r.getMaxX()) - Math.abs(r.getMinX()));
-//        vdiffy = (Math.abs(view.getMaxY()) - Math.abs(view.getMinY()))
-//                - (Math.abs(r.getMaxY()) - Math.abs(r.getMinY()));
-//
-//        for (int i = 0; i < 4; i++) {
-//
-//            view = new Rectangle2D.Double(0,0,100000,100000);
-////            view = new Rectangle2D.Double(
-////                    view.getMinX() + (0.25 * vdiffx),
-////                    view.getMinY() + (0.25 * vdiffy),
-////                    view.getMaxX() - (0.25 * vdiffx),
-////                    view.getMaxY() - (0.25 * vdiffy)
-////            );
-//            setChanged();
-//            notifyObservers();
-//            try{
-//            Thread.sleep(200);
-//            } catch(InterruptedException e){
-//                System.out.println(e);
-//            }
-//        }
         view = r;
-        Canvas c = Canvas.getInstance(null);
-        c.calcScale(view);
+        oldy = view.getMinY();
+        oldx = view.getMinX();
+        setChanged();
+        notifyObservers();
 
+    }
+
+    public List<Road> getTile(Rectangle2D r) {
+        List<Road> rds;
+        Canvas c = Canvas.getInstance(null);
         double maxScale = xmax / (double) c.getWidth();
         if (maxScale < ymax / (double) c.getHeight()) {
             maxScale = (ymax - ymin) / (double) c.getHeight();
         }
 
-        
-        oldy = view.getMinY();
-        oldx = view.getMinX();
-        roads.clear();
-        roads = qtlvl1.search(r.getX() * 0.7, (r.getX() + r.getWidth()) * 1.6, r.getY() * 0.7, (r.getY() + r.getHeight()) * 1.6);
-        
+        rds = qtlvl1.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), (r.getY() + r.getHeight()));
 
         if (c.getScale() < maxScale * 0.75 && c.getScale() > maxScale * 0.05) {
-            roads.addAll(qtlvl2.search(r.getX() * 0.7, (r.getX() + r.getWidth()) * 1.6, r.getY() * 0.7, (r.getY() + r.getHeight()) * 1.6));
+            rds.addAll(qtlvl2.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), r.getY() + r.getHeight()));
         } else if (c.getScale() <= maxScale * 0.05 && c.getScale() > maxScale * 0.025) {
-            roads.addAll(qtlvl2.search(r.getX() * 0.7, (r.getX() + r.getWidth()) * 1.6, r.getY() * 0.7, (r.getY() + r.getHeight()) * 1.6));
-            roads.addAll(qtlvl3.search(r.getX() * 0.7, (r.getX() + r.getWidth()) * 1.6, r.getY() * 0.7, (r.getY() + r.getHeight()) * 1.6));
+            rds.addAll(qtlvl2.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), r.getY() + r.getHeight()));
+            rds.addAll(qtlvl3.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), r.getY() + r.getHeight()));
         } else if (c.getScale() <= maxScale * 0.025) {
-            roads.addAll(qtlvl2.search(r.getX() * 0.7, (r.getX() + r.getWidth()) * 1.6, r.getY() * 0.7, (r.getY() + r.getHeight()) * 1.6));
-            roads.addAll(qtlvl3.search(r.getX() * 0.7, (r.getX() + r.getWidth()) * 1.6, r.getY() * 0.7, (r.getY() + r.getHeight()) * 1.6));
-            roads.addAll(qtlvl4.search(r.getX() * 0.7, (r.getX() + r.getWidth()) * 1.6, r.getY() * 0.7, (r.getY() + r.getHeight()) * 1.6));
+            rds.addAll(qtlvl2.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), r.getY() + r.getHeight()));
+            rds.addAll(qtlvl3.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), r.getY() + r.getHeight()));
+            rds.addAll(qtlvl4.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), r.getY() + r.getHeight()));
         }
-        setChanged();
-        notifyObservers();
-
+        
+        return rds;
     }
 
     /**

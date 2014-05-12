@@ -32,7 +32,6 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
     private boolean mousePressed;
     private Rectangle2D currentView;
     private final Rectangle2D originalView;
-    private int x, y;
 
     /**
      * Constructor for ML, setting the current view and the original view. It
@@ -41,11 +40,9 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
      * @param c Canvas which it is connected too.
      */
     public ML() {
+        currentView = new Rectangle2D.Double(cd.getXmin(), cd.getYmin(), cd.getXmax() - cd.getXmin(), cd.getYmax() - cd.getYmin());
         originalView = new Rectangle2D.Double(cd.getXmin(), cd.getYmin(), cd.getXmax() - cd.getXmin(), cd.getYmax() - cd.getYmin());
-        currentView = originalView;
         c = Canvas.getInstance(cd);
-        x = 0;
-        y = 0;
     }
 
     @Override
@@ -75,7 +72,6 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
             if (mouseStart.getX() == mouseEnd.getX() || mouseStart.getY() == mouseEnd.getY()) {
                 cd.updateArea(originalView);
                 currentView.setRect(originalView);
-                c.requestFocus();
             } else {
                 double startx = mouseStart.getX();
                 double starty = mouseStart.getY();
@@ -103,15 +99,6 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
                 calcView(currentView);
 
             }
-        } else if (mouseButton == 3) {
-            Rectangle2D temp = cd.getView();
-            double x = temp.getX() - (this.x * c.getScale());
-            double y = temp.getY() - (this.y * c.getScale());
-            double w = temp.getWidth();
-            double h = temp.getHeight();
-            this.x = 0;
-            this.y = 0;
-            cd.updateArea(new Rectangle2D.Double(x, y, w, h));
         }
         c.setDragbool(false);
         mousePressed = false;
@@ -158,9 +145,12 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
      * the upper left corner, of the view.
      */
     private void pan() {
-        x += (currentMouse.getX() - mouseStart.getX());
-        y += (currentMouse.getY() - mouseStart.getY());
-        c.pan(x, y);
+        Rectangle2D temp = cd.getView();
+        double x = temp.getX() - ((currentMouse.getX() - mouseStart.getX()) * c.getScale());
+        double y = temp.getY() - ((currentMouse.getY() - mouseStart.getY()) * c.getScale());
+        double w = temp.getWidth();
+        double h = temp.getHeight();
+        cd.updateArea(new Rectangle2D.Double(x, y, w, h));
         mouseStart = currentMouse;
     }
 
@@ -247,6 +237,7 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         double w = r.getWidth() * c.getScale();
         double h = r.getHeight() * c.getScale();
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
+
     }
 
     @Override

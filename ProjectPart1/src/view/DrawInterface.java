@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 /**
@@ -56,8 +57,16 @@ public interface DrawInterface {
      * Changes the color being drawn with to black.
      */
     public void setOrange();
+
+    /**
+     * set the graphics object to use (since it implementation uses Graphics2D).
+     * @param g 
+     */
+    public void setGraphics(Graphics g);
     
-    public void startDraw(int w, int h);
+    public BufferedImage getImage();
     
-    public BufferedImage endDraw();
+    public void startDraw();
+    
+    public void endDraw();
 }

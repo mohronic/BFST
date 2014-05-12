@@ -35,12 +35,14 @@ public class StartMap {
      * @throws IOException
      */
     public StartMap(boolean osm) throws IOException, SAXException, ParserConfigurationException {
-        if(osm){
+        if (osm) {
             OSMParser op = new OSMParser(this);
             op.parseOSM();
-        }else{
+            op = null;
+        } else {
             KrakParser kp = new KrakParser(this);
             kp.setData();
+            kp = null;
         }
         cd = CurrentData.getInstance();
         cd.setXmax(bounds.getMaxX());
@@ -61,8 +63,8 @@ public class StartMap {
         frame.setMinimumSize(new Dimension(880, 700));
         frame.setSize(1110, 700);
 
-        SideBar SB = new SideBar();
         Canvas c = Canvas.getInstance(cd);
+        SideBar SB = new SideBar();
         ML ml = new ML();
         KL kl = new KL();
         c.addMouseListener(ml);
@@ -83,8 +85,8 @@ public class StartMap {
     public void setData(QuadTree[] qts) {
         StartMap.qts = qts;
     }
-    
-    public void setBounds(Rectangle2D bounds){
+
+    public void setBounds(Rectangle2D bounds) {
         StartMap.bounds = bounds;
     }
 
