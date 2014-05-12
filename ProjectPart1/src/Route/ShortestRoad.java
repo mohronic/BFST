@@ -25,7 +25,7 @@ public class ShortestRoad extends DijkstraSP
 
     /**
      * Makes the Comparator used by the priorityqueue. Compares the accumulated
-     * length
+     * length. A* inspired comparison
      *
      * @return Comparator<DirectedEdge>
      */
@@ -36,12 +36,24 @@ public class ShortestRoad extends DijkstraSP
         {
 
             @Override
-            public int compare(DirectedEdge t, DirectedEdge t1)
+            public int compare(DirectedEdge t1, DirectedEdge t2)
             {
-                Linked tmp = distTo.get(t.from());
-                Linked tmp2 = distTo.get(t1.from());
+                Linked tmp, tmp2;
+                tmp = distTo.get(t1.from());
+                tmp2 = distTo.get(t2.from());
+                
+                Point2D.Double first, second;
+                first = tmp.getEdge().from();
+                second = tmp2.getEdge().from(); 
+                
+                double length1, length2;
+                length1 = Math.sqrt(Math.pow(first.getX()-t.from().getX(),2)+Math.pow(first.getY()-t.from().getY(),2)); //fulgeflugt længde til slut punkt
+                length2 = Math.sqrt(Math.pow(second.getX()-t.from().getX(),2)+Math.pow(second.getY()-t.from().getY(),2)); //fugleflugt længde til slut punkt
+                
+                length1 += tmp.getLength();
+                length2 += tmp2.getLength();
 
-                return Double.compare(tmp.getLength(), tmp2.getLength());
+                return Double.compare(length1, length2);
             }
         };
 

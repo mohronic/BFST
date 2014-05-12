@@ -35,7 +35,7 @@ public class FastestRoad extends DijkstraSP
         {
 
             @Override
-            public int compare(DirectedEdge t, DirectedEdge t1)
+            public int compare(DirectedEdge t, DirectedEdge t1) //Doesnt work with A-Stary
             {
                 Linked tmp = distTo.get(t.from());
                 Linked tmp2 = distTo.get(t1.from());

@@ -96,17 +96,17 @@ public class SideBar
             {
                 String from = slFrom.getText();
                 String to = slTo.getText();
-                if (from.matches("[0-9]+") || to.matches("[0-9]+"))
+                if (from.matches("[0-9]+") || to.matches("[0-9]+")) //Searchfield contains illegal characters
                 {
                     JOptionPane.showMessageDialog(sideBar, "Numbers are not allowed");
-                } else if (from.trim().matches("") || to.trim().matches(""))
+                } else if (from.trim().matches("") || to.trim().matches("")) //Searchfield contains illegal characters
                 {
                     JOptionPane.showMessageDialog(sideBar, "Nothing was typed in");
-                } else
+                } else 
                 {
                     Road roadFrom = slFrom.checkRoadName(from);
                     Road roadTo = slTo.checkRoadName(to);
-                    if (roadFrom == null || roadTo == null)
+                    if (roadFrom == null || roadTo == null) // Road name does not exist
                     {
                         JOptionPane.showMessageDialog(sideBar, "Road was not found");
                     } else
@@ -114,7 +114,7 @@ public class SideBar
 
                         ButtonModel routeAnswer = route.getSelection();
                         ButtonModel dataAnswer = data.getSelection();
-                        if (routeAnswer.getActionCommand().equals("Fastest"))
+                        if (routeAnswer.getActionCommand().equals("Fastest")) // Fastest route
                         {
                             DijkstraSP SP = new FastestRoad(StartMap.allRoads);
                             roadRoute = SP.mapRoute(roadFrom, roadTo);
@@ -129,7 +129,7 @@ public class SideBar
                             for (int i = 0; i < roadRoute.size() - 1; i++)
                             {
                                 l = roadRoute.get(i);
-                                if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName()))
+                                if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName())) //If the edge has the same name as the next, just add up the distance and only print road name once
                                 {
                                     tmpLength = (int) (tmpLength + l.getEdge().length());
                                 } else
@@ -153,14 +153,14 @@ public class SideBar
 
                                     tmpLength = 0;
                                 }
-                                if (i == roadRoute.size() - 2)
+                                if (i == roadRoute.size() - 2) //Last edge in linked list, different text
                                 {
                                     Linked l2 = roadRoute.get(i + 1);
                                     area.append(l2.getEdge().getName() + " og destinationen er nået!");
                                 }
                             }
 
-                        } else
+                        } else //Shortest road
                         {
                             DijkstraSP SP = new ShortestRoad(StartMap.allRoads);
                             roadRoute = SP.mapRoute(roadFrom, roadTo);
@@ -175,7 +175,7 @@ public class SideBar
                             for (int i = 0; i < roadRoute.size() - 1; i++)
                             {
                                 l = roadRoute.get(i);
-                                if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName()))
+                                if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName())) //If the edge has the same name as the next, just add up the distance and only print road name once
                                 {
                                     tmpLength = (int) (tmpLength + l.getEdge().length());
                                 } else
@@ -199,7 +199,7 @@ public class SideBar
 
                                     tmpLength = 0;
                                 }
-                                if (i == roadRoute.size() - 2)
+                                if (i == roadRoute.size() - 2) //Last edge in linked list, different text
                                 {
                                     Linked l2 = roadRoute.get(i + 1);
                                     area.append(l2.getEdge().getName() + " og destinationen er nået!");

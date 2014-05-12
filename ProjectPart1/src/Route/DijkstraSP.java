@@ -18,6 +18,12 @@ public abstract class DijkstraSP
 {
 
     /**
+     * Used in A* to compare to the target coordinates.
+     * 
+     */
+    protected DirectedEdge t;
+
+    /**
      * HashMap with Point as key and Linked as value. The length/drivetime to
      * this point is accumulated, so it is the total distance from "From"
      */
@@ -71,7 +77,7 @@ public abstract class DijkstraSP
     public ArrayList<Linked> mapRoute(Road sourceRoad, Road targetRoad)
     {
         DirectedEdge s = new DirectedEdge(sourceRoad, true);
-        DirectedEdge t = new DirectedEdge(targetRoad, true);
+        t = new DirectedEdge(targetRoad, true);
         Linked source = new Linked();
         source.setLength(0.0);
         source.setDrivetime(0.0);
