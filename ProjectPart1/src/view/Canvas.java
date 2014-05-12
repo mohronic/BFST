@@ -4,7 +4,9 @@ import Route.Linked;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
+import java.awt.RenderingHints;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -22,7 +24,7 @@ import model.Road;
  *
  * @author Gruppe A
  */
-public class Canvas extends JComponent implements ObserverC {
+public class Canvas extends JComponent implements ObserverC, FocusListener{
 
     private List<Road> rd;
     private final CurrentData cd;
@@ -37,7 +39,7 @@ public class Canvas extends JComponent implements ObserverC {
     private HashMap<Integer, BufferedImage> tiles;
     private int tileNr = 1;
     private int i = 0, j = 0;
-    private boolean newGrid;
+    private boolean newGrid, isFocus;
 
     /**
      * Constructor for Canvas, getting the data to draw and instantiates the
@@ -52,6 +54,7 @@ public class Canvas extends JComponent implements ObserverC {
         rd = new ArrayList<>();
         tiles = new HashMap<>();
         newGrid = true;
+        isFocus = true;
     }
 
     public static Canvas getInstance(CurrentData cd) {
@@ -72,21 +75,21 @@ public class Canvas extends JComponent implements ObserverC {
         tempImg = new Rectangle2D.Double(oView.getX() / scale, oView.getY() / scale, oView.getWidth() / scale, oView.getHeight() / scale);
         tempView = new Rectangle2D.Double(view.getX() / scale, view.getY() / scale, view.getWidth() / scale, view.getHeight() / scale);
         if (newGrid) {
-            createGrid();
+            grid = null;
             tiles.clear();
             tileNr = 1;
-            newGrid = false;
             System.gc();
+            createGrid();
+            newGrid = false;
         }
-        if(tiles.size() > 400){
+        if (tiles.size() > 400) {
             tiles.clear();
             grid = new int[grid.length][grid[0].length];
         }
         int sX = Math.max((int) Math.floor((tempView.getX() - tempImg.getX()) / tSize), 0);
         int sY = Math.max((int) Math.floor((tempView.getY() - tempImg.getY()) / tSize), 0);
-        int eX = Math.min((int) Math.ceil((tempView.getMaxX()- tempImg.getX()) / tSize), grid.length);
-        int eY = Math.min((int) Math.ceil((tempView.getMaxY()- tempImg.getY()) / tSize), grid[0].length);
-        System.out.println(sX+" "+sY+" : "+eX+" "+eY);
+        int eX = Math.min((int) Math.ceil((tempView.getMaxX() - tempImg.getX()) / tSize), grid.length);
+        int eY = Math.min((int) Math.ceil((tempView.getMaxY() - tempImg.getY()) / tSize), grid[0].length);
         i = sX;
         while (i < eX) {
             j = sY;
@@ -97,7 +100,6 @@ public class Canvas extends JComponent implements ObserverC {
                     BufferedImage temp = drawTile(rd);
                     drawRoute(temp, tileArea);
                     tiles.put(tileNr, temp);
-                    System.out.println(""+tiles.size());
                     grid[i][j] = tileNr++;
                     Rectangle2D tile = new Rectangle2D.Double(i * tSize - (tempView.getX() - tempImg.getX()), j * tSize - (tempView.getY() - tempImg.getY()), tSize, tSize);
                     g2.draw(tile);
@@ -121,6 +123,8 @@ public class Canvas extends JComponent implements ObserverC {
 
         BufferedImage bimg = new BufferedImage((int) tSize, (int) tSize, BufferedImage.TYPE_INT_ARGB);
         Graphics2D big = bimg.createGraphics();
+        big.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         for (Road r : rds) {
 
             double x1, x2, y1, y2;
@@ -157,6 +161,8 @@ public class Canvas extends JComponent implements ObserverC {
         Graphics2D g2 = null;
         if (SideBar.getRoute() != null) {
             g2 = temp.createGraphics();
+            g2.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(Color.orange);
             for (Linked l : SideBar.getRoute()) {
                 Road r = l.getRoad();
@@ -224,8 +230,8 @@ public class Canvas extends JComponent implements ObserverC {
     public void setDragbool(boolean bool) {
         dragbool = bool;
     }
-    
-    public void updateRoute(){
+
+    public void updateRoute() {
         newGrid = true;
         repaint();
     }
@@ -238,5 +244,22 @@ public class Canvas extends JComponent implements ObserverC {
         } else {
             scale = view.getWidth() / (double) this.getWidth();
         }
+        if(scale < 1) scale = 1;
+        System.out.println(""+scale);
+    }
+    
+    @Override
+    public boolean hasFocus(){
+        return isFocus;
+    }
+    
+    @Override
+    public void focusGained(FocusEvent fe) {
+        isFocus = true;
+    }
+
+    @Override
+    public void focusLost(FocusEvent fe) {
+       isFocus = false;
     }
 }

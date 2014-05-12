@@ -258,8 +258,6 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         if (e.getPreciseWheelRotation() > 0) {
             zoomOut(e.getX(), e.getY());
         }
-        System.out.println("Rotation: " + e.getPreciseWheelRotation());
-        System.out.println("X value: " + e.getX());
     }
 
     /**
