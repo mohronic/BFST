@@ -58,16 +58,9 @@ public class KL implements KeyListener
     {
         if (e.getKeyCode() == 10 && !c.hasFocus()) //10 = keycode for Enter-button
         {
-            //Should be written to a method call
-            
-//            System.out.println("Searching for: " + searchLabel.getText());
-//            System.out.println("Road found: " + searchLabel.searchRoad(searchLabel.getText()).getEd().VEJNAVN);
-//            System.out.println("Postnummer højre: " + searchLabel.searchRoad(searchLabel.getText()).getEd().H_POSTNR);
-//            System.out.println("Postnummer venstre: " + searchLabel.searchRoad(searchLabel.getText()).getEd().V_POSTNR);   
+
         }
         
-        //if(!searchLabel.hasFocus())
-        //{
             if(e.getKeyCode() == 38 && c.hasFocus()) //Op
             {
                 keyPanUp();
@@ -87,7 +80,6 @@ public class KL implements KeyListener
             {
                 keyPanLeft();
             }
-        //}
     }
 
     /**
@@ -105,12 +97,6 @@ public class KL implements KeyListener
         {
             searchLabel.oldtext = searchLabel.getText().length();
         }
-        
-//        System.out.println(e.getKeyCode());
-//        if (e.getKeyCode() != 8 && e.getKeyCode() != 127 && !c.hasFocus() && e.getKeyCode() != 16 && e.getKeyCode() != 20)
-//        {
-//            searchLabel.autoComplete();
-//        }
     }
 
     /**

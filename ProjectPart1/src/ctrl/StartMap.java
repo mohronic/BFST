@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.xml.parsers.ParserConfigurationException;
 import model.CurrentData;
@@ -17,7 +18,6 @@ import org.xml.sax.SAXException;
 import osmparser.OSMParser;
 import view.Canvas;
 import view.SideBar;
-import java.util.HashMap;
 
 /**
  * Class containing main method. It loads the data from the Krak files and
@@ -84,6 +84,8 @@ public class StartMap {
         c.addMouseWheelListener(ml);
         c.addKeyListener(kl);
         cd.addObserver(c);
+        CanvasML cml = new CanvasML();
+        c.addMouseListener(cml);
 
         frame.setLayout(new BorderLayout());
         frame.add(c, BorderLayout.CENTER);
@@ -91,6 +93,7 @@ public class StartMap {
         frame.add(SB.getSideBar(), BorderLayout.WEST);
         frame.setVisible(true);
         cd.updateArea(StartMap.bounds);
+        
 
     }
 
