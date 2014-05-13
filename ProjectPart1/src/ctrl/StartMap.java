@@ -42,20 +42,20 @@ public class StartMap {
      * @throws IOException
      */
     public StartMap(boolean osm) throws IOException, SAXException, ParserConfigurationException {
-//        if (osm) {
-//            OSMParser op = new OSMParser(this);
-//            op.parseOSM();
-//            op = null;
-//        } else {
+        if (osm) {
+            OSMParser op = new OSMParser(this);
+            op.parseOSM();
+            op = null;
+        } else {
             KrakParser kp = new KrakParser(this);
             kp.setData();
             kp = null;
-//        }
+        }
         Collections.sort(allRoads);
-        
+
         CityNameParser cityNameParser = new CityNameParser();
         zipToCityHashMap = cityNameParser.getZipToCityHashMap();
-        
+
         cd = CurrentData.getInstance();
         cd.setXmax(bounds.getMaxX());
         cd.setXmin(bounds.getMinX());
@@ -93,7 +93,6 @@ public class StartMap {
         frame.add(SB.getSideBar(), BorderLayout.WEST);
         frame.setVisible(true);
         cd.updateArea(StartMap.bounds);
-        
 
     }
 

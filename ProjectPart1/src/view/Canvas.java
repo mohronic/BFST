@@ -78,7 +78,6 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
             grid = null;
             tiles.clear();
             tileNr = 1;
-            System.gc();
             createGrid();
             newGrid = false;
         }
