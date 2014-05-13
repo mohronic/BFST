@@ -17,6 +17,7 @@ import krakloader.KrakLoader;
 import krakloader.LoadCoast;
 import krakloader.NodeData;
 import model.Road;
+import pathFind.Pathfinder;
 
 /**
  *
@@ -30,7 +31,7 @@ public class KrakParser {
     public KrakParser(StartMap sm) {
         this.sm = sm;
     }
-    
+
     /*
      * Loads the data with the use of the krakloader package, recalculates the
      * coordinates and inserts the data into the Quadtree.
@@ -70,11 +71,11 @@ public class KrakParser {
             Road rd = new Road(ed, nodes.get(ed.FNODE - 1), nodes.get(ed.TNODE - 1));
             roads.add(rd);
             allRoads.add(rd);
-            Adjacencies.addEdge(rd);
+            //Adjacencies.addEdge(rd);
         }
-        
-        sm.setBounds(new Rectangle2D.Double(0,0,xmax,ymax));
-        
+
+        sm.setBounds(new Rectangle2D.Double(0, 0, xmax, ymax));
+
         QuadTree qtlvl1 = new QuadTree(ROOT, null);
         QuadTree qtlvl2 = new QuadTree(ROOT, null);
         QuadTree qtlvl3 = new QuadTree(ROOT, null);
@@ -94,9 +95,14 @@ public class KrakParser {
         for (Road r : coastList) {
             qtlvl1.insert(r);
         }
-        
+
+        System.out.println("start pf");
+        Pathfinder pf = new Pathfinder(StartMap.allRoads);
+        pf.getPath(StartMap.allRoads.get(3000), StartMap.allRoads.get(4000));
+        System.out.println("stop pf");
+
         QuadTree[] qts = new QuadTree[]{qtlvl1, qtlvl2, qtlvl3, qtlvl4};
-        
+
         sm.setData(qts);
 
     }

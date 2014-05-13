@@ -40,6 +40,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
     private int tileNr = 1;
     private int i = 0, j = 0;
     private boolean newGrid, isFocus;
+    public static ArrayList<Road> path;
 
     /**
      * Constructor for Canvas, getting the data to draw and instantiates the
@@ -159,13 +160,14 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
 
     private void drawRoute(BufferedImage temp, Rectangle2D tileArea) {
         Graphics2D g2 = null;
-        if (SideBar.getRoute() != null) {
+        //ændre til sidebar route
+        if (Canvas.path != null) {
             g2 = temp.createGraphics();
             g2.setRenderingHint(
                 RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(Color.orange);
-            for (Linked l : SideBar.getRoute()) {
-                Road r = l.getEdge();
+            for (Road r : Canvas.path) {
+                //Road r = l.getEdge();
                 if (tileArea.contains(r.midX, r.midY)) {
                     double x1, x2, y1, y2;
                     NodeData n1 = r.getFn();

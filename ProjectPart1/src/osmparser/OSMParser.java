@@ -17,6 +17,7 @@ import krakloader.NodeData;
 import model.Road;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import pathFind.Pathfinder;
 
 /**
  *
@@ -35,7 +36,7 @@ public class OSMParser {
     }
 
     public void parseOSM() throws ParserConfigurationException, SAXException, IOException {
-        String filename = "./data/outs2.osm";
+        String filename = "./data/osm.osm";
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setNamespaceAware(true);
         SAXParser saxParser = spf.newSAXParser();
@@ -70,7 +71,7 @@ public class OSMParser {
                     refOne = refTwo;
                     Road r = new Road(e, tOne, tTwo);
                     StartMap.allRoads.add(r);
-                    Adjacencies.addEdge(r);
+                    //Adjacencies.addEdge(r);
                     if (e.TYP == 1 || e.TYP == 3 || e.TYP == 2 || e.TYP == 48) {
                         qtlvl1.insert(r);
                     } else if (e.TYP == 4) {
@@ -83,7 +84,10 @@ public class OSMParser {
                 }
             }
         }
-
+        System.out.println("start pf");
+        Pathfinder pf = new Pathfinder(StartMap.allRoads);
+        pf.getPath(StartMap.allRoads.get(3000), StartMap.allRoads.get(4000));
+        System.out.println("stop pf");
         QuadTree[] qts = new QuadTree[]{qtlvl1, qtlvl2, qtlvl3, qtlvl4};
         sm.setData(qts);
 
