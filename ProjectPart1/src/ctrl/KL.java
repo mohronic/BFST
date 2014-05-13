@@ -95,11 +95,18 @@ public class KL implements KeyListener
     @Override
     public void keyReleased(KeyEvent e)
     {
-        System.out.println(e.getKeyCode());
-        if (e.getKeyCode() != 8 && e.getKeyCode() != 127 && !c.hasFocus() && e.getKeyCode() != 16 && e.getKeyCode() != 20)
-        {
+        
+        if(searchLabel.oldtext != searchLabel.getText().length()){
             searchLabel.autoComplete();
+            searchLabel.oldtext = searchLabel.getText().length();
         }
+        
+        
+//        System.out.println(e.getKeyCode());
+//        if (e.getKeyCode() != 8 && e.getKeyCode() != 127 && !c.hasFocus() && e.getKeyCode() != 16 && e.getKeyCode() != 20)
+//        {
+//            searchLabel.autoComplete();
+//        }
     }
 
     /**

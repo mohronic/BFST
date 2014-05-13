@@ -31,6 +31,7 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
     private boolean showingHint;
     private final AutoCompleter autoCompleter = AutoCompleter.getInstance();
     public ArrayList<Road> roadList = StartMap.allRoads; //Soon to be sorted
+    public int oldtext;
 
     /**
      * Constructor for SearchLabel. Initilises variables in SearchLabel, sets
@@ -46,6 +47,7 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
         this.showingHint = true;
         super.addFocusListener(this);
         currentString = this.getText();
+        oldtext = this.getText().length();
     }
 
     /**
