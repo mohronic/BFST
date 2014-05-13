@@ -120,6 +120,6 @@ public class StartMap {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-        StartMap sm = new StartMap(true);
+        StartMap sm = new StartMap(false);
     }
 }

@@ -70,7 +70,7 @@ public class OSMParser {
                     refOne = refTwo;
                     Road r = new Road(e, tOne, tTwo);
                     StartMap.allRoads.add(r);
-                    //Adjacencies.addEdge(r);
+                    Adjacencies.addEdge(r);
                     if (e.TYP == 1 || e.TYP == 3 || e.TYP == 2 || e.TYP == 48) {
                         qtlvl1.insert(r);
                     } else if (e.TYP == 4) {
