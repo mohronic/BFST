@@ -23,6 +23,7 @@ import view.Graphics2DDraw;
 /**
  * A mouseListener and mouseMotionListener, used to zoom, pan and find nearest
  * road.
+ *
  * @author Gruppe A
  */
 public class ML implements MouseListener, MouseMotionListener, MouseWheelListener 
