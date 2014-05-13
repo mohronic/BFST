@@ -34,7 +34,6 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
     public ArrayList<Road> roadList = StartMap.allRoads; //Soon to be sorted
     public int oldtext = 0;
 
-
     /**
      * Constructor for SearchLabel. Initilises variables in SearchLabel, sets
      * starttext and selects it.
@@ -101,7 +100,7 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
 //        return road;
 //    }
 //    
-//    private Road setFocusable(true);binaryRoadSearch(String s)
+//    private Road binaryRoadSearch(String s)
 //    {
 //        int n = roadList.size();
 //        int a = 0, b = n-1;
@@ -136,8 +135,6 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
             showingHint = false;
         }
         Canvas.getInstance(null).setFocus(false);
-        System.out.println("gained");
-        
     }
 
     @Override
@@ -148,8 +145,7 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
             this.setText(hint);
             showingHint = true;
         }
-        Canvas.getInstance(null).setFocus(true);
-        
+        Canvas.getInstance(null).setFocus(true);     
     }
 
     @Override
