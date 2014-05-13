@@ -26,12 +26,12 @@ import javax.swing.event.DocumentListener;
 public class SearchLabel extends JTextField implements FocusListener, DocumentListener
 {
     public CurrentData currentData;
-    private String currentString;
+    public String currentString;
     private final String hint;
     private boolean showingHint;
     private final AutoCompleter autoCompleter = AutoCompleter.getInstance();
     public ArrayList<Road> roadList = StartMap.allRoads; //Soon to be sorted
-    public int oldtext;
+    public int oldtext = 0;
 
     /**
      * Constructor for SearchLabel. Initilises variables in SearchLabel, sets
@@ -47,7 +47,6 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
         this.showingHint = true;
         super.addFocusListener(this);
         currentString = this.getText();
-        oldtext = this.getText().length();
     }
 
     /**
@@ -56,6 +55,7 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
     public void autoComplete()
     {
         updateCurrentString();
+        oldtext = getText().length();
         System.out.println("After update: " + currentString);
         if(currentString.length() > 0)
         {
@@ -74,31 +74,24 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
      * @param roadName String roadname
      * @return Boolean found
      */
-    public Road checkRoadName(String roadName)
+    public Road searchRoad(String searchQuery)
     {
-        for (Road road : roadList)
-        {
-            //System.out.println(road.midX);
-            if (roadName.equals(road.getEd().VEJNAVN))
-            {
-                return road;
-            }
-        }
-        return null;
+        Road found = autoCompleter.searchRoad(searchQuery);
+        return found;
     }
     
-    public Road checkRoadName(String roadName, int postalCode)
-    {
-        for (Road road : roadList)
-        {
-            //System.out.println(road.midX);
-            if (roadName.equals(road.getEd().VEJNAVN) && postalCode == road.getEd().V_POSTNR)
-            {
-                return road;
-            }
-        }
-        return null;
-    }
+//    public Road searchRoad(String roadName, int postalCode)
+//    {
+//        for (Road road : roadList)
+//        {
+//            //System.out.println(road.midX);
+//            if (roadName.equals(road.getEd().VEJNAVN) && postalCode == road.getEd().V_POSTNR)
+//            {
+//                return road;
+//            }
+//        }
+//        return null;
+//    }
         
 //    public Road searchRoad(String s)
 //    {

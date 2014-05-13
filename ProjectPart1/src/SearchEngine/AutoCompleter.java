@@ -85,6 +85,24 @@ public class AutoCompleter
         }
         return autoCompletedAddress;
     }
+    
+    public Road searchRoad(String userInput)
+    {
+        System.out.println("User input" + userInput);
+        String[] addressArray = AdressParser.parse(userInput);
+
+        Road found = null;
+
+        if (addressArray[0] != null && addressArray[4] != null)
+        {
+            found = searchTrie.searchRoad(addressArray[0], Integer.parseInt(addressArray[4]));
+        } else if (found == null && addressArray[0] != null)
+        {
+            found = searchTrie.searchRoad(addressArray[0]);
+        }
+        
+        return found;
+    }
        
 
         

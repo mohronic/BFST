@@ -4,9 +4,9 @@ package view;
 import Route.DijkstraSP;
 import Route.FastestRoad;
 import Route.Linked;
-import Route.MapRoute;
 import Route.ShortestRoad;
 import SearchEngine.SearchLabel;
+import SearchEngine.SearchTrie;
 import ctrl.KL;
 import ctrl.StartMap;
 import java.awt.Dimension;
@@ -37,6 +37,7 @@ public class SideBar
     private static ArrayList<Linked> roadRoute;
     private static SearchLabel slTo, slFrom;
     private static JLabel info;
+    private static SearchTrie searchTrie = SearchTrie.getInstance();
 
     public SideBar()
     {
@@ -114,8 +115,9 @@ public class SideBar
                     JOptionPane.showMessageDialog(sideBar, "Nothing was typed in");
                 } else 
                 {
-                    Road roadFrom = slFrom.checkRoadName(from);
-                    Road roadTo = slTo.checkRoadName(to);
+                    Road roadFrom = slFrom.searchRoad(from);
+                    Road roadTo = slTo.searchRoad(to);
+                    
                     if (roadFrom == null || roadTo == null) // Road name does not exist
                     {
                         JOptionPane.showMessageDialog(sideBar, "Road was not found");

@@ -60,31 +60,34 @@ public class KL implements KeyListener
         {
             //Should be written to a method call
             
-            System.out.println("Searching for: " + searchLabel.getText());
-            System.out.println("Road found: " + searchLabel.checkRoadName(searchLabel.getText()).getEd().VEJNAVN);
-            System.out.println("Postnummer højre: " + searchLabel.checkRoadName(searchLabel.getText()).getEd().H_POSTNR);
-            System.out.println("Postnummer venstre: " + searchLabel.checkRoadName(searchLabel.getText()).getEd().V_POSTNR);   
+//            System.out.println("Searching for: " + searchLabel.getText());
+//            System.out.println("Road found: " + searchLabel.searchRoad(searchLabel.getText()).getEd().VEJNAVN);
+//            System.out.println("Postnummer højre: " + searchLabel.searchRoad(searchLabel.getText()).getEd().H_POSTNR);
+//            System.out.println("Postnummer venstre: " + searchLabel.searchRoad(searchLabel.getText()).getEd().V_POSTNR);   
         }
         
-        if(e.getKeyCode() == 38 && c.hasFocus()) //Op
-        {
-            keyPanUp();
-        }
+        //if(!searchLabel.hasFocus())
+        //{
+            if(e.getKeyCode() == 38 && c.hasFocus()) //Op
+            {
+                keyPanUp();
+            }
 
-        if (e.getKeyCode() == 40 && c.hasFocus()) //Ned
-        {
-            keyPanDown();
-        }
+            if (e.getKeyCode() == 40 && c.hasFocus()) //Ned
+            {
+                keyPanDown();
+            }
 
-        if (e.getKeyCode() == 39 && c.hasFocus()) //Højre
-        {
-            keyPanRight();
-        }
+            if (e.getKeyCode() == 39 && c.hasFocus()) //Højre
+            {
+                keyPanRight();
+            }
 
-        if (e.getKeyCode() == 37 && c.hasFocus()) //Venstre
-        {
-            keyPanLeft();
-        }
+            if (e.getKeyCode() == 37 && c.hasFocus()) //Venstre
+            {
+                keyPanLeft();
+            }
+        //}
     }
 
     /**
@@ -95,12 +98,13 @@ public class KL implements KeyListener
     @Override
     public void keyReleased(KeyEvent e)
     {
-        
-        if(searchLabel.oldtext != searchLabel.getText().length()){
+        if(searchLabel.oldtext < searchLabel.getText().length()){
             searchLabel.autoComplete();
+        }
+        else
+        {
             searchLabel.oldtext = searchLabel.getText().length();
         }
-        
         
 //        System.out.println(e.getKeyCode());
 //        if (e.getKeyCode() != 8 && e.getKeyCode() != 127 && !c.hasFocus() && e.getKeyCode() != 16 && e.getKeyCode() != 20)

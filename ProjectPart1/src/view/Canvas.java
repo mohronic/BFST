@@ -54,7 +54,8 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
         rd = new ArrayList<>();
         tiles = new HashMap<>();
         newGrid = true;
-        isFocus = true;
+        setFocusable(true);
+        isFocus = false;
     }
 
     public static Canvas getInstance(CurrentData cd) {
