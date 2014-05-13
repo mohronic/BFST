@@ -1,14 +1,15 @@
-//******************************Serverversion**********************************
 package ctrl;
 
 import QuadTreePack.QuadTree;
 import SearchEngine.CityNameParser;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.xml.parsers.ParserConfigurationException;
 import model.CurrentData;
@@ -17,7 +18,6 @@ import org.xml.sax.SAXException;
 import osmparser.OSMParser;
 import view.Canvas;
 import view.SideBar;
-import java.util.HashMap;
 
 /**
  * Class containing main method. It loads the data from the Krak files and
@@ -31,6 +31,7 @@ public class StartMap {
     private CurrentData cd;
     private static QuadTree[] qts = new QuadTree[4];
     public final static ArrayList<Road> allRoads = new ArrayList<>();
+    public final static HashMap<Point2D.Double, ArrayList<Road>> adj = new HashMap<>();
     public static Rectangle2D bounds;
     public static int roadID = 0;
     public static HashMap<Integer, String> zipToCityHashMap;

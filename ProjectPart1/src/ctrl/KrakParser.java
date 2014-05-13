@@ -7,6 +7,7 @@ package ctrl;
 
 import static QuadTreePack.NSEW.ROOT;
 import QuadTreePack.QuadTree;
+import Route.Adjacencies;
 import static ctrl.StartMap.allRoads;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
@@ -69,6 +70,7 @@ public class KrakParser {
             Road rd = new Road(ed, nodes.get(ed.FNODE - 1), nodes.get(ed.TNODE - 1));
             roads.add(rd);
             allRoads.add(rd);
+            Adjacencies.addEdge(rd);
         }
         
         sm.setBounds(new Rectangle2D.Double(0,0,xmax,ymax));
