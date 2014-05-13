@@ -54,11 +54,16 @@ public class SideBar
         slTo.addKeyListener(klTo);
         slTo.setColumns(25);
         
+        
         slFrom = new SearchLabel(StartMap.allRoads, "From");
         KL klFrom = new KL();
         klFrom.setSearchLabel(slFrom);
         slFrom.addKeyListener(klFrom);
         slFrom.setColumns(25);
+       
+        
+        
+        
 
         JRadioButton rFastest = new JRadioButton("Fastest Road");
         JRadioButton rShortest = new JRadioButton("Shortest Road");
@@ -230,7 +235,7 @@ public class SideBar
 
         }
         );
-
+        
     }
 
     public JPanel getSideBar()

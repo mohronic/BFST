@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import view.Canvas;
 //import java.util.Collections; Overvej at sorterer RoadList.
 
 /**
@@ -32,6 +33,9 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
     private final AutoCompleter autoCompleter = AutoCompleter.getInstance();
     public ArrayList<Road> roadList = StartMap.allRoads; //Soon to be sorted
     public int oldtext;
+    
+    
+    
 
     /**
      * Constructor for SearchLabel. Initilises variables in SearchLabel, sets
@@ -48,6 +52,8 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
         super.addFocusListener(this);
         currentString = this.getText();
         oldtext = this.getText().length();
+        
+        
     }
 
     /**
@@ -106,7 +112,7 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
 //        return road;
 //    }
 //    
-//    private Road binaryRoadSearch(String s)
+//    private Road setFocusable(true);binaryRoadSearch(String s)
 //    {
 //        int n = roadList.size();
 //        int a = 0, b = n-1;
@@ -140,6 +146,9 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
             this.setText("");
             showingHint = false;
         }
+        Canvas.getInstance(null).setFocus(false);
+        System.out.println("gained");
+        
     }
 
     @Override
@@ -150,6 +159,8 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
             this.setText(hint);
             showingHint = true;
         }
+        Canvas.getInstance(null).setFocus(true);
+        
     }
 
     @Override

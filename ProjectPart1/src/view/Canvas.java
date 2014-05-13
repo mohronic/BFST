@@ -41,6 +41,8 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
     private int i = 0, j = 0;
     private boolean newGrid, isFocus;
 
+    
+
     /**
      * Constructor for Canvas, getting the data to draw and instantiates the
      * DrawInterface.
@@ -55,6 +57,8 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
         tiles = new HashMap<>();
         newGrid = true;
         isFocus = true;
+        
+       
     }
 
     public static Canvas getInstance(CurrentData cd) {
@@ -261,4 +265,9 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
     public void focusLost(FocusEvent fe) {
        isFocus = false;
     }
+    
+    public void setFocus(boolean b){
+        isFocus = b;
+    }
+  
 }

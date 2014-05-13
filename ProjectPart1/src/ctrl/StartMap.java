@@ -83,6 +83,8 @@ public class StartMap {
         c.addMouseWheelListener(ml);
         c.addKeyListener(kl);
         cd.addObserver(c);
+        CanvasML cml = new CanvasML();
+        c.addMouseListener(cml);
 
         frame.setLayout(new BorderLayout());
         frame.add(c, BorderLayout.CENTER);
@@ -90,6 +92,7 @@ public class StartMap {
         frame.add(SB.getSideBar(), BorderLayout.WEST);
         frame.setVisible(true);
         cd.updateArea(StartMap.bounds);
+        
 
     }
 
