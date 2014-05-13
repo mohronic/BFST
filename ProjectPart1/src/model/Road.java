@@ -11,7 +11,7 @@ import krakloader.EdgeData;
  *
  * @author Gruppe A
  */
-public class Road
+public class Road implements Comparable<Road>
 {
     private final int ID;
     private final EdgeData ed;
@@ -130,6 +130,31 @@ public class Road
 
         midX = (fn.getX_COORD() + tn.getX_COORD()) / 2;
         midY = (fn.getY_COORD() + tn.getY_COORD()) / 2;
+    }
+    
+    @Override
+    public int compareTo(Road o)
+    {
+        if(ed.VEJNAVN.compareTo(o.ed.VEJNAVN) > 0)
+        {
+            return 1;
+        }
+        else if(ed.VEJNAVN.compareTo(o.ed.VEJNAVN) < 0)
+        {
+            return -1;
+        }
+        else if(ed.V_POSTNR > o.ed.V_POSTNR)
+        {
+            return 1;
+        }
+        else if(ed.V_POSTNR < o.ed.V_POSTNR)
+        {
+            return -1;
+        }
+        else
+        {
+            return 0;
+        }
     }
     
     public int ID()

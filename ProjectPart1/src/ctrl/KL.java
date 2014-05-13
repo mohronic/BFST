@@ -45,7 +45,7 @@ public class KL implements KeyListener
     @Override
     public void keyTyped(KeyEvent e)
     {
-        //Does Nothing
+        //Do nothing
     }
 
     /**
@@ -56,25 +56,14 @@ public class KL implements KeyListener
     @Override
     public void keyPressed(KeyEvent e)
     {
-
-//        if(searchLabel.getCurrentText().length() > 0)
-//        {
-//            System.out.println("Called...");
-//            searchLabel.updateCurrentString();
-//            searchLabel.autoComplete();
-//        }
-        //System.out.println(e.getKeyCode());
-        //if(e.getKeyCode() == 17)
-        //{
-        //System.out.println("Called...");
-        //searchLabel.updateCurrentString();
-        //searchLabel.autoComplete();
-        //}
         if (e.getKeyCode() == 10 && !c.hasFocus()) //10 = keycode for Enter-button
         {
             //Should be written to a method call
+            
             System.out.println("Searching for: " + searchLabel.getText());
             System.out.println("Road found: " + searchLabel.checkRoadName(searchLabel.getText()).getEd().VEJNAVN);
+            System.out.println("Postnummer højre: " + searchLabel.checkRoadName(searchLabel.getText()).getEd().H_POSTNR);
+            System.out.println("Postnummer venstre: " + searchLabel.checkRoadName(searchLabel.getText()).getEd().V_POSTNR);   
         }
         
         if(e.getKeyCode() == 38 && c.hasFocus()) //Op
@@ -106,11 +95,18 @@ public class KL implements KeyListener
     @Override
     public void keyReleased(KeyEvent e)
     {
-        if (e.getKeyCode() != 8 && !c.hasFocus())
-        {
-            searchLabel.updateCurrentString();
+        
+        if(searchLabel.oldtext != searchLabel.getText().length()){
             searchLabel.autoComplete();
+            searchLabel.oldtext = searchLabel.getText().length();
         }
+        
+        
+//        System.out.println(e.getKeyCode());
+//        if (e.getKeyCode() != 8 && e.getKeyCode() != 127 && !c.hasFocus() && e.getKeyCode() != 16 && e.getKeyCode() != 20)
+//        {
+//            searchLabel.autoComplete();
+//        }
     }
 
     /**

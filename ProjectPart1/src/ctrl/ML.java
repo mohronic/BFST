@@ -1,3 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package ctrl;
 
 import java.awt.Graphics2D;
@@ -20,8 +26,8 @@ import view.Graphics2DDraw;
  *
  * @author Gruppe A
  */
-public class ML implements MouseListener, MouseMotionListener, MouseWheelListener {
-
+public class ML implements MouseListener, MouseMotionListener, MouseWheelListener 
+{
     private final Canvas c;
     private final CurrentData cd = CurrentData.getInstance();
     private final Graphics2DDraw j2d = null;
@@ -35,8 +41,7 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
 
     /**
      * Constructor for ML, setting the current view and the original view. It
-     * takes a Canvas 'c' as parameter, which it uses to calculate the scale.
-     *
+     * takes a Canvas 'c' as parameter, which it uses to calculate the scale.     *
      * @param c Canvas which it is connected too.
      */
     public ML() {
@@ -62,7 +67,6 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
      * released. If it was the left mousebutton & it was dragged, it will zoom
      * on the selected area else if it wasn't dragged it will reset to the
      * original view. If it was any other button, nothing happens.
-     *
      * @param me
      */
     @Override

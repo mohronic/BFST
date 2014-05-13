@@ -1,3 +1,4 @@
+//**********************Adams serverversion:*********************
 package view;
 
 import Route.DijkstraSP;
@@ -9,12 +10,14 @@ import SearchEngine.SearchLabel;
 import ctrl.KL;
 import ctrl.StartMap;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -33,6 +36,7 @@ public class SideBar
     private final static String newline = "\n";
     private static ArrayList<Linked> roadRoute;
     private static SearchLabel slTo, slFrom;
+    private static JLabel info;
 
     public SideBar()
     {
@@ -40,11 +44,16 @@ public class SideBar
         sideBar.setPreferredSize(new Dimension(300, 0));
         JButton bSearch = new JButton("Search");
 
+        info = new JLabel();
+        info.setFont(new Font("Plain", 0, 11));
+        info.setText("Adress format: 'Streetname Number, ZipCode Cityname'");
+        
         slTo = new SearchLabel(StartMap.allRoads, "To");
         KL klTo = new KL();
         klTo.setSearchLabel(slTo);
         slTo.addKeyListener(klTo);
         slTo.setColumns(25);
+        
         slFrom = new SearchLabel(StartMap.allRoads, "From");
         KL klFrom = new KL();
         klFrom.setSearchLabel(slFrom);
@@ -79,8 +88,9 @@ public class SideBar
         area.setWrapStyleWord(true);;
         area.setEditable(false);
 
-        sideBar.add(slTo);
+        sideBar.add(info);
         sideBar.add(slFrom);
+        sideBar.add(slTo);
         sideBar.add(rFastest);
         sideBar.add(rShortest);
         sideBar.add(rKrak);
@@ -243,6 +253,4 @@ public class SideBar
     {
         return slFrom;
     }
-    
-    
 }

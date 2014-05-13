@@ -5,12 +5,16 @@
  */
 package SearchEngine;
 
-import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import javax.swing.JTextField;
 import model.CurrentData;
 import model.Road;
+import ctrl.StartMap;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 //import java.util.Collections; Overvej at sorterer RoadList.
 
 /**
@@ -19,14 +23,15 @@ import model.Road;
  *
  * @author Peter Ø. Clausen <pvcl@itu.dk>
  */
-public class SearchLabel extends JTextField implements FocusListener
+public class SearchLabel extends JTextField implements FocusListener, DocumentListener
 {
-
     public CurrentData currentData;
-    public ArrayList<Road> roadList; //Soon to be sorted
     private String currentString;
     private final String hint;
     private boolean showingHint;
+    private final AutoCompleter autoCompleter = AutoCompleter.getInstance();
+    public ArrayList<Road> roadList = StartMap.allRoads; //Soon to be sorted
+    public int oldtext;
 
     /**
      * Constructor for SearchLabel. Initilises variables in SearchLabel, sets
@@ -38,30 +43,11 @@ public class SearchLabel extends JTextField implements FocusListener
     public SearchLabel(ArrayList<Road> roadList, String hint)
     {
         super(hint);
-        this.roadList = roadList;
-        currentString = this.getText();
         this.hint = hint;
         this.showingHint = true;
         super.addFocusListener(this);
-    }
-
-    /**
-     * Returns true if road with recieved string is in RoadList
-     *
-     * @param s String roadname
-     * @return Boolean found
-     */
-    public Road checkRoadName(String s)
-    {
-        for (Road road : roadList)
-        {
-            //System.out.println(road.midX);
-            if (s.equals(road.getEd().VEJNAVN))
-            {
-                return road;
-            }
-        }
-        return null;
+        currentString = this.getText();
+        oldtext = this.getText().length();
     }
 
     /**
@@ -69,58 +55,81 @@ public class SearchLabel extends JTextField implements FocusListener
      */
     public void autoComplete()
     {
-        String searchRoadName = searchRoadName();
-
-        if (searchRoadName != null && searchRoadName.length() > currentString.length())
+        updateCurrentString();
+        System.out.println("After update: " + currentString);
+        if(currentString.length() > 0)
         {
-            String autoCompleted = currentString + searchRoadName.substring(currentString.length());
-            this.setText(autoCompleted);
-            this.select(currentString.length(), autoCompleted.length());
-        }
-    }
-
-    /**
-     * Searches for road name in roadlist and returns full road name if found,
-     * used in autocomplete method.
-     *
-     * @return String - full road name if found
-     */
-    public String searchRoadName()
-    {
-        String temp = null;
-        for (Road road : roadList)
-        {
-            //Overvej: 
-            //contains(currentString);
-
-            if (road.getEd().VEJNAVN.startsWith(currentString))
+            String autoCompletedAddress = autoCompleter.autoCompleteUserInput(currentString);
+            if(currentString.length() < autoCompletedAddress.length() && autoCompletedAddress.length() > 0)
             {
-                temp = road.getEd().VEJNAVN; //Skal returnere Road object i stedet
-                break;
+                setText(autoCompletedAddress);
+                select(currentString.length(), autoCompletedAddress.length());
             }
         }
-        return temp;
     }
+    
+    /**
+     * Returns road if road with recieved string is in RoadList
+     *
+     * @param roadName String roadname
+     * @return Boolean found
+     */
+    public Road checkRoadName(String roadName)
+    {
+        for (Road road : roadList)
+        {
+            //System.out.println(road.midX);
+            if (roadName.equals(road.getEd().VEJNAVN))
+            {
+                return road;
+            }
+        }
+        return null;
+    }
+    
+    public Road checkRoadName(String roadName, int postalCode)
+    {
+        for (Road road : roadList)
+        {
+            //System.out.println(road.midX);
+            if (roadName.equals(road.getEd().VEJNAVN) && postalCode == road.getEd().V_POSTNR)
+            {
+                return road;
+            }
+        }
+        return null;
+    }
+        
+//    public Road searchRoad(String s)
+//    {
+//        Road road = binaryRoadSearch(s);
+//        return road;
+//    }
+//    
+//    private Road binaryRoadSearch(String s)
+//    {
+//        int n = roadList.size();
+//        int a = 0, b = n-1;
+//        boolean found = false;
+//        int i = 0;
+//        
+//        while(!found && a <= b)
+//        {
+//            i = (a+b) / 2;
+//            String StreetName = roadList.get(i).getEd().VEJNAVN;
+//            if(s.compareToIgnoreCase(StreetName) < 0) b = i-1;
+//            else if(s.compareTo(StreetName) > 0) a=i+1;
+//                found = true;
+//        }
+//        return roadList.get(i);
+//    }
 
     /**
      * Updates field currentString
      */
     public void updateCurrentString()
     {
-        if (!this.getText().equals(currentString))
-        {
-            currentString = this.getText();
-        }
-    }
-
-    /**
-     * Returns what is written in searchLabel
-     *
-     * @return String - currentString
-     */
-    public String getCurrentText()
-    {
-        return currentString;
+        currentString = super.getText();
     }
 
     @Override
@@ -148,5 +157,40 @@ public class SearchLabel extends JTextField implements FocusListener
     {
         if(showingHint) return "";
         else return super.getText();
+    }
+    
+    private DocumentListener docListener = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                System.out.println("Inserted");
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                System.out.println("Removed");
+            }
+            
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                System.out.println("Changed");
+            }
+    };
+
+    @Override
+    public void insertUpdate(DocumentEvent e)
+    {
+        System.out.println("Inserted");
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e)
+    {
+        System.out.println("Removed");
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e)
+    {
+        System.out.println("Changed");
     }
 }
