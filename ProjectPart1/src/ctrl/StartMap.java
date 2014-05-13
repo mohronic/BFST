@@ -1,6 +1,8 @@
+//******************************Serverversion**********************************
 package ctrl;
 
 import QuadTreePack.QuadTree;
+import SearchEngine.CityNameParser;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
@@ -12,9 +14,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import model.CurrentData;
 import model.Road;
 import org.xml.sax.SAXException;
+import osmparser.OSMParser;
 import view.Canvas;
 import view.SideBar;
-import SearchEngine.CityNameParser;
 import java.util.HashMap;
 
 /**
@@ -30,6 +32,7 @@ public class StartMap {
     private static QuadTree[] qts = new QuadTree[4];
     public final static ArrayList<Road> allRoads = new ArrayList<>();
     public static Rectangle2D bounds;
+    public static int roadID = 0;
     public static HashMap<Integer, String> zipToCityHashMap;
 
     /**
@@ -38,12 +41,14 @@ public class StartMap {
      * @throws IOException
      */
     public StartMap(boolean osm) throws IOException, SAXException, ParserConfigurationException {
-//        if(osm){
+//        if (osm) {
 //            OSMParser op = new OSMParser(this);
 //            op.parseOSM();
-//        }else{
+//            op = null;
+//        } else {
             KrakParser kp = new KrakParser(this);
             kp.setData();
+            kp = null;
 //        }
         Collections.sort(allRoads);
         
@@ -66,11 +71,11 @@ public class StartMap {
     private void setup() throws IOException {
         frame = new JFrame("Map Draw");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(720, 720));
-        frame.setSize(1110, 720);
+        frame.setMinimumSize(new Dimension(880, 700));
+        frame.setSize(1110, 700);
 
-        SideBar SB = new SideBar();
         Canvas c = Canvas.getInstance(cd);
+        SideBar SB = new SideBar();
         ML ml = new ML();
         KL kl = new KL();
         c.addMouseListener(ml);
@@ -91,8 +96,8 @@ public class StartMap {
     public void setData(QuadTree[] qts) {
         StartMap.qts = qts;
     }
-    
-    public void setBounds(Rectangle2D bounds){
+
+    public void setBounds(Rectangle2D bounds) {
         StartMap.bounds = bounds;
     }
 
@@ -103,11 +108,6 @@ public class StartMap {
      */
     public static QuadTree[] getQuadTree() {
         return StartMap.qts;
-    }
-    
-    public static HashMap<Integer, String> getHashMap()
-    {
-        return zipToCityHashMap;
     }
 
     /**

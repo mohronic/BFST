@@ -10,8 +10,8 @@ public class EdgeData {
     public final int FNODE;
     public final int TNODE;
     public final double LENGTH;
-    public int TYP; //Final?
-    public String VEJNAVN; //Final?
+    public final int TYP; //Final?
+    public final String VEJNAVN; //Final?
     public final int FROMLEFT;
     public final int TOLEFT;
     public final int FROMRIGHT;
@@ -118,14 +118,14 @@ public class EdgeData {
         NODETWO = 0;
     }
 
-    public EdgeData(long id, long refOne, long refTwo) {
+    public EdgeData(long id, long refOne, long refTwo, String name, int typ, int speed, double dTime, double length) {
         NODEONE = refOne;
         NODETWO = refTwo;
         FNODE = 0;
         TNODE = 0;
-        LENGTH = 0;
-        TYP = 1;
-        VEJNAVN = "";
+        LENGTH = length;
+        TYP = typ;
+        VEJNAVN = name;
         FROMLEFT = 0;
         TOLEFT = 0;
         FROMRIGHT = 0;
@@ -137,8 +137,8 @@ public class EdgeData {
         V_POSTNR = 0;
         H_POSTNR = 0;
         FRAKOERSEL = 0;
-        SPEED = 0;
-        DRIVETIME = 0;
+        SPEED = speed;
+        DRIVETIME = dTime;
         ONE_WAY = "";
         F_TURN = "";
         T_TURN = "";

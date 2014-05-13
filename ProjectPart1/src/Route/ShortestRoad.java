@@ -25,23 +25,35 @@ public class ShortestRoad extends DijkstraSP
 
     /**
      * Makes the Comparator used by the priorityqueue. Compares the accumulated
-     * length
+     * length. A* inspired comparison
      *
      * @return Comparator<DirectedEdge>
      */
     @Override
-    protected Comparator<DirectedEdge> getComparator()
+    protected Comparator<Road> getComparator()
     {
-        Comparator<DirectedEdge> comp = new Comparator<DirectedEdge>()
+        Comparator<Road> comp = new Comparator<Road>()
         {
 
             @Override
-            public int compare(DirectedEdge t, DirectedEdge t1)
+            public int compare(Road t1, Road t2)
             {
-                Linked tmp = (Linked) distTo.get(t.from());
-                Linked tmp2 = (Linked) distTo.get(t1.from());
+                Linked tmp, tmp2;
+                tmp = distTo.get(t1.from());
+                tmp2 = distTo.get(t2.from());
+                
+                Point2D.Double first, second;
+                first = tmp.getEdge().from();
+                second = tmp2.getEdge().from(); 
+                
+                double length1, length2;
+                length1 = Math.sqrt(Math.pow(first.getX()-t.from().getX(),2)+Math.pow(first.getY()-t.from().getY(),2)); //fulgeflugt længde til slut punkt
+                length2 = Math.sqrt(Math.pow(second.getX()-t.from().getX(),2)+Math.pow(second.getY()-t.from().getY(),2)); //fugleflugt længde til slut punkt
+                
+                length1 += tmp.getLength();
+                length2 += tmp2.getLength();
 
-                return Double.compare(tmp.getLength(), tmp2.getLength());
+                return Double.compare(length1, length2);
             }
         };
 
@@ -58,24 +70,24 @@ public class ShortestRoad extends DijkstraSP
     @Override
     protected void relax(Point2D.Double p)
     {
-        Bag<DirectedEdge> b = (Bag<DirectedEdge>) adj.get(p);
-        if (b != null) // Blindvej, slutpunkt
+        ArrayList<Road> list = adj.get(p);
+        if (list != null) // Blindvej, slutpunkt
         {
-            for (DirectedEdge e : b)
+            for (Road r : list)
             {
-                Point2D.Double t = e.to();
-                Linked from = (Linked) distTo.get(p);
-                Linked to = (Linked) distTo.get(t);
-                if (to.getLength() > from.getLength() + e.length())
+                Point2D.Double t = r.to();
+                Linked from = distTo.get(p);
+                Linked to = distTo.get(t);
+                if (to.getLength() > from.getLength() + r.getLength())
                 {
                     to.setFrom(p);
-                    to.setLength(from.getLength() + e.length());
-                    to.setDrivetime(from.getDrivetime() + e.drivetime());
-                    to.setEdge(e);
+                    to.setLength(from.getLength() + r.getLength());
+                    to.setDrivetime(from.getDrivetime() + r.getDrivetime());
+                    to.setEdge(r);
                     distTo.put(t, to);
-                    if (!pq.contains(e))
+                    if (!pq.contains(r))
                     {
-                        pq.add(e);
+                        pq.add(r);
                     }
                 }
             }

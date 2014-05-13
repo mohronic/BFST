@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 /**
  * An interface containing the methods to draw lines and rectangles, using
@@ -61,4 +63,10 @@ public interface DrawInterface {
      * @param g 
      */
     public void setGraphics(Graphics g);
+    
+    public BufferedImage getImage();
+    
+    public void startDraw();
+    
+    public void endDraw();
 }

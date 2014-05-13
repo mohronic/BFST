@@ -1,10 +1,11 @@
+//**********************Adams serverversion:*********************
 package view;
 
 import Route.DijkstraSP;
 import Route.FastestRoad;
 import Route.Linked;
+import Route.MapRoute;
 import Route.ShortestRoad;
-import SearchEngine.NewName;
 import SearchEngine.SearchLabel;
 import ctrl.KL;
 import ctrl.StartMap;
@@ -30,29 +31,29 @@ import model.Road;
  */
 public class SideBar
 {
-    private NewName addressParser= new NewName();
+
     private JPanel sideBar;
     private final static String newline = "\n";
     private static ArrayList<Linked> roadRoute;
     private static SearchLabel slTo, slFrom;
     private static JLabel info;
-    
+
     public SideBar()
     {
         sideBar = new JPanel();
         sideBar.setPreferredSize(new Dimension(300, 0));
         JButton bSearch = new JButton("Search");
 
+        info = new JLabel();
+        info.setFont(new Font("Plain", 0, 11));
+        info.setText("Adress format: 'Streetname Number, ZipCode Cityname'");
+        
         slTo = new SearchLabel(StartMap.allRoads, "To");
         KL klTo = new KL();
         klTo.setSearchLabel(slTo);
         slTo.addKeyListener(klTo);
         slTo.setColumns(25);
         
-        info = new JLabel();
-        info.setFont(new Font("Plain", 0, 11));
-        info.setText("Adress format: 'Streetname Number, ZipCode Cityname'");
-
         slFrom = new SearchLabel(StartMap.allRoads, "From");
         KL klFrom = new KL();
         klFrom.setSearchLabel(slFrom);
@@ -105,37 +106,25 @@ public class SideBar
             {
                 String from = slFrom.getText();
                 String to = slTo.getText();
-                if (from.trim().matches("") || to.trim().matches("")) //Empty address check
+                if (from.matches("[0-9]+") || to.matches("[0-9]+")) //Searchfield contains illegal characters
                 {
-                    JOptionPane.showMessageDialog(sideBar, "You need to fill out From and To destinations");
-                } 
-//                else if(!addressParser.isAValidAdress(to)) //To valid address check
-//                {
-//                    JOptionPane.showMessageDialog(sideBar, "To destination is not a valid adress");
-//                } 
-//                else if(!addressParser.isAValidAdress(from)) //From valid address check
-//                {
-//                    JOptionPane.showMessageDialog(sideBar, "From destination is not a valid adress");
-//                }
-                else
+                    JOptionPane.showMessageDialog(sideBar, "Numbers are not allowed");
+                } else if (from.trim().matches("") || to.trim().matches("")) //Searchfield contains illegal characters
                 {
-                    if(addressParser.findPostalNumber(to) != -1)
-                    {
-                        int postalCode = addressParser.findPostalNumber(to);
-                    }
-                    
+                    JOptionPane.showMessageDialog(sideBar, "Nothing was typed in");
+                } else 
+                {
                     Road roadFrom = slFrom.checkRoadName(from);
-                    //Road roadFrom = slFrom.searchRoad(from);
                     Road roadTo = slTo.checkRoadName(to);
-                    //Road roadTo = slTo.searchRoad(to);
-                    if (roadFrom == null || roadTo == null)
+                    if (roadFrom == null || roadTo == null) // Road name does not exist
                     {
                         JOptionPane.showMessageDialog(sideBar, "Road was not found");
                     } else
                     {
+
                         ButtonModel routeAnswer = route.getSelection();
                         ButtonModel dataAnswer = data.getSelection();
-                        if (routeAnswer.getActionCommand().equals("Fastest"))
+                        if (routeAnswer.getActionCommand().equals("Fastest")) // Fastest route
                         {
                             DijkstraSP SP = new FastestRoad(StartMap.allRoads);
                             roadRoute = SP.mapRoute(roadFrom, roadTo);
@@ -150,9 +139,9 @@ public class SideBar
                             for (int i = 0; i < roadRoute.size() - 1; i++)
                             {
                                 l = roadRoute.get(i);
-                                if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName()))
+                                if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName())) //If the edge has the same name as the next, just add up the distance and only print road name once
                                 {
-                                    tmpLength = (int) (tmpLength + l.getEdge().length());
+                                    tmpLength = (int) (tmpLength + l.getEdge().getLength());
                                 } else
                                 {
                                     String turn;
@@ -169,19 +158,19 @@ public class SideBar
                                             break;
                                     }
 
-                                    tmpLength = (int) (tmpLength + l.getEdge().length());
+                                    tmpLength = (int) (tmpLength + l.getEdge().getLength());
                                     area.append(l.getEdge().getName() + ": " + "Tag " + turn + " om " + tmpLength + " m" + " mod" + newline);
 
                                     tmpLength = 0;
                                 }
-                                if (i == roadRoute.size() - 2)
+                                if (i == roadRoute.size() - 2) //Last edge in linked list, different text
                                 {
                                     Linked l2 = roadRoute.get(i + 1);
                                     area.append(l2.getEdge().getName() + " og destinationen er nået!");
                                 }
                             }
 
-                        } else
+                        } else //Shortest road
                         {
                             DijkstraSP SP = new ShortestRoad(StartMap.allRoads);
                             roadRoute = SP.mapRoute(roadFrom, roadTo);
@@ -196,9 +185,9 @@ public class SideBar
                             for (int i = 0; i < roadRoute.size() - 1; i++)
                             {
                                 l = roadRoute.get(i);
-                                if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName()))
+                                if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName())) //If the edge has the same name as the next, just add up the distance and only print road name once
                                 {
-                                    tmpLength = (int) (tmpLength + l.getEdge().length());
+                                    tmpLength = (int) (tmpLength + l.getEdge().getLength());
                                 } else
                                 {
                                     String turn;
@@ -215,12 +204,12 @@ public class SideBar
                                             break;
                                     }
 
-                                    tmpLength = (int) (tmpLength + l.getEdge().length());
+                                    tmpLength = (int) (tmpLength + l.getEdge().getLength());
                                     area.append(l.getEdge().getName() + ": " + "Tag " + turn + " om " + tmpLength + " m" + " mod" + newline);
 
                                     tmpLength = 0;
                                 }
-                                if (i == roadRoute.size() - 2)
+                                if (i == roadRoute.size() - 2) //Last edge in linked list, different text
                                 {
                                     Linked l2 = roadRoute.get(i + 1);
                                     area.append(l2.getEdge().getName() + " og destinationen er nået!");
@@ -264,6 +253,4 @@ public class SideBar
     {
         return slFrom;
     }
-    
-    
 }

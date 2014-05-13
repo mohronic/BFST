@@ -18,21 +18,27 @@ public abstract class DijkstraSP
 {
 
     /**
+     * Used in A* to compare to the target coordinates.
+     * 
+     */
+    protected Road t;
+
+    /**
      * HashMap with Point as key and Linked as value. The length/drivetime to
      * this point is accumulated, so it is the total distance from "From"
      */
-    protected HashMap distTo;
+    protected HashMap<Point2D.Double, Linked> distTo;
 
     /**
      * A PriorityQueue sorted by either the accumulated Drivetime or Length.
      */
-    protected PriorityQueue<DirectedEdge> pq;
+    protected PriorityQueue<Road> pq;
 
     /**
      * A Hashmap with Point as key and a Bag as value. The Bag contains all the
      * Directededges that uses the point
      */
-    protected HashMap adj; // naboer
+    protected HashMap<Point2D.Double, ArrayList<Road>> adj; // naboer
 
     /**
      * Sets up the HashMaps with data from allEdges.
@@ -41,8 +47,8 @@ public abstract class DijkstraSP
      */
     public DijkstraSP(ArrayList<Road> allEdges)
     {
-        adj = new HashMap();
-        distTo = new HashMap();
+        adj = new HashMap<>();
+        distTo = new HashMap<>();
         pq = new PriorityQueue<>(10, getComparator());
         buildHashMaps(allEdges);
     }
@@ -52,7 +58,7 @@ public abstract class DijkstraSP
      *
      * @return Comparator<DirectedEdge>
      */
-    protected abstract Comparator<DirectedEdge> getComparator();
+    protected abstract Comparator<Road> getComparator();
 
     /**
      * Finds the shortest path to a point.
@@ -64,32 +70,31 @@ public abstract class DijkstraSP
     /**
      * Gets the route from at point to another.
      *
-     * @param s Point From
-     * @param t Point To
+     * @param sourceRoad
+     * @param targetRoad
      * @return ArrayList<Linked> The route
      */
     public ArrayList<Linked> mapRoute(Road sourceRoad, Road targetRoad)
     {
-        DirectedEdge s = new DirectedEdge(sourceRoad, true);
-        DirectedEdge t = new DirectedEdge(targetRoad, true);
+        t = targetRoad;
         Linked source = new Linked();
         source.setLength(0.0);
         source.setDrivetime(0.0);
-        source.setEdge(s);
-        distTo.put(s.from(), source);
-        relax(s.from());
+        source.setEdge(sourceRoad);
+        distTo.put(sourceRoad.from(), source);
+        relax(sourceRoad.from());
         while (!pq.isEmpty())
         {
-            DirectedEdge e = pq.poll();
-            if (e.from().getX() == t.from().getX() && e.from().getY() == t.from().getY()) //Can compare the 'to' values aswell.
+            Road r = pq.poll();
+            if (r.from().getX() == targetRoad.from().getX() && r.from().getY() == targetRoad.from().getY()) //Can compare the 'to' values aswell.
             {
                 break;
             } else
             {
-                relax(e.to());
+                relax(r.to());
             }
         }
-        return getRoute(t);
+        return getRoute(targetRoad);
     }
 
     /**
@@ -97,13 +102,13 @@ public abstract class DijkstraSP
      *
      * @return ArrayList<Linked> The route
      */
-    private ArrayList<Linked> getRoute(DirectedEdge t)
+    private ArrayList<Linked> getRoute(Road targetRoad)
     {
         ArrayList<Linked> list = new ArrayList<>();
-        Point2D.Double loc = t.to();
+        Point2D.Double loc = targetRoad.to();
         while (loc != null)
         {
-            Linked l = (Linked) distTo.get(loc);
+            Linked l = distTo.get(loc);
             list.add(l);
             loc = l.getFrom();
         }
@@ -114,18 +119,18 @@ public abstract class DijkstraSP
      * Adds the directed edges to the bag from their "from" point
      *
      */
-    private void addEdge(DirectedEdge e)
+    private void addEdge(Road r)
     {
-        if (adj.get(e.from()) == null)
+        if (adj.get(r.from()) == null)
         {
-            Bag<DirectedEdge> bag = new Bag<>();
-            bag.add(e);
-            adj.put(e.from(), bag);
+            ArrayList<Road> list = new ArrayList<>();
+            list.add(r);
+            adj.put(r.from(), list);
         } else
         {
-            Bag<DirectedEdge> bag = (Bag<DirectedEdge>) adj.get(e.from());
-            bag.add(e);
-            adj.put(e.from(), bag);
+            ArrayList<Road> list = adj.get(r.from());
+            list.add(r);
+            adj.put(r.from(), list);
         }
     }
 
@@ -133,39 +138,39 @@ public abstract class DijkstraSP
     {
         for (Road r : allEdges)
         {
-            DirectedEdge e1 = new DirectedEdge(r, true);
             switch (r.getEd().ONE_WAY) // One way routes, should be put in the correct direction
             {
                 case "":
                 {
-                    addEdge(e1);
-                    DirectedEdge e2 = new DirectedEdge(r, false);
-                    addEdge(e2);
-                    buildDistTo(e1);
+                    addEdge(r);
+                    Road r2 = new Road(r);
+                    addEdge(r2);
+                    buildDistTo(r);
                     break;
                 }
                 case "tf":
-                    addEdge(e1);
-                    buildDistTo(e1);
+                    addEdge(r);
+                    buildDistTo(r);
                     break;
                 case "ft":
                 {
-                    DirectedEdge e2 = new DirectedEdge(r, false);
-                    addEdge(e2);
-                    buildDistTo(e1);
+                    Road r2 = new Road(r);
+                    addEdge(r2);
+                    buildDistTo(r);
                     break;
                 }
-                default:
+                default: 
+                    System.out.println("hello 165");
                     //should not happen
                     break;
             }
         }
     }
 
-    private void buildDistTo(DirectedEdge e)
+    private void buildDistTo(Road r)
     {
-        Point2D.Double s = e.from();
-        Point2D.Double t = e.to();
+        Point2D.Double s = r.from();
+        Point2D.Double t = r.to();
         distTo.put(s, new Linked());
         distTo.put(t, new Linked());
     }
