@@ -89,8 +89,8 @@ public class SideBar
         area.setEditable(false);
 
         sideBar.add(info);
-        sideBar.add(slTo);
         sideBar.add(slFrom);
+        sideBar.add(slTo);
         sideBar.add(rFastest);
         sideBar.add(rShortest);
         sideBar.add(rKrak);

@@ -71,8 +71,8 @@ public class StartMap {
     private void setup() throws IOException {
         frame = new JFrame("Map Draw");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(880, 700));
-        frame.setSize(1110, 700);
+        frame.setMinimumSize(new Dimension(880, 720));
+        frame.setSize(1110, 720);
 
         Canvas c = Canvas.getInstance(cd);
         SideBar SB = new SideBar();
