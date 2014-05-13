@@ -6,14 +6,16 @@ import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.JFrame;
 import javax.xml.parsers.ParserConfigurationException;
 import model.CurrentData;
 import model.Road;
 import org.xml.sax.SAXException;
-import osmparser.OSMParser;
 import view.Canvas;
 import view.SideBar;
+import SearchEngine.CityNameParser;
+import java.util.HashMap;
 
 /**
  * Class containing main method. It loads the data from the Krak files and
@@ -28,6 +30,7 @@ public class StartMap {
     private static QuadTree[] qts = new QuadTree[4];
     public final static ArrayList<Road> allRoads = new ArrayList<>();
     public static Rectangle2D bounds;
+    public static HashMap<Integer, String> zipToCityHashMap;
 
     /**
      * Constructor for the StartMap object.
@@ -35,13 +38,18 @@ public class StartMap {
      * @throws IOException
      */
     public StartMap(boolean osm) throws IOException, SAXException, ParserConfigurationException {
-        if(osm){
-            OSMParser op = new OSMParser(this);
-            op.parseOSM();
-        }else{
+//        if(osm){
+//            OSMParser op = new OSMParser(this);
+//            op.parseOSM();
+//        }else{
             KrakParser kp = new KrakParser(this);
             kp.setData();
-        }
+//        }
+        Collections.sort(allRoads);
+        
+        CityNameParser cityNameParser = new CityNameParser();
+        zipToCityHashMap = cityNameParser.getZipToCityHashMap();
+        
         cd = CurrentData.getInstance();
         cd.setXmax(bounds.getMaxX());
         cd.setXmin(bounds.getMinX());
@@ -58,8 +66,8 @@ public class StartMap {
     private void setup() throws IOException {
         frame = new JFrame("Map Draw");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(880, 700));
-        frame.setSize(1110, 700);
+        frame.setMinimumSize(new Dimension(720, 720));
+        frame.setSize(1110, 720);
 
         SideBar SB = new SideBar();
         Canvas c = Canvas.getInstance(cd);
@@ -96,6 +104,11 @@ public class StartMap {
     public static QuadTree[] getQuadTree() {
         return StartMap.qts;
     }
+    
+    public static HashMap<Integer, String> getHashMap()
+    {
+        return zipToCityHashMap;
+    }
 
     /**
      * Creates an instance of StartMap.
@@ -106,5 +119,4 @@ public class StartMap {
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
         StartMap sm = new StartMap(true);
     }
-
 }

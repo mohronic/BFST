@@ -8,10 +8,10 @@ import krakloader.EdgeData;
  * NodeData. It also calculates a midpoint for the Road object.
  * @author Gruppe A
  */
-public class Road
+public class Road implements Comparable<Road>
 {
 
-    private final EdgeData ed;
+    protected final EdgeData ed;
     public double midX, midY;
     private NodeData fn;
     private NodeData tn;
@@ -71,4 +71,28 @@ public class Road
         midY = (fn.getY_COORD() + tn.getY_COORD()) / 2;
     }
 
+    @Override
+    public int compareTo(Road o)
+    {
+        if(ed.VEJNAVN.compareTo(o.ed.VEJNAVN) > 0)
+        {
+            return 1;
+        }
+        else if(ed.VEJNAVN.compareTo(o.ed.VEJNAVN) < 0)
+        {
+            return -1;
+        }
+        else if(ed.V_POSTNR > o.ed.V_POSTNR)
+        {
+            return 1;
+        }
+        else if(ed.V_POSTNR < o.ed.V_POSTNR)
+        {
+            return -1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }

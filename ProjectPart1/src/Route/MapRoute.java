@@ -30,7 +30,6 @@ public class MapRoute
 
         DijkstraSP SP = new FastestRoad(roads);
         route = SP.mapRoute(roads.get(509400), roads.get(715000));
-
     }
 
     /**

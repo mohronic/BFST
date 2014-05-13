@@ -3,18 +3,20 @@ package view;
 import Route.DijkstraSP;
 import Route.FastestRoad;
 import Route.Linked;
-import Route.MapRoute;
 import Route.ShortestRoad;
+import SearchEngine.NewName;
 import SearchEngine.SearchLabel;
 import ctrl.KL;
 import ctrl.StartMap;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -28,12 +30,13 @@ import model.Road;
  */
 public class SideBar
 {
-
+    private NewName addressParser= new NewName();
     private JPanel sideBar;
     private final static String newline = "\n";
     private static ArrayList<Linked> roadRoute;
     private static SearchLabel slTo, slFrom;
-
+    private static JLabel info;
+    
     public SideBar()
     {
         sideBar = new JPanel();
@@ -45,6 +48,11 @@ public class SideBar
         klTo.setSearchLabel(slTo);
         slTo.addKeyListener(klTo);
         slTo.setColumns(25);
+        
+        info = new JLabel();
+        info.setFont(new Font("Plain", 0, 11));
+        info.setText("Adress format: 'Streetname Number, ZipCode Cityname'");
+
         slFrom = new SearchLabel(StartMap.allRoads, "From");
         KL klFrom = new KL();
         klFrom.setSearchLabel(slFrom);
@@ -79,6 +87,7 @@ public class SideBar
         area.setWrapStyleWord(true);;
         area.setEditable(false);
 
+        sideBar.add(info);
         sideBar.add(slTo);
         sideBar.add(slFrom);
         sideBar.add(rFastest);
@@ -96,22 +105,34 @@ public class SideBar
             {
                 String from = slFrom.getText();
                 String to = slTo.getText();
-                if (from.matches("[0-9]+") || to.matches("[0-9]+"))
+                if (from.trim().matches("") || to.trim().matches("")) //Empty address check
                 {
-                    JOptionPane.showMessageDialog(sideBar, "Numbers are not allowed");
-                } else if (from.trim().matches("") || to.trim().matches(""))
+                    JOptionPane.showMessageDialog(sideBar, "You need to fill out From and To destinations");
+                } 
+//                else if(!addressParser.isAValidAdress(to)) //To valid address check
+//                {
+//                    JOptionPane.showMessageDialog(sideBar, "To destination is not a valid adress");
+//                } 
+//                else if(!addressParser.isAValidAdress(from)) //From valid address check
+//                {
+//                    JOptionPane.showMessageDialog(sideBar, "From destination is not a valid adress");
+//                }
+                else
                 {
-                    JOptionPane.showMessageDialog(sideBar, "Nothing was typed in");
-                } else
-                {
+                    if(addressParser.findPostalNumber(to) != -1)
+                    {
+                        int postalCode = addressParser.findPostalNumber(to);
+                    }
+                    
                     Road roadFrom = slFrom.checkRoadName(from);
+                    //Road roadFrom = slFrom.searchRoad(from);
                     Road roadTo = slTo.checkRoadName(to);
+                    //Road roadTo = slTo.searchRoad(to);
                     if (roadFrom == null || roadTo == null)
                     {
                         JOptionPane.showMessageDialog(sideBar, "Road was not found");
                     } else
                     {
-
                         ButtonModel routeAnswer = route.getSelection();
                         ButtonModel dataAnswer = data.getSelection();
                         if (routeAnswer.getActionCommand().equals("Fastest"))
