@@ -2,6 +2,7 @@ package osmparser;
 
 import static QuadTreePack.NSEW.ROOT;
 import QuadTreePack.QuadTree;
+import Route.Adjacencies;
 import ctrl.StartMap;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
@@ -71,6 +72,7 @@ public class OSMParser {
                     refOne = refTwo;
                     Road r = new Road(e, tOne, tTwo);
                     StartMap.allRoads.add(r);
+                    Adjacencies.addEdge(r);
                     if (e.TYP == 1 || e.TYP == 3 || e.TYP == 2 || e.TYP == 48) {
                         qtlvl1.insert(r);
                     } else if (e.TYP == 4) {

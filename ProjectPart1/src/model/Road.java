@@ -18,8 +18,7 @@ public class Road
     public double midX, midY;
     private NodeData fn;
     private NodeData tn;
-    private final Point2D.Double source; //coordinate
-    private final Point2D.Double target; //coordiante
+    private final double sourcex,sourcey,targetx,targety;
     private final double length;
     private final String name;
     private final double drivetime;
@@ -38,30 +37,30 @@ public class Road
         this.tn = tn;
         midX = (fn.getX_COORD() + tn.getX_COORD()) / 2;
         midY = (fn.getY_COORD() + tn.getY_COORD()) / 2;
-        source = new Point2D.Double();
-        target = new Point2D.Double();
+        sourcex = fn.getX_COORD();
+        sourcey = fn.getY_COORD();
+        targetx = tn.getX_COORD();
+        targety = tn.getY_COORD();
         drivetime = ed.DRIVETIME;
         length = ed.LENGTH;
         name = ed.VEJNAVN;
-        source.setLocation(fn.getX_COORD(), fn.getY_COORD());
-        target.setLocation(tn.getX_COORD(), tn.getY_COORD());
         ID = StartMap.roadID++;
     }
 
     public Road(Road r)
     {
         this.ed = r.ed;
-        this.fn = r.fn;
-        this.tn = r.tn;
+        this.fn = r.tn;
+        this.tn = r.fn;
         midX = (r.fn.getX_COORD() + r.tn.getX_COORD()) / 2;
         midY = (r.fn.getY_COORD() + r.tn.getY_COORD()) / 2;
-        source = new Point2D.Double();
-        target = new Point2D.Double();
         drivetime = r.ed.DRIVETIME;
         length = r.ed.LENGTH;
         name = r.ed.VEJNAVN;
-        target.setLocation(r.fn.getX_COORD(), r.fn.getY_COORD());
-        source.setLocation(r.tn.getX_COORD(), r.tn.getY_COORD());
+        sourcex = fn.getX_COORD();
+        sourcey = fn.getY_COORD();
+        targetx = tn.getX_COORD();
+        targety = tn.getY_COORD();
         ID = StartMap.roadID++;
     }
 
@@ -77,12 +76,12 @@ public class Road
 
     public Point2D.Double from()
     {
-        return source;
+        return new Point2D.Double(sourcex, sourcey);
     }
 
     public Point2D.Double to()
     {
-        return target;
+        return new Point2D.Double(targetx, targety);
     }
 
     public double getLength()

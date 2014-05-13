@@ -1,5 +1,6 @@
 package Route;
 
+import ctrl.StartMap;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -19,7 +20,7 @@ public abstract class DijkstraSP
 
     /**
      * Used in A* to compare to the target coordinates.
-     * 
+     *
      */
     protected Road t;
 
@@ -47,7 +48,7 @@ public abstract class DijkstraSP
      */
     public DijkstraSP(ArrayList<Road> allEdges)
     {
-        adj = new HashMap<>();
+        adj = StartMap.adj;
         distTo = new HashMap<>();
         pq = new PriorityQueue<>(10, getComparator());
         buildHashMaps(allEdges);
@@ -115,24 +116,26 @@ public abstract class DijkstraSP
         return list;
     }
 
-    /**
-     * Adds the directed edges to the bag from their "from" point
-     *
-     */
-    private void addEdge(Road r)
-    {
-        if (adj.get(r.from()) == null)
-        {
-            ArrayList<Road> list = new ArrayList<>();
-            list.add(r);
-            adj.put(r.from(), list);
-        } else
-        {
-            ArrayList<Road> list = adj.get(r.from());
-            list.add(r);
-            adj.put(r.from(), list);
-        }
-    }
+//    /**
+//     * Adds the directed edges to the bag from their "from" point
+//     *
+//     */
+//    private void addEdge(Road r)
+//    {
+//        if (adj.get(r.from()) == null)
+//        {
+//            ArrayList<Road> list = new ArrayList<>();
+//            list.add(r);
+//            list.trimToSize();
+//            adj.put(r.from(), list);
+//        } else
+//        {
+//            ArrayList<Road> list = adj.get(r.from());
+//            list.add(r);
+//            list.trimToSize();
+//            adj.put(r.from(), list);
+//        }
+//    }
 
     private void buildHashMaps(ArrayList<Road> allEdges)
     {
@@ -142,25 +145,26 @@ public abstract class DijkstraSP
             {
                 case "":
                 {
-                    addEdge(r);
+                   // addEdge(r);
                     Road r2 = new Road(r);
-                    addEdge(r2);
+                 //   addEdge(r2);
                     buildDistTo(r);
                     break;
                 }
                 case "tf":
-                    addEdge(r);
-                    buildDistTo(r);
-                    break;
-                case "ft":
                 {
-                    Road r2 = new Road(r);
-                    addEdge(r2);
+                  //  addEdge(r);
                     buildDistTo(r);
                     break;
                 }
-                default: 
-                    System.out.println("hello 165");
+                case "ft":
+                {
+                    Road r2 = new Road(r);
+                 //   addEdge(r2);
+                    buildDistTo(r);
+                    break;
+                }
+                default:
                     //should not happen
                     break;
             }
