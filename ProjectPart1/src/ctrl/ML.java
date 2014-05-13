@@ -72,7 +72,7 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
     @Override
     public void mouseReleased(MouseEvent me) {
         mouseEnd = me.getPoint();
-        if (mouseButton == 1) {
+        if(mouseButton == 3){
             if (mouseStart.getX() == mouseEnd.getX() || mouseStart.getY() == mouseEnd.getY()) {
                 cd.updateArea(originalView);
                 currentView.setRect(originalView);
@@ -119,11 +119,11 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
     @Override
     public void mouseDragged(MouseEvent e) {
         currentMouse = e.getPoint();
-        if (mouseButton == 1) {
+        if (mouseButton == 3) {
             drawZoomArea();
         }
 
-        if (mouseButton == 3) {
+        if (mouseButton == 1) {
             pan();
         }
 
