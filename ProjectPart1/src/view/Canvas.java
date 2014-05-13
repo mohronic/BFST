@@ -148,9 +148,10 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
                 default:
                     big.setColor(Color.black); //Other
                     break;
-            }
-            Line2D line = new Line2D.Double(x1, y1, x2, y2);
+            }            
+            Line2D line = new Line2D.Double(x1, y1, x2, y2);          
             big.draw(line);
+            big.setColor(Color.black);
         }
 
         return bimg;

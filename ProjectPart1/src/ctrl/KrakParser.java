@@ -81,7 +81,7 @@ public class KrakParser {
         QuadTree qtlvl4 = new QuadTree(ROOT, null);
         for (Road r : roads) {
             int typ = r.getEd().TYP;
-            if (typ == 1 || typ == 3 || typ == 2 || typ == 48) {
+            if (typ == 1 || typ == 3 || typ == 2 || typ == 48 || typ == 80 || typ == 42 || typ == 41) {
                 qtlvl1.insert(r);
             } else if (typ == 4) {
                 qtlvl2.insert(r);
