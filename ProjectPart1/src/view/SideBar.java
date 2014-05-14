@@ -233,6 +233,7 @@ public class SideBar
                         }
                     }
                 }
+                Canvas.getInstance(null).repaint();
             }
 
         }

@@ -96,10 +96,10 @@ public class KrakParser {
             qtlvl1.insert(r);
         }
 
-        System.out.println("start pf");
-        Pathfinder pf = new Pathfinder(StartMap.allRoads);
-        pf.getPath(StartMap.allRoads.get(3000), StartMap.allRoads.get(4000));
-        System.out.println("stop pf");
+//        System.out.println("start pf");
+//        Pathfinder pf = new Pathfinder(StartMap.allRoads);
+//        pf.getPath(StartMap.allRoads.get(3000), StartMap.allRoads.get(4000));
+//        System.out.println("stop pf");
 
         QuadTree[] qts = new QuadTree[]{qtlvl1, qtlvl2, qtlvl3, qtlvl4};
 

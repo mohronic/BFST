@@ -34,7 +34,6 @@ public class StartMap {
     public final static ArrayList<Road> allRoads = new ArrayList<>();
     public final static ArrayList<ArrayList<Road>> adj = new ArrayList<>();
     public static Rectangle2D bounds;
-    public static int roadID = 0;
     public static HashMap<Integer, String> zipToCityHashMap;
 
     /**
