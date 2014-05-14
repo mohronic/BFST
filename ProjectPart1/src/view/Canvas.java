@@ -24,12 +24,12 @@ import model.Road;
  *
  * @author Gruppe A
  */
-public class Canvas extends JComponent implements ObserverC, FocusListener{
+public class Canvas extends JComponent implements ObserverC, FocusListener {
 
     private List<Road> rd;
     private final CurrentData cd;
     private Rectangle2D view;
-    private double scale = 1;
+    private double scale = 1, oldScale = 1;
     private boolean dragbool = false;
     private Rectangle2D dragrect, tempImg, tempView;
     private static Canvas instance = null;
@@ -72,7 +72,6 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
     }
 
     private void drawMap(Graphics2D g2) {
-        calcScale(view);
         tempImg = new Rectangle2D.Double(oView.getX() / scale, oView.getY() / scale, oView.getWidth() / scale, oView.getHeight() / scale);
         tempView = new Rectangle2D.Double(view.getX() / scale, view.getY() / scale, view.getWidth() / scale, view.getHeight() / scale);
         if (newGrid) {
@@ -148,8 +147,8 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
                 default:
                     big.setColor(Color.black); //Other
                     break;
-            }            
-            Line2D line = new Line2D.Double(x1, y1, x2, y2);          
+            }
+            Line2D line = new Line2D.Double(x1, y1, x2, y2);
             big.draw(line);
             big.setColor(Color.black);
         }
@@ -164,7 +163,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
         if (SideBar.getRoute() != null) {
             g2 = temp.createGraphics();
             g2.setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(Color.orange);
             for (Linked l : SideBar.getRoute()) {
                 Road r = l.getEdge();
@@ -193,6 +192,8 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        calcScale(view);
+        newGrid = scale != oldScale;
         drawMap(g2);
         if (dragbool) {                       //paints the dragzoom rectangle
             g2.draw(dragrect);
@@ -208,11 +209,8 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
      */
     @Override
     public void update() {
-        double oldS = scale;
         rd.clear();
         view = cd.getView();
-        calcScale(view);
-        newGrid = oldS != scale;
         repaint();
     }
 
@@ -239,6 +237,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
     }
 
     public void calcScale(Rectangle2D view) {
+        oldScale = scale;
         double scaley = view.getHeight() / (double) this.getHeight();
         double scalex = view.getWidth() / (double) this.getWidth();
         if (scaley > scalex) {
@@ -246,14 +245,16 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
         } else {
             scale = view.getWidth() / (double) this.getWidth();
         }
-        if(scale < 1) scale = 1;
+        if (scale < 1) {
+            scale = 1;
+        }
     }
-    
+
     @Override
-    public boolean hasFocus(){
+    public boolean hasFocus() {
         return isFocus;
     }
-    
+
     @Override
     public void focusGained(FocusEvent fe) {
         isFocus = true;
@@ -261,10 +262,10 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
 
     @Override
     public void focusLost(FocusEvent fe) {
-       isFocus = false;
+        isFocus = false;
     }
-    
-    public void setFocus(boolean b){
+
+    public void setFocus(boolean b) {
         isFocus = b;
     }
 }
