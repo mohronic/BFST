@@ -31,7 +31,7 @@ public class StartMap {
     private CurrentData cd;
     private static QuadTree[] qts = new QuadTree[4];
     public final static ArrayList<Road> allRoads = new ArrayList<>();
-    public final static HashMap<Point2D.Double, ArrayList<Road>> adj = new HashMap<>();
+    public final static ArrayList<ArrayList<Road>> adj = new ArrayList<>();
     public static Rectangle2D bounds;
     public static int roadID = 0;
     public static HashMap<Integer, String> zipToCityHashMap;

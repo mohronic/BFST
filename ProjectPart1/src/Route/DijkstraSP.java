@@ -1,10 +1,8 @@
 package Route;
 
 import ctrl.StartMap;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.PriorityQueue;
 import model.Road;
 
@@ -28,7 +26,7 @@ public abstract class DijkstraSP
      * HashMap with Point as key and Linked as value. The length/drivetime to
      * this point is accumulated, so it is the total distance from "From"
      */
-    protected HashMap<Point2D.Double, Linked> distTo;
+    protected ArrayList<Linked> distTo;
 
     /**
      * A PriorityQueue sorted by either the accumulated Drivetime or Length.
@@ -39,7 +37,7 @@ public abstract class DijkstraSP
      * A Hashmap with Point as key and a Bag as value. The Bag contains all the
      * Directededges that uses the point
      */
-    protected HashMap<Point2D.Double, ArrayList<Road>> adj; // naboer
+    protected ArrayList<ArrayList<Road>> adj; // naboer
 
     /**
      * Sets up the HashMaps with data from allEdges.
@@ -49,9 +47,9 @@ public abstract class DijkstraSP
     public DijkstraSP(ArrayList<Road> allEdges)
     {
         adj = StartMap.adj;
-        distTo = new HashMap<>();
+        distTo = new ArrayList<>();
         pq = new PriorityQueue<>(10, getComparator());
-        buildHashMaps(allEdges);
+        buildDistTo(allEdges);
     }
 
     /**
@@ -66,7 +64,7 @@ public abstract class DijkstraSP
      *
      * @param p Point in which the bag will be retrieved, and going through
      */
-    protected abstract void relax(Point2D.Double p);
+    protected abstract void relax(int p);
 
     /**
      * Gets the route from at point to another.
@@ -82,8 +80,8 @@ public abstract class DijkstraSP
         source.setLength(0.0);
         source.setDrivetime(0.0);
         source.setEdge(sourceRoad);
-        distTo.put(sourceRoad.from(), source);
-        relax(sourceRoad.from());
+        distTo.set(sourceRoad.getFn().getKDV(), source);
+        relax(sourceRoad.getFn().getKDV());
         while (!pq.isEmpty())
         {
             Road r = pq.poll();
@@ -92,7 +90,7 @@ public abstract class DijkstraSP
                 break;
             } else
             {
-                relax(r.to());
+                relax(r.getTn().getKDV());
             }
         }
         return getRoute(targetRoad);
@@ -106,8 +104,8 @@ public abstract class DijkstraSP
     private ArrayList<Linked> getRoute(Road targetRoad)
     {
         ArrayList<Linked> list = new ArrayList<>();
-        Point2D.Double loc = targetRoad.to();
-        while (loc != null)
+        int loc = targetRoad.getTn().getKDV();
+        while (loc != -1)
         {
             Linked l = distTo.get(loc);
             list.add(l);
@@ -116,66 +114,67 @@ public abstract class DijkstraSP
         return list;
     }
 
-//    /**
-//     * Adds the directed edges to the bag from their "from" point
-//     *
-//     */
-//    private void addEdge(Road r)
-//    {
-//        if (adj.get(r.from()) == null)
-//        {
-//            ArrayList<Road> list = new ArrayList<>();
-//            list.add(r);
-//            list.trimToSize();
-//            adj.put(r.from(), list);
-//        } else
-//        {
-//            ArrayList<Road> list = adj.get(r.from());
-//            list.add(r);
-//            list.trimToSize();
-//            adj.put(r.from(), list);
-//        }
-//    }
-
-    private void buildHashMaps(ArrayList<Road> allEdges)
+    private void buildDistTo(ArrayList<Road> allEdges)
     {
         for (Road r : allEdges)
         {
-            switch (r.getEd().ONE_WAY) // One way routes, should be put in the correct direction
-            {
-                case "":
-                {
-                   // addEdge(r);
-                    Road r2 = new Road(r);
-                 //   addEdge(r2);
-                    buildDistTo(r);
-                    break;
-                }
-                case "tf":
-                {
-                  //  addEdge(r);
-                    buildDistTo(r);
-                    break;
-                }
-                case "ft":
-                {
-                    Road r2 = new Road(r);
-                 //   addEdge(r2);
-                    buildDistTo(r);
-                    break;
-                }
-                default:
-                    //should not happen
-                    break;
-            }
+            distTo.add(null);
+
         }
+
     }
 
-    private void buildDistTo(Road r)
+    public static void addEdgeToAdj(Road r)
     {
-        Point2D.Double s = r.from();
-        Point2D.Double t = r.to();
-        distTo.put(s, new Linked());
-        distTo.put(t, new Linked());
+        int fID = r.getFn().getKDV();
+        int tID = r.getTn().getKDV();
+        int l = Math.max(fID, tID);
+        if (StartMap.adj.size() < l + 1)
+        {
+            for (int i = StartMap.adj.size(); i < l + 1; i++)
+            {
+                StartMap.adj.add(null);
+            }
+        }
+        switch (r.getEd().ONE_WAY) // One way routes, should be put in the correct direction
+        {
+            case "":
+            {
+                if (StartMap.adj.get(fID) == null)
+                {
+                    StartMap.adj.set(fID, new ArrayList<Road>());
+                }
+                if (StartMap.adj.get(tID) == null)
+                {
+                    StartMap.adj.set(tID, new ArrayList<Road>());
+                }
+                StartMap.adj.get(fID).add(r);
+                StartMap.adj.get(tID).add(r);
+                break;
+            }
+            case "tf":
+            {
+                if (StartMap.adj.get(tID) == null)
+                {
+                    StartMap.adj.set(tID, new ArrayList<Road>()); //// TRIM ??????????????? ADD OR SET?
+                }
+                StartMap.adj.get(tID).add(r);
+                break;
+            }
+            case "ft":
+            {
+                if (StartMap.adj.get(fID) == null)
+                {
+                    StartMap.adj.set(fID, new ArrayList<Road>());
+                }
+                StartMap.adj.get(fID).add(r);
+                break;
+            }
+            default:
+            {
+                //should not happen
+                break;
+            }
+        }
     }
 }

@@ -39,8 +39,8 @@ public class ShortestRoad extends DijkstraSP
             public int compare(Road t1, Road t2)
             {
                 Linked tmp, tmp2;
-                tmp = distTo.get(t1.from());
-                tmp2 = distTo.get(t2.from());
+                tmp = distTo.get(t1.getFn().getKDV());
+                tmp2 = distTo.get(t2.getFn().getKDV());
                 
                 Point2D.Double first, second;
                 first = tmp.getEdge().from();
@@ -68,23 +68,26 @@ public class ShortestRoad extends DijkstraSP
      * @param p Point in which the bag will be retrieved, and going through
      */
     @Override
-    protected void relax(Point2D.Double p)
+    protected void relax(int p)
     {
         ArrayList<Road> list = adj.get(p);
         if (list != null) // Blindvej, slutpunkt
         {
             for (Road r : list)
             {
-                Point2D.Double t = r.to();
                 Linked from = distTo.get(p);
-                Linked to = distTo.get(t);
+                if(distTo.get(r.getTn().getKDV()) == null)
+                {
+                    distTo.set(r.getTn().getKDV(), new Linked());
+                }
+                Linked to = distTo.get(r.getTn().getKDV());
                 if (to.getLength() > from.getLength() + r.getLength())
                 {
                     to.setFrom(p);
                     to.setLength(from.getLength() + r.getLength());
                     to.setDrivetime(from.getDrivetime() + r.getDrivetime());
                     to.setEdge(r);
-                    distTo.put(t, to);
+                    distTo.set(r.getTn().getKDV(), to);
                     if (!pq.contains(r))
                     {
                         pq.add(r);

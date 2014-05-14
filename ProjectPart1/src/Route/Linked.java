@@ -1,6 +1,8 @@
 package Route;
 
+import ctrl.StartMap;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import model.Road;
 
 /**
@@ -14,7 +16,7 @@ public class Linked
 
     private double length;
     private double drivetime;
-    private Point2D.Double from; // Only null where the road search starts
+    private int from; // Only null where the road search starts
     private Road edge; // edge which contains the original road
     private Turn turn;
 
@@ -27,7 +29,7 @@ public class Linked
     {
         length = Double.POSITIVE_INFINITY;
         drivetime = Double.POSITIVE_INFINITY;
-        from = null;
+        from = -1;
         edge = null;
     }
 
@@ -46,7 +48,7 @@ public class Linked
      *
      * @return Point2D.Double From
      */
-    public Point2D.Double getFrom()
+    public int getFrom()
     {
         return from;
     }
@@ -56,7 +58,7 @@ public class Linked
      *
      * @param f Point2D.Double From
      */
-    public void setFrom(Point2D.Double f)
+    public void setFrom(int f)
     {
         from = f;
     }
@@ -84,7 +86,7 @@ public class Linked
 
     /**
      * Set drivetime
-     * 
+     *
      * @param d double drivetime
      */
     public void setDrivetime(double d)
@@ -94,7 +96,7 @@ public class Linked
 
     /**
      * Returns the edge
-     * 
+     *
      * @return DirectedEdge edge
      */
     public Road getEdge()
@@ -104,7 +106,7 @@ public class Linked
 
     /**
      * Gets the drivetime
-     * 
+     *
      * @return double Drivetime
      */
     public double getDrivetime()
@@ -114,7 +116,7 @@ public class Linked
 
     /**
      * Set next turn
-     * 
+     *
      * @param t Turn
      */
     public void setTurn(Turn t)
@@ -124,7 +126,7 @@ public class Linked
 
     /**
      * Get turn
-     * 
+     *
      * @return Turn
      */
     public Turn getTurn()
@@ -134,34 +136,44 @@ public class Linked
 
     private void calTurn()
     {
-        Point2D.Double to = edge.to();
 
-        if (to != null && from != null)
+        if (from != -1)
         {
-            if (to.getX() == from.getX() && to.getY() == from.getY())
-            {
-                to = edge.from();
-            }
+            Point2D.Double to = edge.to();
+            ArrayList<Road> roads = StartMap.adj.get(from);
 
-            if (from.getY() < to.getY())
+            Point2D.Double from = roads.get(0).from();
+
+            if (to != null && from != null)
             {
-                if (from.getX() < to.getX())
+                if (to.getX() == from.getX() && to.getY() == from.getY())
                 {
-                    turn = Turn.LEFT;
-                } else
-                {
-                    turn = Turn.RIGHT;
+                    to = edge.from();
                 }
-            } else
-            {
-                if (from.getX() < to.getX())
+
+                if (from.getY() < to.getY())
                 {
-                    turn = Turn.LEFT;
+                    if (from.getX() < to.getX())
+                    {
+                        turn = Turn.LEFT;
+                    } else
+                    {
+                        turn = Turn.RIGHT;
+                    }
                 } else
                 {
-                    turn = Turn.RIGHT;
+                    if (from.getX() < to.getX())
+                    {
+                        turn = Turn.LEFT;
+                    } else
+                    {
+                        turn = Turn.RIGHT;
+                    }
                 }
             }
+        } else
+        {
+            turn = Turn.FORWARD;
         }
     }
 }

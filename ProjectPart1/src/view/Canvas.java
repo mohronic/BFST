@@ -161,13 +161,13 @@ public class Canvas extends JComponent implements ObserverC, FocusListener{
     private void drawRoute(BufferedImage temp, Rectangle2D tileArea) {
         Graphics2D g2 = null;
         //ændre til sidebar route
-        if (Canvas.path != null) {
+        if (SideBar.getRoute() != null) {
             g2 = temp.createGraphics();
             g2.setRenderingHint(
                 RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(Color.orange);
-            for (Road r : Canvas.path) {
-                //Road r = l.getEdge();
+            for (Linked l : SideBar.getRoute()) {
+                Road r = l.getEdge();
                 if (tileArea.contains(r.midX, r.midY)) {
                     double x1, x2, y1, y2;
                     NodeData n1 = r.getFn();

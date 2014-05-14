@@ -2,7 +2,7 @@ package osmparser;
 
 import static QuadTreePack.NSEW.ROOT;
 import QuadTreePack.QuadTree;
-import Route.Adjacencies;
+import Route.DijkstraSP;
 import ctrl.StartMap;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
@@ -17,7 +17,6 @@ import krakloader.NodeData;
 import model.Road;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-import pathFind.Pathfinder;
 
 /**
  *
@@ -71,7 +70,7 @@ public class OSMParser {
                     refOne = refTwo;
                     Road r = new Road(e, tOne, tTwo);
                     StartMap.allRoads.add(r);
-                    //Adjacencies.addEdge(r);
+                    DijkstraSP.addEdgeToAdj(r);
                     if (e.TYP == 1 || e.TYP == 3 || e.TYP == 2 || e.TYP == 48) {
                         qtlvl1.insert(r);
                     } else if (e.TYP == 4) {
@@ -84,10 +83,10 @@ public class OSMParser {
                 }
             }
         }
-        System.out.println("start pf");
-        Pathfinder pf = new Pathfinder(StartMap.allRoads);
-        pf.getPath(StartMap.allRoads.get(3000), StartMap.allRoads.get(4000));
-        System.out.println("stop pf");
+//        System.out.println("start pf");
+//        Pathfinder pf = new Pathfinder(StartMap.allRoads);
+//        pf.getPath(StartMap.allRoads.get(3000), StartMap.allRoads.get(4000));
+//        System.out.println("stop pf");
         QuadTree[] qts = new QuadTree[]{qtlvl1, qtlvl2, qtlvl3, qtlvl4};
         sm.setData(qts);
 
