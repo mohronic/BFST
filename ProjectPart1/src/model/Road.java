@@ -103,27 +103,23 @@ public class Road implements Comparable<Road>
         midX = (fn.getX_COORD() + tn.getX_COORD()) / 2;
         midY = (fn.getY_COORD() + tn.getY_COORD()) / 2;
     }
-    
+
     @Override
     public int compareTo(Road o)
     {
-        if(ed.VEJNAVN.compareTo(o.ed.VEJNAVN) > 0)
+        if (ed.VEJNAVN.compareTo(o.ed.VEJNAVN) > 0)
         {
             return 1;
-        }
-        else if(ed.VEJNAVN.compareTo(o.ed.VEJNAVN) < 0)
+        } else if (ed.VEJNAVN.compareTo(o.ed.VEJNAVN) < 0)
         {
             return -1;
-        }
-        else if(ed.V_POSTNR > o.ed.V_POSTNR)
+        } else if (ed.V_POSTNR > o.ed.V_POSTNR)
         {
             return 1;
-        }
-        else if(ed.V_POSTNR < o.ed.V_POSTNR)
+        } else if (ed.V_POSTNR < o.ed.V_POSTNR)
         {
             return -1;
-        }
-        else
+        } else
         {
             return 0;
         }

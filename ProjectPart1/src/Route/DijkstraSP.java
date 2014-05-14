@@ -31,7 +31,7 @@ public abstract class DijkstraSP
     /**
      * A PriorityQueue sorted by either the accumulated Drivetime or Length.
      */
-    protected PriorityQueue<Road> pq;
+    protected PriorityQueue<Integer> pq;
 
     /**
      * A Hashmap with Point as key and a Bag as value. The Bag contains all the
@@ -57,7 +57,7 @@ public abstract class DijkstraSP
      *
      * @return Comparator<DirectedEdge>
      */
-    protected abstract Comparator<Road> getComparator();
+    protected abstract Comparator<Integer> getComparator();
 
     /**
      * Finds the shortest path to a point.
@@ -84,16 +84,16 @@ public abstract class DijkstraSP
         relax(sourceRoad.getFn().getKDV());
         while (!pq.isEmpty())
         {
-            Road r = pq.poll();
-            if (r.from().getX() == targetRoad.from().getX() && r.from().getY() == targetRoad.from().getY()) //Can compare the 'to' values aswell.
+            int i = pq.poll();
+            if (targetRoad.getTn().getKDV() == i || targetRoad.getFn().getKDV() == i)//Can compare the 'to' values aswell.
             {
-                break;
+                return getRoute(targetRoad);
             } else
             {
-                relax(r.getTn().getKDV());
+                relax(i);
             }
         }
-        return getRoute(targetRoad);
+        return null; // The route was not found
     }
 
     /**
@@ -104,7 +104,14 @@ public abstract class DijkstraSP
     private ArrayList<Linked> getRoute(Road targetRoad)
     {
         ArrayList<Linked> list = new ArrayList<>();
-        int loc = targetRoad.getTn().getKDV();
+        int loc;
+        if (distTo.get(targetRoad.getFn().getKDV()) == null)
+        {
+            loc = targetRoad.getTn().getKDV();
+        } else
+        {
+            loc = targetRoad.getFn().getKDV();
+        }
         while (loc != -1)
         {
             Linked l = distTo.get(loc);
@@ -156,7 +163,7 @@ public abstract class DijkstraSP
             {
                 if (StartMap.adj.get(tID) == null)
                 {
-                    StartMap.adj.set(tID, new ArrayList<Road>()); //// TRIM ??????????????? ADD OR SET?
+                    StartMap.adj.set(tID, new ArrayList<Road>());
                 }
                 StartMap.adj.get(tID).add(r);
                 break;

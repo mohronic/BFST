@@ -29,21 +29,19 @@ public class FastestRoad extends DijkstraSP
      * @return Comparator<DirectedEdge>
      */
     @Override
-    protected Comparator<Road> getComparator()
+    protected Comparator<Integer> getComparator()
     {
-        Comparator<Road> comp = new Comparator<Road>()
+        Comparator<Integer> comp = new Comparator<Integer>()
         {
 
             @Override
-            public int compare(Road t, Road t1) //Doesnt work with A-Stary
+            public int compare(Integer t, Integer t1) //Doesnt work with A-Stary
             {
-                Linked tmp = distTo.get(t.getFn().getKDV());
-                Linked tmp2 = distTo.get(t1.getFn().getKDV());
-
+                Linked tmp = distTo.get(t);
+                Linked tmp2 = distTo.get(t1);
                 return Double.compare(tmp.getDrivetime(), tmp2.getDrivetime());
             }
         };
-
         return comp;
     }
 
@@ -62,26 +60,82 @@ public class FastestRoad extends DijkstraSP
         {
             for (Road r : list)
             {
-                Linked from = distTo.get(p);
-                if (distTo.get(r.getTn().getKDV()) == null)
+                int q;
+                if (p == r.getTn().getKDV())
                 {
-                    distTo.set(r.getTn().getKDV(), new Linked());
+                    q = r.getFn().getKDV();
+                } else
+                {
+                    q = r.getTn().getKDV();
                 }
-                Linked to = distTo.get(r.getTn().getKDV());
+
+                Linked from = distTo.get(p);
+                if (distTo.get(q) == null)
+                {
+                    distTo.set(q, new Linked());
+                }
+                Linked to = distTo.get(q);
+                
                 if (to.getDrivetime() > from.getDrivetime() + r.getDrivetime())
                 {
                     to.setFrom(p);
                     to.setLength(from.getLength() + r.getLength());
                     to.setDrivetime(from.getDrivetime() + r.getDrivetime());
                     to.setEdge(r);
-                    distTo.set(r.getTn().getKDV(), to);
-                    if (!pq.contains(r))
+                    distTo.set(q, to);
+                    if (!pq.contains(q))
                     {
-                        pq.add(r);
+                        pq.add(q);
                     }
                 }
             }
         }
 
     }
+
+//    @Override
+//    protected void relax(int p)
+//    {
+//        ArrayList<Road> list = adj.get(p);
+//        if (list != null) // Blindvej, slutpunkt
+//        {
+//            for (Road r : list)
+//            {
+//                Linked from = distTo.get(p);
+//                Linked to;
+//                int kdv;
+//                if (r.getTn().getKDV() == p) //The road is reversed
+//                {
+//                    if (distTo.get(r.getFn().getKDV()) == null)
+//                    {
+//                        distTo.set(r.getFn().getKDV(), new Linked());
+//                    }
+//                    kdv = r.getTn().getKDV();
+//                    to = distTo.get(r.getFn().getKDV());
+//                } else
+//                {
+//                    if (distTo.get(r.getTn().getKDV()) == null)
+//                    {
+//                        distTo.set(r.getTn().getKDV(), new Linked());
+//                    }
+//                    to = distTo.get(r.getTn().getKDV());
+//                    kdv = r.getFn().getKDV();
+//                }
+//
+//                if (to.getDrivetime() > from.getDrivetime() + r.getDrivetime())
+//                {
+//                    to.setFrom(p);
+//                    to.setLength(from.getLength() + r.getLength());
+//                    to.setDrivetime(from.getDrivetime() + r.getDrivetime());
+//                    to.setEdge(r);
+//                    distTo.set(kdv, to);
+//                    if (!pq.contains(r))
+//                    {
+//                        pq.add(r);
+//                    }
+//                }
+//            }
+//        }
+//
+//    }
 }
