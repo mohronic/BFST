@@ -48,23 +48,18 @@ public class SideBar
         info = new JLabel();
         info.setFont(new Font("Plain", 0, 11));
         info.setText("Adress format: 'Streetname Number, ZipCode Cityname'");
-        
+
         slTo = new SearchLabel(StartMap.allRoads, "To");
         KL klTo = new KL();
         klTo.setSearchLabel(slTo);
         slTo.addKeyListener(klTo);
         slTo.setColumns(25);
-        
-        
+
         slFrom = new SearchLabel(StartMap.allRoads, "From");
         KL klFrom = new KL();
         klFrom.setSearchLabel(slFrom);
         slFrom.addKeyListener(klFrom);
         slFrom.setColumns(25);
-       
-        
-        
-        
 
         JRadioButton rFastest = new JRadioButton("Fastest Road");
         JRadioButton rShortest = new JRadioButton("Shortest Road");
@@ -118,11 +113,11 @@ public class SideBar
                 } else if (from.trim().matches("") || to.trim().matches("")) //Searchfield contains illegal characters
                 {
                     JOptionPane.showMessageDialog(sideBar, "Nothing was typed in");
-                } else 
+                } else
                 {
                     Road roadFrom = slFrom.searchRoad(from);
                     Road roadTo = slTo.searchRoad(to);
-                    
+
                     if (roadFrom == null || roadTo == null) // Road name does not exist
                     {
                         JOptionPane.showMessageDialog(sideBar, "Road was not found");
@@ -135,45 +130,50 @@ public class SideBar
                         {
                             DijkstraSP SP = new FastestRoad(StartMap.allRoads);
                             roadRoute = SP.mapRoute(roadFrom, roadTo);
-
-                            int length = (int) roadRoute.get(0).getLength();
-                            int time = (int) roadRoute.get(0).getDrivetime();
-                            area.setText("Total længde: " + length + " m " + "Total tid: " + time + " min" + newline);
-
-                            Linked l;
-                            int tmpLength = 0;
-
-                            for (int i = 0; i < roadRoute.size() - 1; i++)
+                            if (roadRoute == null)
                             {
-                                l = roadRoute.get(i);
-                                if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName())) //If the edge has the same name as the next, just add up the distance and only print road name once
+                                JOptionPane.showMessageDialog(sideBar, "Route was not found");
+                            } else
+                            {
+                                int length = (int) roadRoute.get(0).getLength();
+                                int time = (int) Math.round(roadRoute.get(0).getDrivetime());
+                                area.setText("Total længde: " + length + " m " + "Total tid: " + time + " min" + newline);
+
+                                Linked l;
+                                int tmpLength = 0;
+
+                                for (int i = 0; i < roadRoute.size() - 1; i++)
                                 {
-                                    tmpLength = (int) (tmpLength + l.getEdge().getLength());
-                                } else
-                                {
-                                    String turn;
-                                    switch (l.getTurn())
+                                    l = roadRoute.get(i);
+                                    if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName())) //If the edge has the same name as the next, just add up the distance and only print road name once
                                     {
-                                        case RIGHT:
-                                            turn = "højre";
-                                            break;
-                                        case LEFT:
-                                            turn = "venstre";
-                                            break;
-                                        default:
-                                            turn = " ";
-                                            break;
+                                        tmpLength = (int) (tmpLength + l.getEdge().getLength());
+                                    } else
+                                    {
+                                        String turn;
+                                        switch (l.getTurn())
+                                        {
+                                            case RIGHT:
+                                                turn = "højre";
+                                                break;
+                                            case LEFT:
+                                                turn = "venstre";
+                                                break;
+                                            default:
+                                                turn = " ";
+                                                break;
+                                        }
+
+                                        tmpLength = (int) (tmpLength + l.getEdge().getLength());
+                                        area.append(l.getEdge().getName() + ": " + "Tag " + turn + " om " + tmpLength + " m" + " mod" + newline);
+
+                                        tmpLength = 0;
                                     }
-
-                                    tmpLength = (int) (tmpLength + l.getEdge().getLength());
-                                    area.append(l.getEdge().getName() + ": " + "Tag " + turn + " om " + tmpLength + " m" + " mod" + newline);
-
-                                    tmpLength = 0;
-                                }
-                                if (i == roadRoute.size() - 2) //Last edge in linked list, different text
-                                {
-                                    Linked l2 = roadRoute.get(i + 1);
-                                    area.append(l2.getEdge().getName() + " og destinationen er nået!");
+                                    if (i == roadRoute.size() - 2) //Last edge in linked list, different text
+                                    {
+                                        Linked l2 = roadRoute.get(i + 1);
+                                        area.append(l2.getEdge().getName() + " og destinationen er nået!");
+                                    }
                                 }
                             }
 
@@ -181,45 +181,50 @@ public class SideBar
                         {
                             DijkstraSP SP = new ShortestRoad(StartMap.allRoads);
                             roadRoute = SP.mapRoute(roadFrom, roadTo);
-
-                            int length = (int) roadRoute.get(0).getLength();
-                            int time = (int) roadRoute.get(0).getDrivetime();
-                            area.setText("Total længde: " + length + " m " + "Total tid: " + time + " min" + newline);
-
-                            Linked l;
-                            int tmpLength = 0;
-
-                            for (int i = 0; i < roadRoute.size() - 1; i++)
+                            if (roadRoute == null)
                             {
-                                l = roadRoute.get(i);
-                                if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName())) //If the edge has the same name as the next, just add up the distance and only print road name once
+                                JOptionPane.showMessageDialog(sideBar, "Route was not found");
+                            } else
+                            {
+                                int length = (int) roadRoute.get(0).getLength();
+                                int time = (int) Math.round(roadRoute.get(0).getDrivetime());
+                                area.setText("Total længde: " + length + " m " + "Total tid: " + time + " min" + newline);
+
+                                Linked l;
+                                int tmpLength = 0;
+
+                                for (int i = 0; i < roadRoute.size() - 1; i++)
                                 {
-                                    tmpLength = (int) (tmpLength + l.getEdge().getLength());
-                                } else
-                                {
-                                    String turn;
-                                    switch (l.getTurn())
+                                    l = roadRoute.get(i);
+                                    if (l.getEdge().getName().equals(roadRoute.get(i + 1).getEdge().getName())) //If the edge has the same name as the next, just add up the distance and only print road name once
                                     {
-                                        case RIGHT:
-                                            turn = "højre";
-                                            break;
-                                        case LEFT:
-                                            turn = "venstre";
-                                            break;
-                                        default:
-                                            turn = " ";
-                                            break;
+                                        tmpLength = (int) (tmpLength + l.getEdge().getLength());
+                                    } else
+                                    {
+                                        String turn;
+                                        switch (l.getTurn())
+                                        {
+                                            case RIGHT:
+                                                turn = "højre";
+                                                break;
+                                            case LEFT:
+                                                turn = "venstre";
+                                                break;
+                                            default:
+                                                turn = " ";
+                                                break;
+                                        }
+
+                                        tmpLength = (int) (tmpLength + l.getEdge().getLength());
+                                        area.append(l.getEdge().getName() + ": " + "Tag " + turn + " om " + tmpLength + " m" + " mod" + newline);
+
+                                        tmpLength = 0;
                                     }
-
-                                    tmpLength = (int) (tmpLength + l.getEdge().getLength());
-                                    area.append(l.getEdge().getName() + ": " + "Tag " + turn + " om " + tmpLength + " m" + " mod" + newline);
-
-                                    tmpLength = 0;
-                                }
-                                if (i == roadRoute.size() - 2) //Last edge in linked list, different text
-                                {
-                                    Linked l2 = roadRoute.get(i + 1);
-                                    area.append(l2.getEdge().getName() + " og destinationen er nået!");
+                                    if (i == roadRoute.size() - 2) //Last edge in linked list, different text
+                                    {
+                                        Linked l2 = roadRoute.get(i + 1);
+                                        area.append(l2.getEdge().getName() + " og destinationen er nået!");
+                                    }
                                 }
                             }
                         }
@@ -238,7 +243,7 @@ public class SideBar
 
         }
         );
-        
+
     }
 
     public JPanel getSideBar()
