@@ -42,6 +42,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
     private int i = 0, j = 0;
     private boolean newGrid, isFocus;
     public static ArrayList<Linked> routeND = SideBar.getRoute();
+    public static ArrayList<Road> lrs;
 
     /**
      * Constructor for Canvas, getting the data to draw and instantiates the
@@ -55,6 +56,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
         view = oView;
         rd = new ArrayList<>();
         tiles = new HashMap<>();
+        lrs = new ArrayList<>();
         newGrid = true;
         isFocus = true;
     }
@@ -129,7 +131,9 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
         big.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
         big.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
         for (Road r : rds) {
-
+            double x = r.getFn().getX_COORD()- (i * tSize - (tempView.getX() - tempImg.getX()));
+            double y = r.getFn().getY_COORD()- (j * tSize - (tempView.getY() - tempImg.getY()));
+            if(x<0);
             double x1, x2, y1, y2;
             NodeData n1 = r.getFn();
             NodeData n2 = r.getTn();

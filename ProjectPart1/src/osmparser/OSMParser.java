@@ -35,7 +35,7 @@ public class OSMParser {
     }
 
     public void parseOSM() throws ParserConfigurationException, SAXException, IOException {
-        String filename = "./data/outs2.osm";
+        String filename = "./data/osm.osm";
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setNamespaceAware(true);
         SAXParser saxParser = spf.newSAXParser();
