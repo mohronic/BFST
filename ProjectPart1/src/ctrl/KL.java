@@ -90,10 +90,10 @@ public class KL implements KeyListener
     @Override
     public void keyReleased(KeyEvent e)
     {
-        if(searchLabel.oldtext < searchLabel.getText().length()){
+        if(searchLabel != null && searchLabel.oldtext < searchLabel.getText().length()){
             searchLabel.autoComplete();
         }
-        else
+        else if(searchLabel != null)
         {
             searchLabel.oldtext = searchLabel.getText().length();
         }
