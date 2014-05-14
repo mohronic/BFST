@@ -139,41 +139,47 @@ public class Linked
 
         if (from != -1)
         {
-            Point2D.Double to = edge.to();
-            ArrayList<Road> roads = StartMap.adj.get(from);
+            Point2D.Double toNode;
+            Point2D.Double fromNode;
 
-            Point2D.Double from = roads.get(0).from();
-
-            if (to != null && from != null)
+            if (from == edge.getFn().getKDV())
             {
-                if (to.getX() == from.getX() && to.getY() == from.getY())
-                {
-                    to = edge.from();
-                }
+                toNode = edge.to();
+            } else
+            {
+                toNode = edge.from();
+            }
 
-                if (from.getY() < to.getY())
+            ArrayList<Road> roads = StartMap.adj.get(from);
+            Road r = roads.get(0);
+
+            if (r.getFn().getKDV() == from)
+            {
+                fromNode = r.from();
+            } else
+            {
+                fromNode = r.to();
+            }
+
+            if (fromNode.getY() < toNode.getY())
+            {
+                if (fromNode.getX() < toNode.getX())
                 {
-                    if (from.getX() < to.getX())
-                    {
-                        turn = Turn.LEFT;
-                    } else
-                    {
-                        turn = Turn.RIGHT;
-                    }
+                    turn = Turn.LEFT;
                 } else
                 {
-                    if (from.getX() < to.getX())
-                    {
-                        turn = Turn.LEFT;
-                    } else
-                    {
-                        turn = Turn.RIGHT;
-                    }
+                    turn = Turn.RIGHT;
+                }
+            } else
+            {
+                if (fromNode.getX() < toNode.getX())
+                {
+                    turn = Turn.LEFT;
+                } else
+                {
+                    turn = Turn.RIGHT;
                 }
             }
-        } else
-        {
-            turn = Turn.FORWARD;
         }
     }
 }

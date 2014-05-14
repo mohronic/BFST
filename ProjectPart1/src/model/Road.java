@@ -17,7 +17,6 @@ public class Road implements Comparable<Road>
     public double midX, midY;
     private NodeData fn;
     private NodeData tn;
-    private final double drivetime;
 
     /**
      * Contructor for the road object.
@@ -33,7 +32,6 @@ public class Road implements Comparable<Road>
         this.tn = tn;
         midX = (fn.getX_COORD() + tn.getX_COORD()) / 2;
         midY = (fn.getY_COORD() + tn.getY_COORD()) / 2;
-        drivetime = ed.DRIVETIME;
     }
 
     /**
@@ -68,7 +66,7 @@ public class Road implements Comparable<Road>
 
     public double getDrivetime()
     {
-        return drivetime;
+        return ed.DRIVETIME;
     }
 
     /**
