@@ -35,7 +35,7 @@ public class OSMParser {
     }
 
     public void parseOSM() throws ParserConfigurationException, SAXException, IOException {
-        String filename = "./data/osm.osm";
+        String filename = "./data/outs2.osm";
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setNamespaceAware(true);
         SAXParser saxParser = spf.newSAXParser();
@@ -83,10 +83,7 @@ public class OSMParser {
                 }
             }
         }
-//        System.out.println("start pf");
-//        Pathfinder pf = new Pathfinder(StartMap.allRoads);
-//        pf.getPath(StartMap.allRoads.get(3000), StartMap.allRoads.get(4000));
-//        System.out.println("stop pf");
+        
         QuadTree[] qts = new QuadTree[]{qtlvl1, qtlvl2, qtlvl3, qtlvl4};
         sm.setData(qts);
 

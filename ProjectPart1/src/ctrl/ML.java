@@ -98,6 +98,8 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
 
                 double w = endx - startx;
                 double h = endy - starty;
+                if(w>h)h=w;
+                else w=h;
 
                 currentView = new Rectangle2D.Double(startx, starty, w, h);
                 calcView(currentView);

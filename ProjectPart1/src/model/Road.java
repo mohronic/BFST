@@ -13,7 +13,6 @@ import krakloader.EdgeData;
  */
 public class Road implements Comparable<Road>
 {
-    private final int ID;
     private final EdgeData ed;
     public double midX, midY;
     private NodeData fn;
@@ -35,18 +34,6 @@ public class Road implements Comparable<Road>
         midX = (fn.getX_COORD() + tn.getX_COORD()) / 2;
         midY = (fn.getY_COORD() + tn.getY_COORD()) / 2;
         drivetime = ed.DRIVETIME;
-        ID = StartMap.roadID++;
-    }
-
-    public Road(Road r)
-    {
-        this.ed = r.ed;
-        this.fn = r.tn;
-        this.tn = r.fn;
-        midX = (r.fn.getX_COORD() + r.tn.getX_COORD()) / 2;
-        midY = (r.fn.getY_COORD() + r.tn.getY_COORD()) / 2;
-        drivetime = r.ed.DRIVETIME;
-        ID = StartMap.roadID++;
     }
 
     /**
@@ -140,10 +127,5 @@ public class Road implements Comparable<Road>
         {
             return 0;
         }
-    }
-    
-    public int ID()
-    {
-        return ID;
     }
 }

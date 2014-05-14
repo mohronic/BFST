@@ -81,17 +81,17 @@ public class CurrentData extends ObservableC {
             maxScale = (ymax - ymin) / (double) c.getHeight();
         }
 
-        rds = qtlvl1.search(r.getX()*0.875, (r.getX() + r.getWidth())*1.25, r.getY()*0.875, (r.getY() + r.getHeight())*1.25);
+        rds = qtlvl1.search(r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10);
 
         if (c.getScale() < maxScale * 0.75 && c.getScale() > maxScale * 0.05) {
-            rds.addAll(qtlvl2.search(r.getX()*0.875, (r.getX() + r.getWidth())*1.25, r.getY()*0.875, (r.getY() + r.getHeight())*1.25));
+            rds.addAll(qtlvl2.search(r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10));
         } else if (c.getScale() <= maxScale * 0.05 && c.getScale() > maxScale * 0.025) {
-            rds.addAll(qtlvl2.search(r.getX()*0.875, (r.getX() + r.getWidth())*1.25, r.getY()*0.875, (r.getY() + r.getHeight())*1.25));
-            rds.addAll(qtlvl3.search(r.getX()*0.875, (r.getX() + r.getWidth())*1.25, r.getY()*0.875, (r.getY() + r.getHeight())*1.25));
+            rds.addAll(qtlvl2.search(r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10));
+            rds.addAll(qtlvl3.search(r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10));
         } else if (c.getScale() <= maxScale * 0.025) {
-            rds.addAll(qtlvl2.search(r.getX()*0.875, (r.getX() + r.getWidth())*1.25, r.getY()*0.875, (r.getY() + r.getHeight())*1.25));
-            rds.addAll(qtlvl3.search(r.getX()*0.875, (r.getX() + r.getWidth())*1.25, r.getY()*0.875, (r.getY() + r.getHeight())*1.25));
-            rds.addAll(qtlvl4.search(r.getX()*0.875, (r.getX() + r.getWidth())*1.25, r.getY()*0.875, (r.getY() + r.getHeight())*1.25));
+            rds.addAll(qtlvl2.search(r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10));
+            rds.addAll(qtlvl3.search(r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10));
+            rds.addAll(qtlvl4.search(r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10));
         }
         
         return rds;
