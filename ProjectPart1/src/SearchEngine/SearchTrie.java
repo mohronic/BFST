@@ -20,8 +20,8 @@ public class SearchTrie
 {
     private static SearchTrie instance = null;
     public ArrayList<Road> roadList = StartMap.allRoads; //Soon to be sorted
-    public HashMap<String, int> stringToInt = AlphabetParser.get;
-    public LinkedList<String , >
+    //public HashMap<String, int> stringToInt = AlphabetParser.get;
+    //public LinkedList<String , >
     private int alphabetSize = 31;
     
     private SearchTrie()
@@ -74,7 +74,7 @@ public class SearchTrie
     }
     
     
-    }
+    
 
     private class Trie
     {
@@ -100,7 +100,7 @@ public class SearchTrie
         
         public ArrayList<Road> getSubRoads()
         {
-            
+            return null;
         }
         
         public void makeArrayList()
