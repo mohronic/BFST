@@ -80,18 +80,18 @@ public class CurrentData extends ObservableC {
         if (maxScale < ymax / (double) c.getHeight()) {
             maxScale = (ymax - ymin) / (double) c.getHeight();
         }
-
-        rds = qtlvl1.search(r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10);
+        //r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10
+        rds = qtlvl1.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), (r.getY() + r.getHeight()));
 
         if (c.getScale() < maxScale * 0.75 && c.getScale() > maxScale * 0.05) {
-            rds.addAll(qtlvl2.search(r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10));
+            rds.addAll(qtlvl2.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), (r.getY() + r.getHeight())));
         } else if (c.getScale() <= maxScale * 0.05 && c.getScale() > maxScale * 0.025) {
-            rds.addAll(qtlvl2.search(r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10));
-            rds.addAll(qtlvl3.search(r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10));
+            rds.addAll(qtlvl2.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), (r.getY() + r.getHeight())));
+            rds.addAll(qtlvl3.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), (r.getY() + r.getHeight())));
         } else if (c.getScale() <= maxScale * 0.025) {
-            rds.addAll(qtlvl2.search(r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10));
-            rds.addAll(qtlvl3.search(r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10));
-            rds.addAll(qtlvl4.search(r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10));
+            rds.addAll(qtlvl2.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), (r.getY() + r.getHeight())));
+            rds.addAll(qtlvl3.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), (r.getY() + r.getHeight())));
+            rds.addAll(qtlvl4.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), (r.getY() + r.getHeight())));
         }
         
         return rds;
