@@ -289,8 +289,8 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
      * @param MouseY Y coordinate from mouse on component
      */
     public void zoomOut(double MouseX, double MouseY) {
-        double x = -(MouseX * 0.1);
-        double y = -(MouseY * 0.1);
+        double x = MouseX * 0.1;
+        double y = MouseY * 0.1;
         double w = c.getWidth() * 1.1;
         double h = c.getHeight() * 1.1;
         calcView(new Rectangle2D.Double(x, y, w, h));
