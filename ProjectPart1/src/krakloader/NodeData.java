@@ -6,7 +6,6 @@ package krakloader;
  */
 public class NodeData {
     
-    final long OSMID;
     final int KDV;
     private double X_COORD;
     private double Y_COORD;
@@ -19,7 +18,6 @@ public class NodeData {
      * @param line The source line from which the NodeData fields are parsed
      */
     public NodeData(String line) {
-        OSMID = 0;
         DataLine dl = new DataLine(line);
         int ARC = dl.getInt();
         KDV = dl.getInt();
@@ -36,16 +34,14 @@ public class NodeData {
      * @param overload
      */
     public NodeData(String line, String overload) {
-        OSMID = 0;
         DataLine dl = new DataLine(line);
         KDV = 0;
         X_COORD = dl.getDouble();
         Y_COORD = dl.getDouble();
     }
 
-    public NodeData(long id, double x, double y) {
-        OSMID = id;
-        KDV = 0;
+    public NodeData(int id, double x, double y) {
+        KDV = id;
         X_COORD = x;
         Y_COORD = y;
     }
@@ -83,9 +79,10 @@ public class NodeData {
     public double getY_COORD() {
         return Y_COORD;
     }
-    
-    public long getOSMID(){
-        return OSMID;
+
+    public int getKDV() {
+        return KDV;
     }
+    
 
 }

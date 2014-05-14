@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
 import model.CurrentData;
 import model.Road;
@@ -31,7 +32,7 @@ public class StartMap {
     private CurrentData cd;
     private static QuadTree[] qts = new QuadTree[4];
     public final static ArrayList<Road> allRoads = new ArrayList<>();
-    public final static HashMap<Point2D.Double, ArrayList<Road>> adj = new HashMap<>();
+    public final static ArrayList<ArrayList<Road>> adj = new ArrayList<>();
     public static Rectangle2D bounds;
     public static int roadID = 0;
     public static HashMap<Integer, String> zipToCityHashMap;
@@ -42,20 +43,20 @@ public class StartMap {
      * @throws IOException
      */
     public StartMap(boolean osm) throws IOException, SAXException, ParserConfigurationException {
-//        if (osm) {
-//            OSMParser op = new OSMParser(this);
-//            op.parseOSM();
-//            op = null;
-//        } else {
+        if (osm) {
+            OSMParser op = new OSMParser(this);
+            op.parseOSM();
+            op = null;
+        } else {
             KrakParser kp = new KrakParser(this);
             kp.setData();
             kp = null;
-//        }
+        }
         Collections.sort(allRoads);
-        
+
         CityNameParser cityNameParser = new CityNameParser();
         zipToCityHashMap = cityNameParser.getZipToCityHashMap();
-        
+
         cd = CurrentData.getInstance();
         cd.setXmax(bounds.getMaxX());
         cd.setXmin(bounds.getMinX());
@@ -93,7 +94,6 @@ public class StartMap {
         frame.add(SB.getSideBar(), BorderLayout.WEST);
         frame.setVisible(true);
         cd.updateArea(StartMap.bounds);
-        
 
     }
 
@@ -121,6 +121,13 @@ public class StartMap {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-        StartMap sm = new StartMap(true);
+         int choose = JOptionPane.showConfirmDialog(null,
+                                 "Do you wish to use Open Street Map or krak datasets?\nFor osm press yes, for krak press no", "Please select",
+                                 JOptionPane.YES_NO_OPTION);
+         System.out.println(choose);
+        boolean osm;
+        if(choose == 1) osm = false;
+        else osm = true;
+        StartMap sm = new StartMap(osm);
     }
 }

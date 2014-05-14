@@ -5,8 +5,6 @@ package krakloader;
  */
 public class EdgeData {
 
-    public final long NODEONE;
-    public final long NODETWO;
     public final int FNODE;
     public final int TNODE;
     public final double LENGTH;
@@ -87,8 +85,6 @@ public class EdgeData {
         int VEJNR = dl.getInt();
         String AENDR_DATO = dl.getString();
         int TJEK_ID = dl.getInt();
-        NODEONE = 0;
-        NODETWO = 0;
     }
 
     public EdgeData() {
@@ -114,15 +110,11 @@ public class EdgeData {
         ONE_WAY = "";
         F_TURN = "";
         T_TURN = "";
-        NODEONE = 0;
-        NODETWO = 0;
     }
 
-    public EdgeData(long id, long refOne, long refTwo, String name, int typ, int speed, double dTime, double length) {
-        NODEONE = refOne;
-        NODETWO = refTwo;
-        FNODE = 0;
-        TNODE = 0;
+    public EdgeData(int refOne, int refTwo, String name, int typ, int speed, double dTime, double length) {
+        FNODE = refOne;
+        TNODE = refTwo;
         LENGTH = length;
         TYP = typ;
         VEJNAVN = name;

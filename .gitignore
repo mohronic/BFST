@@ -9,8 +9,13 @@
 ProjectPart1/nbproject/private/
 ProjectPart1/build/
 ProjectPart1/nbbuild/
-ProjectPart1/dist/
 ProjectPart1/nbdist/
 ProjectPart1/nbactions.xml
 ProjectPart1/nb-configuration.xml
-ProjectPart1/data/
+ProjectPart1/dist/
+ProjectPart1/data/kdv_node_unload.txt
+ProjectPart1/data/Dokumentation KDV Professional - Rute.pdf
+ProjectPart1/data/kdv_unload.txt
+ProjectPart1/data/KrakCode Introduction.pdf
+ProjectPart1/data/osm.osm
+ProjectPart1/data/outs2.osm

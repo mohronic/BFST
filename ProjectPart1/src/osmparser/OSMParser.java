@@ -2,7 +2,7 @@ package osmparser;
 
 import static QuadTreePack.NSEW.ROOT;
 import QuadTreePack.QuadTree;
-import Route.Adjacencies;
+import Route.DijkstraSP;
 import ctrl.StartMap;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
@@ -14,7 +14,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import krakloader.EdgeData;
 import krakloader.NodeData;
-import model.CurrentData;
 import model.Road;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -27,9 +26,8 @@ public class OSMParser {
 
     public static List<EdgeData> edges = new ArrayList<>();
     public static List<Way> ways;
-    public static HashMap<Long, NodeData> nodes;
+    public static HashMap<Integer, NodeData> nodes;
     public static Rectangle2D bounds;
-    private static CurrentData cd;
     private StartMap sm;
 
     public OSMParser(StartMap sm) {
@@ -54,11 +52,11 @@ public class OSMParser {
         QuadTree qtlvl3 = new QuadTree(ROOT, null);
         QuadTree qtlvl4 = new QuadTree(ROOT, null);
 
-        long refOne = 0, refTwo = 0;
+        int refOne = 0, refTwo = 0;
         for (Way w : ways) {
             boolean isFirst = true;
-            ArrayList<Long> nodeList = w.getNodes();
-            for (Long s : nodeList) {
+            ArrayList<Integer> nodeList = w.getNodes();
+            for (Integer s : nodeList) {
                 if (isFirst) {
                     refOne = s;
                     isFirst = false;
@@ -68,11 +66,11 @@ public class OSMParser {
                     NodeData tTwo = nodes.get(refTwo);
                     double length = Math.sqrt(Math.pow(tTwo.getX_COORD() - tOne.getX_COORD(), 2) + Math.pow(tTwo.getY_COORD() - tOne.getY_COORD(), 2));
                     double dTime = (length/1000)/(double)w.getSpeed()/60;
-                    EdgeData e = new EdgeData(w.getID(), refOne, refTwo, w.getName(), w.getTyp(), w.getSpeed(), dTime, length);
+                    EdgeData e = new EdgeData(refOne, refTwo, w.getName(), w.getTyp(), w.getSpeed(), dTime, length);
                     refOne = refTwo;
                     Road r = new Road(e, tOne, tTwo);
                     StartMap.allRoads.add(r);
-                    Adjacencies.addEdge(r);
+                    DijkstraSP.addEdgeToAdj(r);
                     if (e.TYP == 1 || e.TYP == 3 || e.TYP == 2 || e.TYP == 48) {
                         qtlvl1.insert(r);
                     } else if (e.TYP == 4) {
@@ -85,13 +83,16 @@ public class OSMParser {
                 }
             }
         }
-
+//        System.out.println("start pf");
+//        Pathfinder pf = new Pathfinder(StartMap.allRoads);
+//        pf.getPath(StartMap.allRoads.get(3000), StartMap.allRoads.get(4000));
+//        System.out.println("stop pf");
         QuadTree[] qts = new QuadTree[]{qtlvl1, qtlvl2, qtlvl3, qtlvl4};
         sm.setData(qts);
 
     }
 
-    public static void setData(List<Way> ways, HashMap<Long, NodeData> nodes, Rectangle2D bounds) {
+    public static void setData(List<Way> ways, HashMap<Integer, NodeData> nodes, Rectangle2D bounds) {
         OSMParser.ways = ways;
         OSMParser.nodes = nodes;
         OSMParser.bounds = bounds;

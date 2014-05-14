@@ -12,26 +12,20 @@ import java.util.ArrayList;
  * @author z3ss
  */
 public class Way {
-    private long id;
-    private ArrayList<Long> nodes = new ArrayList<>();
+    private ArrayList<Integer> nodes = new ArrayList<>();
     private String name = "";
     private int typ = 0;
     private int speed = 0;
     private int postal = 0;
     
-    public Way(long id) {
-        this.id = id;
+    public Way() {
     }
     
-    public void addNode(long nID){
+    public void addNode(int nID){
         nodes.add(nID);
     } 
-    
-    public long getID(){
-        return id;
-    }
 
-    public ArrayList<Long> getNodes() {
+    public ArrayList<Integer> getNodes() {
         return nodes;
     }
 

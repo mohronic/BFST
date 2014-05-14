@@ -37,8 +37,8 @@ public class FastestRoad extends DijkstraSP
             @Override
             public int compare(Road t, Road t1) //Doesnt work with A-Stary
             {
-                Linked tmp = distTo.get(t.from());
-                Linked tmp2 = distTo.get(t1.from());
+                Linked tmp = distTo.get(t.getFn().getKDV());
+                Linked tmp2 = distTo.get(t1.getFn().getKDV());
 
                 return Double.compare(tmp.getDrivetime(), tmp2.getDrivetime());
             }
@@ -55,23 +55,26 @@ public class FastestRoad extends DijkstraSP
      * @param p Point in which the bag will be retrieved, and going through
      */
     @Override
-    protected void relax(Point2D.Double p)
+    protected void relax(int p)
     {
         ArrayList<Road> list = adj.get(p);
         if (list != null) // Blindvej, slutpunkt
         {
             for (Road r : list)
             {
-                Point2D.Double t = r.to();
                 Linked from = distTo.get(p);
-                Linked to = distTo.get(t);
+                if (distTo.get(r.getTn().getKDV()) == null)
+                {
+                    distTo.set(r.getTn().getKDV(), new Linked());
+                }
+                Linked to = distTo.get(r.getTn().getKDV());
                 if (to.getDrivetime() > from.getDrivetime() + r.getDrivetime())
                 {
                     to.setFrom(p);
                     to.setLength(from.getLength() + r.getLength());
                     to.setDrivetime(from.getDrivetime() + r.getDrivetime());
                     to.setEdge(r);
-                    distTo.put(t, to);
+                    distTo.set(r.getTn().getKDV(), to);
                     if (!pq.contains(r))
                     {
                         pq.add(r);

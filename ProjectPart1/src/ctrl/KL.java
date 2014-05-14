@@ -18,8 +18,7 @@ import view.Canvas;
  *
  * @author Peter Ø. Clausen <pvcl@itu.dk>
  */
-public class KL implements KeyListener
-{
+public class KL implements KeyListener {
 
     private SearchLabel searchLabel;
     private final CurrentData cd = CurrentData.getInstance();
@@ -31,8 +30,7 @@ public class KL implements KeyListener
      * @param searchLabel SearchLabel which key listener is connected to.
      * @param canvas Canvas which it is connected to.
      */
-    public KL()
-    {
+    public KL() {
 //        this.searchLabel = searchLabel;
         this.c = Canvas.getInstance(cd);
     }
@@ -43,8 +41,7 @@ public class KL implements KeyListener
      * @param e keyevent for key typed
      */
     @Override
-    public void keyTyped(KeyEvent e)
-    {
+    public void keyTyped(KeyEvent e) {
         //Do nothing
     }
 
@@ -54,32 +51,31 @@ public class KL implements KeyListener
      * @param e keyevent for key pressed
      */
     @Override
-    public void keyPressed(KeyEvent e)
-    {
+    public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == 10 && !c.hasFocus()) //10 = keycode for Enter-button
         {
 
         }
-        
-            if(e.getKeyCode() == 38 && c.hasFocus()) //Op
-            {
-                keyPanUp();
-            }
 
-            if (e.getKeyCode() == 40 && c.hasFocus()) //Ned
-            {
-                keyPanDown();
-            }
+        if (e.getKeyCode() == 38 && c.hasFocus()) //Op
+        {
+            keyPanUp();
+        }
 
-            if (e.getKeyCode() == 39 && c.hasFocus()) //Højre
-            {
-                keyPanRight();
-            }
+        if (e.getKeyCode() == 40 && c.hasFocus()) //Ned
+        {
+            keyPanDown();
+        }
 
-            if (e.getKeyCode() == 37 && c.hasFocus()) //Venstre
-            {
-                keyPanLeft();
-            }
+        if (e.getKeyCode() == 39 && c.hasFocus()) //Højre
+        {
+            keyPanRight();
+        }
+
+        if (e.getKeyCode() == 37 && c.hasFocus()) //Venstre
+        {
+            keyPanLeft();
+        }
     }
 
     /**
@@ -88,22 +84,20 @@ public class KL implements KeyListener
      * @param e keyevent for key realeased
      */
     @Override
-    public void keyReleased(KeyEvent e)
-    {
-        if(searchLabel != null && searchLabel.oldtext < searchLabel.getText().length()){
-            searchLabel.autoComplete();
-        }
-        else if(searchLabel != null)
-        {
-            searchLabel.oldtext = searchLabel.getText().length();
+    public void keyReleased(KeyEvent e) {
+        if (searchLabel != null) {
+            if (searchLabel.oldtext < searchLabel.getText().length()) {
+                searchLabel.autoComplete();
+            } else {
+                searchLabel.oldtext = searchLabel.getText().length();
+            }
         }
     }
 
     /**
      * Pans up when called
      */
-    public void keyPanUp()
-    {
+    public void keyPanUp() {
         Rectangle2D temp = cd.getView();
         double x = temp.getX();
         double y = temp.getY() - ((c.getHeight() / 50) * c.getScale()); //50 = antal gange der skal trykkes før bund = top
@@ -115,8 +109,7 @@ public class KL implements KeyListener
     /**
      * Pans down when called
      */
-    public void keyPanDown()
-    {
+    public void keyPanDown() {
         Rectangle2D temp = cd.getView();
         double x = temp.getX();
         double y = temp.getY() + ((c.getHeight() / 50) * c.getScale()); //50 = antal gange der skal trykkes før bund = top
@@ -128,8 +121,7 @@ public class KL implements KeyListener
     /**
      * Pans right when called
      */
-    public void keyPanRight()
-    {
+    public void keyPanRight() {
         Rectangle2D temp = cd.getView();
         double x = temp.getX() + ((c.getWidth() / 50) * c.getScale()); //50 = antal gange der skal trykkes før bund = top
         double y = temp.getY();
@@ -141,8 +133,7 @@ public class KL implements KeyListener
     /**
      * Pans left when called
      */
-    public void keyPanLeft()
-    {
+    public void keyPanLeft() {
         Rectangle2D temp = cd.getView();
         double x = temp.getX() - ((c.getWidth() / 50) * c.getScale()); //50 = antal gange der skal trykkes før bund = top
         double y = temp.getY();
@@ -150,8 +141,8 @@ public class KL implements KeyListener
         double h = temp.getHeight();
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
     }
-    
-    public void setSearchLabel(SearchLabel sl){
+
+    public void setSearchLabel(SearchLabel sl) {
         searchLabel = sl;
     }
 }

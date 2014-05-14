@@ -18,9 +18,6 @@ public class Road implements Comparable<Road>
     public double midX, midY;
     private NodeData fn;
     private NodeData tn;
-    private final double sourcex,sourcey,targetx,targety;
-    private final double length;
-    private final String name;
     private final double drivetime;
 
     /**
@@ -37,13 +34,7 @@ public class Road implements Comparable<Road>
         this.tn = tn;
         midX = (fn.getX_COORD() + tn.getX_COORD()) / 2;
         midY = (fn.getY_COORD() + tn.getY_COORD()) / 2;
-        sourcex = fn.getX_COORD();
-        sourcey = fn.getY_COORD();
-        targetx = tn.getX_COORD();
-        targety = tn.getY_COORD();
         drivetime = ed.DRIVETIME;
-        length = ed.LENGTH;
-        name = ed.VEJNAVN;
         ID = StartMap.roadID++;
     }
 
@@ -55,12 +46,6 @@ public class Road implements Comparable<Road>
         midX = (r.fn.getX_COORD() + r.tn.getX_COORD()) / 2;
         midY = (r.fn.getY_COORD() + r.tn.getY_COORD()) / 2;
         drivetime = r.ed.DRIVETIME;
-        length = r.ed.LENGTH;
-        name = r.ed.VEJNAVN;
-        sourcex = fn.getX_COORD();
-        sourcey = fn.getY_COORD();
-        targetx = tn.getX_COORD();
-        targety = tn.getY_COORD();
         ID = StartMap.roadID++;
     }
 
@@ -76,22 +61,22 @@ public class Road implements Comparable<Road>
 
     public Point2D.Double from()
     {
-        return new Point2D.Double(sourcex, sourcey);
+        return new Point2D.Double(fn.getX_COORD(), fn.getY_COORD());
     }
 
     public Point2D.Double to()
     {
-        return new Point2D.Double(targetx, targety);
+        return new Point2D.Double(tn.getX_COORD(), tn.getY_COORD());
     }
 
     public double getLength()
     {
-        return length;
+        return ed.LENGTH;
     }
 
     public String getName()
     {
-        return name;
+        return ed.VEJNAVN;
     }
 
     public double getDrivetime()
