@@ -4,7 +4,6 @@ import QuadTreePack.QuadTree;
 import SearchEngine.CityNameParser;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
