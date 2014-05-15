@@ -7,7 +7,6 @@ package Route;
 
 import ctrl.StartMap;
 import java.util.ArrayList;
-import java.util.Comparator;
 import krakloader.EdgeData;
 import krakloader.NodeData;
 import model.Road;
@@ -46,11 +45,11 @@ public class test
         Road r13 = new Road(e13, n1, n3);
         Road r24 = new Road(e24, n2, n4);
         Road r45 = new Road(e45, n4, n5);
-        Road r35 = new Road(e35, n3, n5);
+        Road r53 = new Road(e35, n5, n3); // Reverse
         Road r56 = new Road(e56, n5, n6);
         Road r57 = new Road(e57, n5, n7);
         Road r78 = new Road(e78, n7, n8);
-        Road r59 = new Road(e59, n5, n9);
+        Road r95 = new Road(e59, n9, n5); // Reverse
         Road r97 = new Road(e97, n9, n7);
 
         ArrayList<Road> roads = new ArrayList<>();
@@ -58,11 +57,11 @@ public class test
         roads.add(r13);
         roads.add(r24);
         roads.add(r45);
-        roads.add(r35);
+        roads.add(r53);
         roads.add(r56);
         roads.add(r57);
         roads.add(r78);
-        roads.add(r59);
+        roads.add(r95);
         roads.add(r97);
 
         StartMap.adj.clear();
