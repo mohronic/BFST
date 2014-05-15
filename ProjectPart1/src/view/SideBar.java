@@ -49,13 +49,13 @@ public class SideBar
         info.setFont(new Font("Plain", 0, 11));
         info.setText("Adress format: 'Streetname Number, ZipCode Cityname'");
 
-        slTo = new SearchLabel(StartMap.allRoads, "To");
+        slTo = new SearchLabel(StartMap.allRoads, "From");
         KL klTo = new KL();
         klTo.setSearchLabel(slTo);
         slTo.addKeyListener(klTo);
         slTo.setColumns(25);
 
-        slFrom = new SearchLabel(StartMap.allRoads, "From");
+        slFrom = new SearchLabel(StartMap.allRoads, "To");
         KL klFrom = new KL();
         klFrom.setSearchLabel(slFrom);
         slFrom.addKeyListener(klFrom);

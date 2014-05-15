@@ -7,7 +7,7 @@ import java.util.PriorityQueue;
 import model.Road;
 
 /**
- * This class uses an algorithem inspired by Dijkstra for Shortest Path. This
+ * This class uses an algorithem inspired by Dijkstra for Path Finding. This
  * class has 2 childs, one which finds the shortest road, and one which finds
  * the fastest road.
  *
@@ -23,8 +23,9 @@ public abstract class DijkstraSP
     protected Road t;
 
     /**
-     * HashMap with Point as key and Linked as value. The length/drivetime to
-     * this point is accumulated, so it is the total distance from "From"
+     * ArrayList of all nodes. The length/drivetime to this a give note is
+     * accumulated, so it is the total distance from "From". Furthere more is
+     * the untouched notes distance and drivetime infinity
      */
     protected ArrayList<Linked> distTo;
 
@@ -34,13 +35,13 @@ public abstract class DijkstraSP
     protected PriorityQueue<Integer> pq;
 
     /**
-     * A Hashmap with Point as key and a Bag as value. The Bag contains all the
-     * Directededges that uses the point
+     * Arraylist of all neighbors. A bag for a given node contains all Roads the
+     * uses this node.
      */
     protected ArrayList<ArrayList<Road>> adj; // naboer
 
     /**
-     * Sets up the HashMaps with data from allEdges.
+     * Basic setup
      *
      * @param allEdges ArrayList<Road> with all edges to build the DirectedGraph
      */
@@ -55,14 +56,14 @@ public abstract class DijkstraSP
     /**
      * Makes the Comparator used by the priorityqueue.
      *
-     * @return Comparator<DirectedEdge>
+     * @return Comparator<Integer>
      */
     protected abstract Comparator<Integer> getComparator();
 
     /**
-     * Finds the shortest path to a point.
+     * Finds the shortest or fastest path to a point.
      *
-     * @param p Point in which the bag will be retrieved, and going through
+     * @param p Point in which the bag will be retrieved
      */
     protected abstract void relax(int p);
 
@@ -85,7 +86,7 @@ public abstract class DijkstraSP
         while (!pq.isEmpty())
         {
             int i = pq.poll();
-            if (targetRoad.getTn().getKDV() == i || targetRoad.getFn().getKDV() == i)//Can compare the 'to' values aswell.
+            if (targetRoad.getTn().getKDV() == i || targetRoad.getFn().getKDV() == i)
             {
                 return getRoute(targetRoad);
             } else
@@ -131,6 +132,12 @@ public abstract class DijkstraSP
 
     }
 
+    /**
+     * Builds the adjencies list. Adds the roads either both way or only one way
+     * depending on the Roads direction
+     *
+     * @param r Road
+     */
     public static void addEdgeToAdj(Road r)
     {
         int fID = r.getFn().getKDV();
@@ -138,14 +145,14 @@ public abstract class DijkstraSP
         int l = Math.max(fID, tID);
         if (StartMap.adj.size() < l + 1)
         {
-            for (int i = StartMap.adj.size(); i < l + 1; i++)
+            for (int i = StartMap.adj.size(); i < l + 1; i++) // If the arraylist is not long enough yet to contain the node
             {
                 StartMap.adj.add(null);
             }
         }
         switch (r.getEd().ONE_WAY) // One way routes, should be put in the correct direction
         {
-            case "":
+            case "": //not onewayed
             {
                 if (StartMap.adj.get(fID) == null)
                 {

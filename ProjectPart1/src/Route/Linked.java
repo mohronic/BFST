@@ -7,7 +7,7 @@ import model.Road;
 
 /**
  * This class is used to make a linked list of the final fastest/shortest route.
- * Each instance will point to its former instance.
+ * Each instance will point to its former Linked in the route.
  *
  * @author Adam Engsig (adae@itu.dk)
  */
@@ -16,7 +16,7 @@ public class Linked
 
     private double length;
     private double drivetime;
-    private int from; // Only null where the road search starts
+    private int from; // Only -1 where the road search starts
     private Road edge; // edge which contains the original road
     private Turn turn;
 
@@ -46,7 +46,7 @@ public class Linked
     /**
      * Returns the former point of the linked list
      *
-     * @return Point2D.Double From
+     * @return int From
      */
     public int getFrom()
     {
@@ -56,7 +56,7 @@ public class Linked
     /**
      * Sets the former point
      *
-     * @param f Point2D.Double From
+     * @param f int From
      */
     public void setFrom(int f)
     {
@@ -76,7 +76,7 @@ public class Linked
     /**
      * Set the corresponding edge, and calculates which way the turn is
      *
-     * @param e DirectedEdge edge
+     * @param r
      */
     public void setEdge(Road r)
     {
@@ -97,7 +97,7 @@ public class Linked
     /**
      * Returns the edge
      *
-     * @return DirectedEdge edge
+     * @return Road edge
      */
     public Road getEdge()
     {
