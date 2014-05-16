@@ -66,8 +66,8 @@ public class CurrentData extends ObservableC {
      */
     public void updateArea(Rectangle2D r) {
         view = r;
-        oldy = view.getMinY();
-        oldx = view.getMinX();
+        oldy = r.getMinY();
+        oldx = r.getMinX();
         setChanged();
         notifyObservers();
 

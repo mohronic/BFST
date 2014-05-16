@@ -86,7 +86,6 @@ public class OSMParser {
         
         QuadTree[] qts = new QuadTree[]{qtlvl1, qtlvl2, qtlvl3, qtlvl4};
         sm.setData(qts);
-
     }
 
     public static void setData(List<Way> ways, HashMap<Integer, NodeData> nodes, Rectangle2D bounds) {

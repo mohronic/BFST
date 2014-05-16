@@ -133,7 +133,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
         for (Road r : rds) {
             double x = r.getFn().getX_COORD()- (i * tSize - (tempView.getX() - tempImg.getX()));
             double y = r.getFn().getY_COORD()- (j * tSize - (tempView.getY() - tempImg.getY()));
-            if(x<0);
+            //if(route out) new BI med større størrelse, sæt forskydning, tegn gamle BI på det nye;
             double x1, x2, y1, y2;
             NodeData n1 = r.getFn();
             NodeData n2 = r.getTn();
