@@ -1,6 +1,7 @@
 package ctrl;
 
 import QuadTreePack.QuadTree;
+import Route.test;
 import SearchEngine.CityNameParser;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -61,6 +62,8 @@ public class StartMap {
         cd.setYmax(bounds.getMaxY());
         cd.setYmin(bounds.getMinY());
         setup();
+        
+        test test = new test();
     }
 
     /*

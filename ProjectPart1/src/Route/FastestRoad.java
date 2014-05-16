@@ -1,6 +1,5 @@
 package Route;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Comparator;
 import model.Road;
@@ -26,7 +25,7 @@ public class FastestRoad extends DijkstraSP
     /**
      * Makes the Comparator used by the priorityqueue. Compares the DriveTime
      *
-     * @return Comparator<DirectedEdge>
+     * @return Comparator<Road>
      */
     @Override
     protected Comparator<Integer> getComparator()
@@ -88,54 +87,8 @@ public class FastestRoad extends DijkstraSP
                         pq.add(q);
                     }
                 }
-            }
-        }
+            } 
+        } 
 
     }
-
-//    @Override
-//    protected void relax(int p)
-//    {
-//        ArrayList<Road> list = adj.get(p);
-//        if (list != null) // Blindvej, slutpunkt
-//        {
-//            for (Road r : list)
-//            {
-//                Linked from = distTo.get(p);
-//                Linked to;
-//                int kdv;
-//                if (r.getTn().getKDV() == p) //The road is reversed
-//                {
-//                    if (distTo.get(r.getFn().getKDV()) == null)
-//                    {
-//                        distTo.set(r.getFn().getKDV(), new Linked());
-//                    }
-//                    kdv = r.getTn().getKDV();
-//                    to = distTo.get(r.getFn().getKDV());
-//                } else
-//                {
-//                    if (distTo.get(r.getTn().getKDV()) == null)
-//                    {
-//                        distTo.set(r.getTn().getKDV(), new Linked());
-//                    }
-//                    to = distTo.get(r.getTn().getKDV());
-//                    kdv = r.getFn().getKDV();
-//                }
-//
-//                if (to.getDrivetime() > from.getDrivetime() + r.getDrivetime())
-//                {
-//                    to.setFrom(p);
-//                    to.setLength(from.getLength() + r.getLength());
-//                    to.setDrivetime(from.getDrivetime() + r.getDrivetime());
-//                    to.setEdge(r);
-//                    distTo.set(kdv, to);
-//                    if (!pq.contains(r))
-//                    {
-//                        pq.add(r);
-//                    }
-//                }
-//            }
-//        }
-//
-//    }
 }

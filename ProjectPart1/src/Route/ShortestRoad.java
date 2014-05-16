@@ -27,7 +27,7 @@ public class ShortestRoad extends DijkstraSP
      * Makes the Comparator used by the priorityqueue. Compares the accumulated
      * length. A* inspired comparison
      *
-     * @return Comparator<DirectedEdge>
+     * @return Comparator<Road>
      */
     @Override
     protected Comparator<Integer> getComparator()
@@ -71,40 +71,40 @@ public class ShortestRoad extends DijkstraSP
     protected void relax(int p)
     {
         ArrayList<Road> list = adj.get(p);
-        if (list != null) // Blindvej, slutpunkt
+        if (list != null) // Blindvej, slutpunkt                             /** 1 **/
         {
-            for (Road r : list)
+        for (Road r : list)                                                  /** 2 **/
+        {
+            int q;
+            if (p == r.getTn().getKDV())                                     /** 3 **/ 
             {
-                int q;
-                if (p == r.getTn().getKDV())
-                {
-                    q = r.getFn().getKDV();
-                } else
-                {
-                    q = r.getTn().getKDV();
-                }
+                q = r.getFn().getKDV();
+            } else
+            {
+                q = r.getTn().getKDV();
+            }
 
-                Linked from = distTo.get(p);
-                if (distTo.get(q) == null)
-                {
-                    distTo.set(q, new Linked());
-                }
-                Linked to = distTo.get(q);
+            Linked from = distTo.get(p);
+            if (distTo.get(q) == null)                                       /** 4 **/
+            {
+                distTo.set(q, new Linked());
+            }
+            Linked to = distTo.get(q);
 
-                if (to.getLength()> from.getLength()+ r.getLength())
+            if (to.getLength() > from.getLength() + r.getLength())           /** 5 **/
+            {
+                to.setFrom(p);
+                to.setLength(from.getLength() + r.getLength());
+                to.setDrivetime(from.getDrivetime() + r.getDrivetime());
+                to.setEdge(r);
+                distTo.set(q, to);
+                if (!pq.contains(q))                                         /** 6 **/
                 {
-                    to.setFrom(p);
-                    to.setLength(from.getLength() + r.getLength());
-                    to.setDrivetime(from.getDrivetime() + r.getDrivetime());
-                    to.setEdge(r);
-                    distTo.set(q, to);
-                    if (!pq.contains(q))
-                    {
-                        pq.add(q);
-                    }
+                    pq.add(q);
                 }
             }
         }
-
+     }
     }
+
 }
