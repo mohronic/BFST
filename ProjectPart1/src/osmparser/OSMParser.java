@@ -65,7 +65,7 @@ public class OSMParser {
                     NodeData tOne = nodes.get(refOne);
                     NodeData tTwo = nodes.get(refTwo);
                     double length = Math.sqrt(Math.pow(tTwo.getX_COORD() - tOne.getX_COORD(), 2) + Math.pow(tTwo.getY_COORD() - tOne.getY_COORD(), 2));
-                    double dTime = (length/1000)/(double)w.getSpeed()/60;
+                    double dTime = ((length/1000)/(double)w.getSpeed())*60;
                     EdgeData e = new EdgeData(refOne, refTwo, w.getName(), w.getTyp(), w.getSpeed(), dTime, length);
                     refOne = refTwo;
                     Road r = new Road(e, tOne, tTwo);
@@ -83,13 +83,9 @@ public class OSMParser {
                 }
             }
         }
-//        System.out.println("start pf");
-//        Pathfinder pf = new Pathfinder(StartMap.allRoads);
-//        pf.getPath(StartMap.allRoads.get(3000), StartMap.allRoads.get(4000));
-//        System.out.println("stop pf");
+        
         QuadTree[] qts = new QuadTree[]{qtlvl1, qtlvl2, qtlvl3, qtlvl4};
         sm.setData(qts);
-
     }
 
     public static void setData(List<Way> ways, HashMap<Integer, NodeData> nodes, Rectangle2D bounds) {

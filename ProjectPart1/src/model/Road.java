@@ -13,12 +13,10 @@ import krakloader.EdgeData;
  */
 public class Road implements Comparable<Road>
 {
-    private final int ID;
     private final EdgeData ed;
     public double midX, midY;
     private NodeData fn;
     private NodeData tn;
-    private final double drivetime;
 
     /**
      * Contructor for the road object.
@@ -34,19 +32,6 @@ public class Road implements Comparable<Road>
         this.tn = tn;
         midX = (fn.getX_COORD() + tn.getX_COORD()) / 2;
         midY = (fn.getY_COORD() + tn.getY_COORD()) / 2;
-        drivetime = ed.DRIVETIME;
-        ID = StartMap.roadID++;
-    }
-
-    public Road(Road r)
-    {
-        this.ed = r.ed;
-        this.fn = r.tn;
-        this.tn = r.fn;
-        midX = (r.fn.getX_COORD() + r.tn.getX_COORD()) / 2;
-        midY = (r.fn.getY_COORD() + r.tn.getY_COORD()) / 2;
-        drivetime = r.ed.DRIVETIME;
-        ID = StartMap.roadID++;
     }
 
     /**
@@ -81,7 +66,7 @@ public class Road implements Comparable<Road>
 
     public double getDrivetime()
     {
-        return drivetime;
+        return ed.DRIVETIME;
     }
 
     /**
@@ -116,34 +101,25 @@ public class Road implements Comparable<Road>
         midX = (fn.getX_COORD() + tn.getX_COORD()) / 2;
         midY = (fn.getY_COORD() + tn.getY_COORD()) / 2;
     }
-    
+
     @Override
     public int compareTo(Road o)
     {
-        if(ed.VEJNAVN.compareTo(o.ed.VEJNAVN) > 0)
+        if (ed.VEJNAVN.compareTo(o.ed.VEJNAVN) > 0)
         {
             return 1;
-        }
-        else if(ed.VEJNAVN.compareTo(o.ed.VEJNAVN) < 0)
+        } else if (ed.VEJNAVN.compareTo(o.ed.VEJNAVN) < 0)
         {
             return -1;
-        }
-        else if(ed.V_POSTNR > o.ed.V_POSTNR)
+        } else if (ed.V_POSTNR > o.ed.V_POSTNR)
         {
             return 1;
-        }
-        else if(ed.V_POSTNR < o.ed.V_POSTNR)
+        } else if (ed.V_POSTNR < o.ed.V_POSTNR)
         {
             return -1;
-        }
-        else
+        } else
         {
             return 0;
         }
-    }
-    
-    public int ID()
-    {
-        return ID;
     }
 }

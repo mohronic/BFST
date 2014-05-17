@@ -1,6 +1,5 @@
 package Route;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Comparator;
 import model.Road;
@@ -26,24 +25,22 @@ public class FastestRoad extends DijkstraSP
     /**
      * Makes the Comparator used by the priorityqueue. Compares the DriveTime
      *
-     * @return Comparator<DirectedEdge>
+     * @return Comparator<Road>
      */
     @Override
-    protected Comparator<Road> getComparator()
+    protected Comparator<Integer> getComparator()
     {
-        Comparator<Road> comp = new Comparator<Road>()
+        Comparator<Integer> comp = new Comparator<Integer>()
         {
 
             @Override
-            public int compare(Road t, Road t1) //Doesnt work with A-Stary
+            public int compare(Integer t, Integer t1) //Doesnt work with A-Stary
             {
-                Linked tmp = distTo.get(t.getFn().getKDV());
-                Linked tmp2 = distTo.get(t1.getFn().getKDV());
-
+                Linked tmp = distTo.get(t);
+                Linked tmp2 = distTo.get(t1);
                 return Double.compare(tmp.getDrivetime(), tmp2.getDrivetime());
             }
         };
-
         return comp;
     }
 
@@ -62,26 +59,36 @@ public class FastestRoad extends DijkstraSP
         {
             for (Road r : list)
             {
-                Linked from = distTo.get(p);
-                if (distTo.get(r.getTn().getKDV()) == null)
+                int q;
+                if (p == r.getTn().getKDV())
                 {
-                    distTo.set(r.getTn().getKDV(), new Linked());
+                    q = r.getFn().getKDV();
+                } else
+                {
+                    q = r.getTn().getKDV();
                 }
-                Linked to = distTo.get(r.getTn().getKDV());
+
+                Linked from = distTo.get(p);
+                if (distTo.get(q) == null)
+                {
+                    distTo.set(q, new Linked());
+                }
+                Linked to = distTo.get(q);
+                
                 if (to.getDrivetime() > from.getDrivetime() + r.getDrivetime())
                 {
                     to.setFrom(p);
                     to.setLength(from.getLength() + r.getLength());
                     to.setDrivetime(from.getDrivetime() + r.getDrivetime());
                     to.setEdge(r);
-                    distTo.set(r.getTn().getKDV(), to);
-                    if (!pq.contains(r))
+                    distTo.set(q, to);
+                    if (!pq.contains(q))
                     {
-                        pq.add(r);
+                        pq.add(q);
                     }
                 }
-            }
-        }
+            } 
+        } 
 
     }
 }

@@ -12,7 +12,7 @@ import model.Road;
 import view.Canvas;
 
 public class Pathfinder {
-
+/*
     private ArrayList<Double> distTo;          // distTo[v] = distance  of shortest s->v path
     private PriorityQueue<Integer> pq;
     private ArrayList<ArrayList<Road>> graph;

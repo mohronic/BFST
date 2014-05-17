@@ -35,31 +35,18 @@ public class SAXHandler extends DefaultHandler {
 
         switch (key) {
             case "bounds":
-                try {
-                    double[] xy = GeoConvert.toUtm(Double.parseDouble(atts.getValue("minlon")), Double.parseDouble(atts.getValue("minlat")));
-                    minx = xy[0];
-                    miny = xy[1];
-                    xy = GeoConvert.toUtm(Double.parseDouble(atts.getValue("maxlon")), Double.parseDouble(atts.getValue("maxlat")));
-                    maxx = xy[0];
-                    maxy = xy[1];
-                } catch (Exception ex) {
-                    System.out.println("SAX 54");
-                }
+                minx = Double.parseDouble(atts.getValue("minlon"));
+                miny = Double.parseDouble(atts.getValue("minlat"));
+                maxx = Double.parseDouble(atts.getValue("maxlon"));
+                maxy = Double.parseDouble(atts.getValue("maxlat"));
                 break;
             case "node":
                 int id = Integer.parseInt(atts.getValue("id"));
                 double lat = Double.parseDouble(atts.getValue("lat"));
                 double lon = Double.parseDouble(atts.getValue("lon"));
-                double[] xy = null;
-                try {
-                    xy = GeoConvert.toUtm(lon, lat);
-                } catch (Exception ex) {
-                    System.out.println("SAX 70");
-                }
-                xy[1] = (-xy[1]) + maxy + miny;
-                if(xy[0] > maxx) maxx = xy[0];
-                if(xy[1] > maxy) maxy = xy[1];
-                cNode = new NodeData(id, xy[0], xy[1]);
+                if(lon > maxx)maxx = lon;
+                if(lat > maxy)maxy = lat;
+                cNode = new NodeData(id, lon, lat);
                 break;
             case "way":
                 cWay = new Way();

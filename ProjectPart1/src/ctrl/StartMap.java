@@ -1,6 +1,7 @@
 package ctrl;
 
 import QuadTreePack.QuadTree;
+import Route.test;
 import SearchEngine.CityNameParser;
 import SearchEngine.SearchTrie;
 //import SearchEngine.SearchTrie;
@@ -35,7 +36,6 @@ public class StartMap {
     public final static ArrayList<Road> allRoads = new ArrayList<>();
     public final static ArrayList<ArrayList<Road>> adj = new ArrayList<>();
     public static Rectangle2D bounds;
-    public static int roadID = 0;
     public static HashMap<Integer, String> zipToCityHashMap;
 
     /**
@@ -74,6 +74,8 @@ public class StartMap {
         cd.setYmax(bounds.getMaxY());
         cd.setYmin(bounds.getMinY());
         setup();
+        
+        test test = new test();
     }
 
     /*
