@@ -1,5 +1,6 @@
 package ctrl;
 
+import krakloader.KrakParser;
 import QuadTreePack.QuadTree;
 import Route.test;
 import SearchEngine.CityNameParser;
@@ -125,7 +126,6 @@ public class StartMap {
          int choose = JOptionPane.showConfirmDialog(null,
                                  "Do you wish to use Open Street Map or krak datasets?\nFor osm press yes, for krak press no", "Please select",
                                  JOptionPane.YES_NO_OPTION);
-         System.out.println(choose);
         boolean osm;
         if(choose == 1) osm = false;
         else osm = true;

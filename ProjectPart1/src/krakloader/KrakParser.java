@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ctrl;
+package krakloader;
 
 import static QuadTreePack.NSEW.ROOT;
 import QuadTreePack.QuadTree;
 import Route.DijkstraSP;
+import ctrl.StartMap;
 import static ctrl.StartMap.allRoads;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
