@@ -34,7 +34,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
     private boolean dragbool = false;
     private Rectangle2D dragrect, tempImg, tempView;
     private static Canvas instance = null;
-    private double tSize = 256;
+    private final double tSize = 256;
     private int[][] grid;
     private final Rectangle2D oView;
     private HashMap<Integer, BufferedImage> tiles;
@@ -123,7 +123,6 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
     }
 
     private BufferedImage drawTile(List<Road> rds) {
-
         BufferedImage bimg = new BufferedImage((int) tSize, (int) tSize, BufferedImage.TYPE_INT_ARGB);
         Graphics2D big = bimg.createGraphics();
         big.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -131,9 +130,6 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
         big.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
         big.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
         for (Road r : rds) {
-            double x = r.getFn().getX_COORD()- (i * tSize - (tempView.getX() - tempImg.getX()));
-            double y = r.getFn().getY_COORD()- (j * tSize - (tempView.getY() - tempImg.getY()));
-            //if(route out) new BI med større størrelse, sæt forskydning, tegn gamle BI på det nye;
             double x1, x2, y1, y2;
             NodeData n1 = r.getFn();
             NodeData n2 = r.getTn();
