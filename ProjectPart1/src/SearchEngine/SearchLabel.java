@@ -11,10 +11,7 @@ import javax.swing.JTextField;
 import model.CurrentData;
 import model.Road;
 import ctrl.StartMap;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import view.Canvas;
 //import java.util.Collections; Overvej at sorterer RoadList.
 
@@ -24,7 +21,7 @@ import view.Canvas;
  *
  * @author Peter Ø. Clausen <pvcl@itu.dk>
  */
-public class SearchLabel extends JTextField implements FocusListener, DocumentListener
+public class SearchLabel extends JTextField implements FocusListener
 {
     public CurrentData currentData;
     public String currentString;
@@ -81,43 +78,6 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
         return found;
     }
     
-//    public Road searchRoad(String roadName, int postalCode)
-//    {
-//        for (Road road : roadList)
-//        {
-//            //System.out.println(road.midX);
-//            if (roadName.equals(road.getEd().VEJNAVN) && postalCode == road.getEd().V_POSTNR)
-//            {
-//                return road;
-//            }
-//        }
-//        return null;
-//    }
-        
-//    public Road searchRoad(String s)
-//    {
-//        Road road = binaryRoadSearch(s);
-//        return road;
-//    }
-//    
-//    private Road binaryRoadSearch(String s)
-//    {
-//        int n = roadList.size();
-//        int a = 0, b = n-1;
-//        boolean found = false;
-//        int i = 0;
-//        
-//        while(!found && a <= b)
-//        {
-//            i = (a+b) / 2;
-//            String StreetName = roadList.get(i).getEd().VEJNAVN;
-//            if(s.compareToIgnoreCase(StreetName) < 0) b = i-1;
-//            else if(s.compareTo(StreetName) > 0) a=i+1;
-//                found = true;
-//        }
-//        return roadList.get(i);
-//    }
-
     /**
      * Updates field currentString
      */
@@ -153,40 +113,5 @@ public class SearchLabel extends JTextField implements FocusListener, DocumentLi
     {
         if(showingHint) return "";
         else return super.getText();
-    }
-    
-    private DocumentListener docListener = new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent documentEvent) {
-                System.out.println("Inserted");
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent documentEvent) {
-                System.out.println("Removed");
-            }
-            
-            @Override
-            public void changedUpdate(DocumentEvent documentEvent) {
-                System.out.println("Changed");
-            }
-    };
-
-    @Override
-    public void insertUpdate(DocumentEvent e)
-    {
-        System.out.println("Inserted");
-    }
-
-    @Override
-    public void removeUpdate(DocumentEvent e)
-    {
-        System.out.println("Removed");
-    }
-
-    @Override
-    public void changedUpdate(DocumentEvent e)
-    {
-        System.out.println("Changed");
-    }
+    }   
 }

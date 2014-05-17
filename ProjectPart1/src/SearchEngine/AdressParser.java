@@ -16,15 +16,15 @@ public class AdressParser {
     public AdressParser() {   
     }
     
-    public static void main(String[] args) {
-        AdressParser parseaddress = new AdressParser();
-        parseaddress.parse("Rued Langgaards Vej");
-        parseaddress.parse("Rued Langgaards Vej 7, 5. sal, København S");
-        parseaddress.parse("Rued Langgaards Vej 7 2300 København S");
-        parseaddress.parse("Rued Langgaards Vej 7, 5.");
-        parseaddress.parse("Rued Langgaards Vej 7A København S");
-        parseaddress.parse("Rued Langgaards Vej i København");
-    }
+//    public static void main(String[] args) {
+//        AdressParser parseaddress = new AdressParser();
+//        parseaddress.parse("Rued Langgaards Vej");
+//        parseaddress.parse("Rued Langgaards Vej 7, 5. sal, København S");
+//        parseaddress.parse("Rued Langgaards Vej 7 2300 København S");
+//        parseaddress.parse("Rued Langgaards Vej 7, 5.");
+//        parseaddress.parse("Rued Langgaards Vej 7A København S");
+//        parseaddress.parse("Rued Langgaards Vej i København");
+//    }
     
     public static String[] parse(String adr){
         String[] addressArray = new String[6];

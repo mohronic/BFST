@@ -17,12 +17,7 @@ public class AutoCompleter
 {
     private static final HashMap<Integer, String> zipToCityHM = CityNameParser.getZipToCityHashMap();
     private static AutoCompleter instance = null;
-    private static SearchTrie searchTrie = SearchTrie.getInstance();
-    
-    public static void main(String[] args)
-    {
-        AutoCompleter ac = AutoCompleter.getInstance();
-    }
+    private static final SearchTrie searchTrie = SearchTrie.getInstance();
     
     private AutoCompleter()
     {   
@@ -103,61 +98,6 @@ public class AutoCompleter
         
         return found;
     }
-       
-
-        
-        
-//       Road roadWithFullName = searchFullRoadNameWithPrefix(userInput);
-//        
-//        if(roadWithFullName != null && roadWithFullName.getEd().VEJNAVN.length() > userInput.length())
-//        {
-//            String roadNameSuffix = roadWithFullName.getEd().VEJNAVN.substring(userInput.length());
-//            String postalCode = Integer.toString(roadWithFullName.getEd().V_POSTNR);
-//            String cityName = zipToCityHM.get(roadWithFullName.getEd().V_POSTNR);
-//            
-//            String autoCompletedRoadName = userInput + roadNameSuffix + ", " + postalCode + " " + cityName;
-//            
-//            return autoCompletedRoadName;
-//        }
-    
-    
-//    /**
-//     * Searches for road name in roadlist and returns full road name if found,
-//     * used in autocomplete method.
-//     *
-//     * @return String - full road name if found
-//     */
-//    private String searchForFullRoadName()
-//    {
-//        String temp = null;
-//        for (Road road : roadList)
-//        {
-//            //Overvej: 
-//            //contains(currentString);
-//
-//            if (road.getEd().VEJNAVN.startsWith(currentString))
-//            {
-//                temp = road.getEd().VEJNAVN; //Skal returnere Road object i stedet
-//                break;
-//            }
-//        }
-//        return temp;
-//    }
-    
-//    //RETURNS ROAD!!!!
-//    private Road searchFullRoadNameWithPrefix(String prefix)
-//    {
-//        Road temp = null;
-//        for (Road road : roadList)
-//        {
-//            if (road.getEd().VEJNAVN.startsWith(prefix)) //Overvej contains(prefix);
-//            {
-//                temp = road;
-//                break;
-//            }
-//        }
-//        return temp;
-//    }
     
     public static AutoCompleter getInstance() {
         if (instance == null) {
@@ -165,9 +105,6 @@ public class AutoCompleter
         }
         return instance;
     }
-    
-    
-    
     
     //Kald addressParser
     //Kald zip to city hvis adress har et Postnummer

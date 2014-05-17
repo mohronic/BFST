@@ -20,14 +20,57 @@ import krakloader.DataLine;
  */
 public class AlphabetParser
 {
-    static HashMap<String, Integer> letterToIndex = new HashMap<>();
+    static HashMap<Character, Integer> letterToIndex = new HashMap<>();
+    
+//    public static void main(String[] args)
+//    {
+//        AlphabetParser ap = new AlphabetParser();
+//        System.out.println(letterToIndex.toString());
+//    }
     
     public AlphabetParser()
     {
-        
+        String dir = "./data/";
+        ArrayList<Character> input = readFile(dir+"alphabet.txt");
+        makeLetterToIndexHashMap(input);
     }
     
-    public HashMap <String, Integer> getHashMap()
+    private ArrayList<Character> readFile(String fileName) 
+    {
+        ArrayList<Character> arr = new ArrayList<>();
+        BufferedReader br;
+        try
+        {
+            br = new BufferedReader(
+                    new InputStreamReader(new FileInputStream(fileName), "iso8859-1"));
+            String line;
+            while ((line = br.readLine()) != null)
+            {
+                arr.add(line.charAt(0));
+            }
+            br.close();
+        }
+        catch(IOException e)
+        {
+            System.out.println("Problem in AlphabetParser, what went wrong: " + e.getMessage());
+        }
+        DataLine.resetInterner();
+        System.gc();
+        
+        return arr;
+    }
+    
+    private void makeLetterToIndexHashMap(ArrayList<Character> input)
+    {
+        int i = 0;
+        for(Character c : input)
+        {
+            letterToIndex.put(c , i++);
+        }
+        System.out.println("letterToIndex: " + letterToIndex.toString());
+    }
+    
+    public HashMap <Character, Integer> getHashMap()
     {
         return letterToIndex;
     }

@@ -25,7 +25,7 @@ public class CityNameParser
     static HashMap<Integer, String> zipToCity = new HashMap<>();
     //static HashMap<String, Integer> cityToZip = new HashMap<>();
     
-    public CityNameParser() throws IOException
+    public CityNameParser()
     {
         String dir = "./data/";
         ArrayList<String> input = readFile(dir+"bynavne.txt");
@@ -33,7 +33,7 @@ public class CityNameParser
         //makeCityToZipHashMap(input);
     }
     
-    private ArrayList<String> readFile(String fileName) throws IOException
+    private ArrayList<String> readFile(String fileName)
     {
         ArrayList<String> arr = new ArrayList<>();
         BufferedReader br;
@@ -50,7 +50,7 @@ public class CityNameParser
         }
         catch(IOException e)
         {
-            System.out.println("What went wrong: " + e.getMessage());
+            System.out.println("Problem in CityNameParser, what went wrong: " + e.getMessage());
         }
         DataLine.resetInterner();
         System.gc();

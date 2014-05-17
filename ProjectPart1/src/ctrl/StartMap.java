@@ -2,9 +2,10 @@ package ctrl;
 
 import QuadTreePack.QuadTree;
 import SearchEngine.CityNameParser;
+import SearchEngine.SearchTrie;
+//import SearchEngine.SearchTrie;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,10 +54,20 @@ public class StartMap {
             kp = null;
         }
         Collections.sort(allRoads);
-
+//        
+//        String longestStreetName = "a";
+//        for(Road r : allRoads)
+//        {
+//            if(r.getEd().VEJNAVN.length() > longestStreetName.length())
+//                longestStreetName = r.getEd().VEJNAVN;
+//        }
+//        System.out.println("allRoads size: " + allRoads.size());
+//        System.out.println("Longest Street name: " + longestStreetName);
+        //SearchTrie searchTrie = new SearchTrie();
+        
         CityNameParser cityNameParser = new CityNameParser();
         zipToCityHashMap = cityNameParser.getZipToCityHashMap();
-
+        
         cd = CurrentData.getInstance();
         cd.setXmax(bounds.getMaxX());
         cd.setXmin(bounds.getMinX());
