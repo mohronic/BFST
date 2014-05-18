@@ -63,6 +63,8 @@ public class RouteJUnit
         EdgeData e37 = new EdgeData(3, 7, 1, 1, "ft");
         EdgeData e35 = new EdgeData(3, 5, 3, 2, "");
 
+        EdgeData e59 = new EdgeData(5, 9, 1, 1, "");
+
         NodeData n0 = new NodeData(0, 0, 0);
         NodeData n1 = new NodeData(1, 2, 2);
         NodeData n2 = new NodeData(2, 5, 2);
@@ -72,6 +74,8 @@ public class RouteJUnit
         NodeData n6 = new NodeData(6, 7, 1);
         NodeData n7 = new NodeData(7, 2, 5);
         NodeData n8 = new NodeData(8, 6, 4);
+
+        NodeData n9 = new NodeData(9, 6, 7);
 
         Road r00 = new Road(e00, n0, n0);
         Road r12 = new Road(e12, n1, n2);
@@ -84,6 +88,8 @@ public class RouteJUnit
         Road r35 = new Road(e35, n3, n5);
         Road r37 = new Road(e37, n3, n7);
 
+        Road r59 = new Road(e59, n5, n9);
+
         roads.add(r00);
         roads.add(r12);
         roads.add(r26);
@@ -95,8 +101,10 @@ public class RouteJUnit
         roads.add(r35);
         roads.add(r37);
 
-        start = r12;
-        end = r58;
+        roads.add(r59);
+
+        start = r12; // doesnt matter, it just uses the from point
+        end = r59;
 
         StartMap.adj.clear();
 
@@ -125,11 +133,12 @@ public class RouteJUnit
             System.out.println("Drivetime: " + l.getDrivetime() + " Length: " + l.getLength() + " From: " + l.getFrom() + " turn: " + l.getTurn());
         }
 
+        //a in report
         assertEquals(3, l1.getFrom());
         assertEquals(1, l2.getFrom());
-
         assertEquals(3, l1.getDrivetime(), 0);
 
+        //e in report
         assertEquals(null, StartMap.adj.get(7));
     }
 
@@ -146,24 +155,19 @@ public class RouteJUnit
 
         Linked l1 = list.get(0);
         Linked l2 = list.get(1);
+        Linked l3 = list.get(2);
 
-        //The answer should be 8,2,1, but in mapRoute, it checks for both the 
-        // start and end note before relaxing. So this is recognized as the end poing before it 
-        // makes it to point 5. But i followed the route in the debugger, and it gets the right route: 8,2,1
-        assertEquals(2, l1.getFrom());
-        assertEquals(1, l2.getFrom());
-
-        //The real length is 6 but becuase of the same problem as above, the last road's length is not added
-        assertEquals(4, l1.getLength(), 0);
+        //b in report
+        assertEquals(8, l1.getFrom());
+        assertEquals(2, l2.getFrom());
+        assertEquals(1, l3.getFrom());
+        assertEquals(6, l1.getLength(), 0);
 
         ArrayList<Linked> distTo = SP.getDistTo();
 
+        //c in report
         assertEquals(null, distTo.get(6));
-        //error is described in the report
-        assertEquals(null, distTo.get(4));
-
     }
-    
 
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
