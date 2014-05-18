@@ -2,7 +2,7 @@ package ctrl;
 
 import krakloader.KrakParser;
 import QuadTreePack.QuadTree;
-import Route.test;
+import QuadTreePack.QuadTreeInterface;
 import SearchEngine.CityNameParser;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -31,7 +31,7 @@ public class StartMap {
 
     private JFrame frame;
     private CurrentData cd;
-    private static QuadTree[] qts = new QuadTree[4];
+    private static QuadTreeInterface[] qts = new QuadTreeInterface[4];
     public final static ArrayList<Road> allRoads = new ArrayList<>();
     public final static ArrayList<ArrayList<Road>> adj = new ArrayList<>();
     public static Rectangle2D bounds;
@@ -63,8 +63,6 @@ public class StartMap {
         cd.setYmax(bounds.getMaxY());
         cd.setYmin(bounds.getMinY());
         setup();
-        
-        test test = new test();
     }
 
     /*
@@ -112,7 +110,7 @@ public class StartMap {
      *
      * @return The root of the Quadtree.
      */
-    public static QuadTree[] getQuadTree() {
+    public static QuadTreeInterface[] getQuadTree() {
         return StartMap.qts;
     }
 

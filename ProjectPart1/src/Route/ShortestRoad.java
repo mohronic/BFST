@@ -43,8 +43,8 @@ public class ShortestRoad extends DijkstraSP
                 tmp2 = distTo.get(t2);
 
                 Point2D.Double first, second;
-                first = tmp.getEdge().from();
-                second = tmp2.getEdge().from();
+                first = tmp.getEdge().to();
+                second = tmp2.getEdge().to();
 
                 double length1, length2;
                 length1 = Math.sqrt(Math.pow(first.getX() - t.from().getX(), 2) + Math.pow(first.getY() - t.from().getY(), 2)); //fulgeflugt længde til slut punkt
@@ -71,12 +71,12 @@ public class ShortestRoad extends DijkstraSP
     protected void relax(int p)
     {
         ArrayList<Road> list = adj.get(p);
-        if (list != null) // Blindvej, slutpunkt                             /** 1 **/
+        if (list != null) // Blindvej, slutpunkt                             
         {
-        for (Road r : list)                                                  /** 2 **/
+        for (Road r : list)                                                 
         {
             int q;
-            if (p == r.getTn().getKDV())                                     /** 3 **/ 
+            if (p == r.getTn().getKDV())                                    
             {
                 q = r.getFn().getKDV();
             } else
@@ -85,20 +85,20 @@ public class ShortestRoad extends DijkstraSP
             }
 
             Linked from = distTo.get(p);
-            if (distTo.get(q) == null)                                       /** 4 **/
+            if (distTo.get(q) == null)                                      
             {
                 distTo.set(q, new Linked());
             }
             Linked to = distTo.get(q);
 
-            if (to.getLength() > from.getLength() + r.getLength())           /** 5 **/
+            if (to.getLength() > from.getLength() + r.getLength())          
             {
                 to.setFrom(p);
                 to.setLength(from.getLength() + r.getLength());
                 to.setDrivetime(from.getDrivetime() + r.getDrivetime());
                 to.setEdge(r);
                 distTo.set(q, to);
-                if (!pq.contains(q))                                         /** 6 **/
+                if (!pq.contains(q))                                        
                 {
                     pq.add(q);
                 }

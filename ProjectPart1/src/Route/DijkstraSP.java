@@ -191,4 +191,9 @@ public abstract class DijkstraSP
             }
         }
     }
+
+    public ArrayList<Linked> getDistTo() //testing
+    {
+        return distTo;
+    }
 }
