@@ -7,7 +7,7 @@ import model.Road;
 
 /**
  * This class is used to make a linked list of the final fastest/shortest route.
- * Each instance will point to its former instance.
+ * Each instance will point to its former Linked in the route.
  *
  * @author Adam Engsig (adae@itu.dk)
  */
@@ -16,7 +16,7 @@ public class Linked
 
     private double length;
     private double drivetime;
-    private int from; // Only null where the road search starts
+    private int from; // Only -1 where the road search starts
     private Road edge; // edge which contains the original road
     private Turn turn;
 
@@ -46,7 +46,7 @@ public class Linked
     /**
      * Returns the former point of the linked list
      *
-     * @return Point2D.Double From
+     * @return int From
      */
     public int getFrom()
     {
@@ -56,7 +56,7 @@ public class Linked
     /**
      * Sets the former point
      *
-     * @param f Point2D.Double From
+     * @param f int From
      */
     public void setFrom(int f)
     {
@@ -76,7 +76,7 @@ public class Linked
     /**
      * Set the corresponding edge, and calculates which way the turn is
      *
-     * @param e DirectedEdge edge
+     * @param r
      */
     public void setEdge(Road r)
     {
@@ -97,7 +97,7 @@ public class Linked
     /**
      * Returns the edge
      *
-     * @return DirectedEdge edge
+     * @return Road edge
      */
     public Road getEdge()
     {
@@ -139,41 +139,47 @@ public class Linked
 
         if (from != -1)
         {
-            Point2D.Double to = edge.to();
-            ArrayList<Road> roads = StartMap.adj.get(from);
+            Point2D.Double toNode;
+            Point2D.Double fromNode;
 
-            Point2D.Double from = roads.get(0).from();
-
-            if (to != null && from != null)
+            if (from == edge.getFn().getKDV())
             {
-                if (to.getX() == from.getX() && to.getY() == from.getY())
-                {
-                    to = edge.from();
-                }
+                toNode = edge.to();
+            } else
+            {
+                toNode = edge.from();
+            }
 
-                if (from.getY() < to.getY())
+            ArrayList<Road> roads = StartMap.adj.get(from);
+            Road r = roads.get(0);
+
+            if (r.getFn().getKDV() == from)
+            {
+                fromNode = r.from();
+            } else
+            {
+                fromNode = r.to();
+            }
+
+            if (fromNode.getY() < toNode.getY())
+            {
+                if (fromNode.getX() < toNode.getX())
                 {
-                    if (from.getX() < to.getX())
-                    {
-                        turn = Turn.LEFT;
-                    } else
-                    {
-                        turn = Turn.RIGHT;
-                    }
+                    turn = Turn.LEFT;
                 } else
                 {
-                    if (from.getX() < to.getX())
-                    {
-                        turn = Turn.LEFT;
-                    } else
-                    {
-                        turn = Turn.RIGHT;
-                    }
+                    turn = Turn.RIGHT;
+                }
+            } else
+            {
+                if (fromNode.getX() < toNode.getX())
+                {
+                    turn = Turn.LEFT;
+                } else
+                {
+                    turn = Turn.RIGHT;
                 }
             }
-        } else
-        {
-            turn = Turn.FORWARD;
         }
     }
 }

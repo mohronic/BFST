@@ -135,4 +135,29 @@ public class EdgeData {
         F_TURN = "";
         T_TURN = "";
     }
+    
+    // FOR TESTING)
+    public EdgeData(int FN, int TN, double length, double dTime, String way) {
+        FNODE = FN;
+        TNODE = TN;
+        LENGTH = length;
+        TYP = 0;
+        VEJNAVN = "test";
+        FROMLEFT = 0;
+        TOLEFT = 0;
+        FROMRIGHT = 0;
+        TORIGHT = 0;
+        FROMLEFT_BOGSTAV = "";
+        TOLEFT_BOGSTAV = "";
+        FROMRIGHT_BOGSTAV = "";
+        TORIGHT_BOGSTAV = "";
+        V_POSTNR = 0;
+        H_POSTNR = 0;
+        FRAKOERSEL = 0;
+        SPEED = 10;
+        DRIVETIME = dTime;
+        ONE_WAY = way;
+        F_TURN = "";
+        T_TURN = "";
+    }
 }

@@ -1,10 +1,11 @@
 package ctrl;
 
+import krakloader.KrakParser;
 import QuadTreePack.QuadTree;
+import Route.test;
 import SearchEngine.CityNameParser;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +35,6 @@ public class StartMap {
     public final static ArrayList<Road> allRoads = new ArrayList<>();
     public final static ArrayList<ArrayList<Road>> adj = new ArrayList<>();
     public static Rectangle2D bounds;
-    public static int roadID = 0;
     public static HashMap<Integer, String> zipToCityHashMap;
 
     /**
@@ -63,6 +63,8 @@ public class StartMap {
         cd.setYmax(bounds.getMaxY());
         cd.setYmin(bounds.getMinY());
         setup();
+        
+        test test = new test();
     }
 
     /*
@@ -124,7 +126,6 @@ public class StartMap {
          int choose = JOptionPane.showConfirmDialog(null,
                                  "Do you wish to use Open Street Map or krak datasets?\nFor osm press yes, for krak press no", "Please select",
                                  JOptionPane.YES_NO_OPTION);
-         System.out.println(choose);
         boolean osm;
         if(choose == 1) osm = false;
         else osm = true;

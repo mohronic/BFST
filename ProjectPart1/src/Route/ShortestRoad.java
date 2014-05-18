@@ -27,29 +27,29 @@ public class ShortestRoad extends DijkstraSP
      * Makes the Comparator used by the priorityqueue. Compares the accumulated
      * length. A* inspired comparison
      *
-     * @return Comparator<DirectedEdge>
+     * @return Comparator<Road>
      */
     @Override
-    protected Comparator<Road> getComparator()
+    protected Comparator<Integer> getComparator()
     {
-        Comparator<Road> comp = new Comparator<Road>()
+        Comparator<Integer> comp = new Comparator<Integer>()
         {
 
             @Override
-            public int compare(Road t1, Road t2)
+            public int compare(Integer t1, Integer t2)
             {
                 Linked tmp, tmp2;
-                tmp = distTo.get(t1.getFn().getKDV());
-                tmp2 = distTo.get(t2.getFn().getKDV());
-                
+                tmp = distTo.get(t1);
+                tmp2 = distTo.get(t2);
+
                 Point2D.Double first, second;
                 first = tmp.getEdge().from();
-                second = tmp2.getEdge().from(); 
-                
+                second = tmp2.getEdge().from();
+
                 double length1, length2;
-                length1 = Math.sqrt(Math.pow(first.getX()-t.from().getX(),2)+Math.pow(first.getY()-t.from().getY(),2)); //fulgeflugt længde til slut punkt
-                length2 = Math.sqrt(Math.pow(second.getX()-t.from().getX(),2)+Math.pow(second.getY()-t.from().getY(),2)); //fugleflugt længde til slut punkt
-                
+                length1 = Math.sqrt(Math.pow(first.getX() - t.from().getX(), 2) + Math.pow(first.getY() - t.from().getY(), 2)); //fulgeflugt længde til slut punkt
+                length2 = Math.sqrt(Math.pow(second.getX() - t.from().getX(), 2) + Math.pow(second.getY() - t.from().getY(), 2)); //fugleflugt længde til slut punkt
+
                 length1 += tmp.getLength();
                 length2 += tmp2.getLength();
 
@@ -71,30 +71,40 @@ public class ShortestRoad extends DijkstraSP
     protected void relax(int p)
     {
         ArrayList<Road> list = adj.get(p);
-        if (list != null) // Blindvej, slutpunkt
+        if (list != null) // Blindvej, slutpunkt                             /** 1 **/
         {
-            for (Road r : list)
+        for (Road r : list)                                                  /** 2 **/
+        {
+            int q;
+            if (p == r.getTn().getKDV())                                     /** 3 **/ 
             {
-                Linked from = distTo.get(p);
-                if(distTo.get(r.getTn().getKDV()) == null)
+                q = r.getFn().getKDV();
+            } else
+            {
+                q = r.getTn().getKDV();
+            }
+
+            Linked from = distTo.get(p);
+            if (distTo.get(q) == null)                                       /** 4 **/
+            {
+                distTo.set(q, new Linked());
+            }
+            Linked to = distTo.get(q);
+
+            if (to.getLength() > from.getLength() + r.getLength())           /** 5 **/
+            {
+                to.setFrom(p);
+                to.setLength(from.getLength() + r.getLength());
+                to.setDrivetime(from.getDrivetime() + r.getDrivetime());
+                to.setEdge(r);
+                distTo.set(q, to);
+                if (!pq.contains(q))                                         /** 6 **/
                 {
-                    distTo.set(r.getTn().getKDV(), new Linked());
-                }
-                Linked to = distTo.get(r.getTn().getKDV());
-                if (to.getLength() > from.getLength() + r.getLength())
-                {
-                    to.setFrom(p);
-                    to.setLength(from.getLength() + r.getLength());
-                    to.setDrivetime(from.getDrivetime() + r.getDrivetime());
-                    to.setEdge(r);
-                    distTo.set(r.getTn().getKDV(), to);
-                    if (!pq.contains(r))
-                    {
-                        pq.add(r);
-                    }
+                    pq.add(q);
                 }
             }
         }
-
+     }
     }
+
 }

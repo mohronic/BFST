@@ -1,6 +1,7 @@
 package view;
 
 import Route.Linked;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -33,14 +34,15 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
     private boolean dragbool = false;
     private Rectangle2D dragrect, tempImg, tempView;
     private static Canvas instance = null;
-    private double tSize = 256;
+    private final double tSize = 256;
     private int[][] grid;
     private final Rectangle2D oView;
     private HashMap<Integer, BufferedImage> tiles;
     private int tileNr = 1;
     private int i = 0, j = 0;
     private boolean newGrid, isFocus;
-    public static ArrayList<Road> path;
+    public static ArrayList<Linked> routeND = SideBar.getRoute();
+    public static ArrayList<Road> lrs;
 
     /**
      * Constructor for Canvas, getting the data to draw and instantiates the
@@ -54,6 +56,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
         view = oView;
         rd = new ArrayList<>();
         tiles = new HashMap<>();
+        lrs = new ArrayList<>();
         newGrid = true;
         isFocus = true;
     }
@@ -80,6 +83,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
             tileNr = 1;
             createGrid();
             newGrid = false;
+            routeND = SideBar.getRoute();
         }
         if (tiles.size() > 400) {
             tiles.clear();
@@ -119,13 +123,13 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
     }
 
     private BufferedImage drawTile(List<Road> rds) {
-
         BufferedImage bimg = new BufferedImage((int) tSize, (int) tSize, BufferedImage.TYPE_INT_ARGB);
         Graphics2D big = bimg.createGraphics();
-        big.setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        big.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        big.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+        big.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
+        big.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
         for (Road r : rds) {
-
             double x1, x2, y1, y2;
             NodeData n1 = r.getFn();
             NodeData n2 = r.getTn();
@@ -159,13 +163,12 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
 
     private void drawRoute(BufferedImage temp, Rectangle2D tileArea) {
         Graphics2D g2 = null;
-        //ændre til sidebar route
-        if (SideBar.getRoute() != null) {
+        if (routeND != null) {
+            ArrayList<Linked> tRoute = new ArrayList<>();
             g2 = temp.createGraphics();
-            g2.setRenderingHint(
-                    RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(Color.orange);
-            for (Linked l : SideBar.getRoute()) {
+            g2.setStroke(new BasicStroke(2));
+            for (Linked l : routeND) {
                 Road r = l.getEdge();
                 if (tileArea.contains(r.midX, r.midY)) {
                     double x1, x2, y1, y2;
@@ -177,9 +180,12 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
                     y2 = ((n2.getY_COORD() - view.getMinY()) / scale) - (j * tSize - (tempView.getY() - tempImg.getY()));
                     Line2D line = new Line2D.Double(x1, y1, x2, y2);
                     g2.draw(line);
+                } else {
+                    tRoute.add(l);
                 }
             }
             g2.dispose();
+            routeND = tRoute;
         }
     }
 
