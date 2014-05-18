@@ -50,14 +50,14 @@ public class QuadTreeTest {
     }
 
     @Test
-    public void TestA() {
+    public void insertA() {
 
         qt.insert(rdl.get(0));
         assertEquals(rdl.get(0), qt.search(rdl.get(1).midX - 10, rdl.get(1).midX + 0, rdl.get(1).midY - 10, rdl.get(1).midY + 10).get(0));
     }
 
     @Test
-    public void B() {
+    public void insertB() {
         EdgeData ed = new EdgeData("546404,546334,44.56884,5,5,6,'Christiansø',0,0,0,0,'','','','',0,0,3740,3740,411,5,0,'',0,0,30,0.103,'','','',10804679,'10/02/01',4144926");
         NodeData nd = new NodeData("433405,1,1,595527.51786,6402050.98297");
         Road rd = new Road(ed, nd, nd);
@@ -68,14 +68,48 @@ public class QuadTreeTest {
     }
 
     @Test
-    public void TestC() {
-        
-        for(Road road: rdl){
+    public void insertC() {
+        for (Road road : rdl) {
             qt.insert(road);
         }
-        assertTrue(true);
+        assertTrue(qt.search(0, 500, 0, 500).size() == 500 && qt.search(500, 1000, 0, 500).size() == 500 && qt.search(0, 500, 500, 1000).size() == 500 && qt.search(500, 1000, 500, 1000).size() == 500);
 
     }
+
+    @Test
+    public void getRoadsaC() {
+        for (Road road : rdl) {
+            qt.insert(road);
+        }
+        assertTrue(qt.search(600, 1000, 0, 900).size() == 1000);
+    }
+    
+    @Test
+    public void getRoadsaD() {
+        for (Road road : rdl) {
+            qt.insert(road);
+        }
+        assertTrue(qt.search(0, 400, 0, 400).size() == 500);
+    }
+    
+    @Test
+    public void getRoadsaE() {
+        for (Road road : rdl) {
+            qt.insert(road);
+        }
+        assertTrue(qt.search(-10, -10, -10, -10).isEmpty());
+    }
+    
+    @Test
+    public void getRoadsaF() {
+        for (Road road : rdl) {
+            qt.insert(road);
+        }
+        assertTrue(qt.search(0, 400, 600, 900).size() == 500);
+    }
+    
+    
+    
 
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
@@ -85,41 +119,26 @@ public class QuadTreeTest {
     void makeRoads(ArrayList<Road> rdl) {
         EdgeData ed = new EdgeData("546404,546334,44.56884,5,5,6,'Christiansø',0,0,0,0,'','','','',0,0,3740,3740,411,5,0,'',0,0,30,0.103,'','','',10804679,'10/02/01',4144926");
         NodeData nd = new NodeData("433405,1,1,595527.51786,6402050.98297");
-        for (int i = 0; i < 2000; i++) {
+        for (int i = 1; i <= 2000; i++) {
             rdl.add(new Road(ed, nd, nd));
         }
-        int i = 1;
         int y = 250;
         int x = 250;
-
-        for (Road road : rdl) {
-            if (i <= 500) {
-                road.midX = x;
-                road.midY = y;
-                if (i == 250) {
-                    x = 750;
-                }
-                i++;
-            } else if (i <= 1000) {
-                road.midX = x;
-                road.midY = y;
-                if (i == 500) {
-                    y = 750;
-                    x = 250;
-                }
-                i++;
-            } else if (i <= 1500) {
-                road.midX = x;
-                road.midY = y;
-                if (i == 750) {
-                    y = 750;
-                    x = 750;
-                }
-                i++;
-            } else if (i <= 2000) {
-                road.midX = x;
-                road.midY = y;
-                i++;
+        for (int i = 1; i <= 2000; i++) {
+            Road tmp = rdl.get(i - 1);
+            tmp.midX = x;
+            tmp.midY = y;
+            rdl.set(i - 1, tmp);
+            if (i == 500) {
+                x = 750;
+            }
+            if (i == 1000) {
+                y = 750;
+                x = 250;
+            }
+            if (i == 1500) {
+                y = 750;
+                x = 750;
             }
         }
     }
