@@ -7,7 +7,7 @@ import model.Road;
  * An interface for our Quadtree, containing the two used methods.
  * @author Gruppe A
  */
-public interface QuadTreeInterace
+public interface QuadTreeInterface
 {
     
     /**

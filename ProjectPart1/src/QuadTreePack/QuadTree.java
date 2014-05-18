@@ -8,7 +8,7 @@ import model.Road;
  * @author Gruppe A
  */
 
-public class QuadTree implements QuadTreeInterace
+public class QuadTree implements QuadTreeInterface
 {
 
     private QuadTree northeast, northwest, southeast, southwest;
