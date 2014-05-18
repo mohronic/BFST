@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ctrl;
 
 import java.awt.Graphics2D;
@@ -26,8 +25,8 @@ import view.Graphics2DDraw;
  *
  * @author Gruppe A
  */
-public class ML implements MouseListener, MouseMotionListener, MouseWheelListener 
-{
+public class ML implements MouseListener, MouseMotionListener, MouseWheelListener {
+
     private final Canvas c;
     private final CurrentData cd = CurrentData.getInstance();
     private final Graphics2DDraw j2d = null;
@@ -41,7 +40,9 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
 
     /**
      * Constructor for ML, setting the current view and the original view. It
-     * takes a Canvas 'c' as parameter, which it uses to calculate the scale.     *
+     * takes a Canvas 'c' as parameter, which it uses to calculate the scale.
+     *
+     *
      * @param c Canvas which it is connected too.
      */
     public ML() {
@@ -67,12 +68,13 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
      * released. If it was the left mousebutton & it was dragged, it will zoom
      * on the selected area else if it wasn't dragged it will reset to the
      * original view. If it was any other button, nothing happens.
+     *
      * @param me
      */
     @Override
     public void mouseReleased(MouseEvent me) {
         mouseEnd = me.getPoint();
-        if(mouseButton == 3){
+        if (mouseButton == 3) {
             if (mouseStart.getX() == mouseEnd.getX() || mouseStart.getY() == mouseEnd.getY()) {
                 cd.updateArea(originalView);
                 currentView.setRect(originalView);
@@ -98,8 +100,11 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
 
                 double w = endx - startx;
                 double h = endy - starty;
-                if(w>h)h=w;
-                else w=h;
+                if (w > h) {
+                    h = w;
+                } else {
+                    w = h;
+                }
 
                 currentView = new Rectangle2D.Double(startx, starty, w, h);
                 calcView(currentView);
@@ -273,12 +278,13 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
      * @param MouseX
      * @param MouseY
      */
-    public void zoomIn(double MouseX, double MouseY) {
-        double x = MouseX * 0.1;
-        double y = MouseY * 0.1;
+    public void zoomIn(double mouseX, double mouseY) {
         double w = c.getWidth() * 0.9;
         double h = c.getHeight() * 0.9;
-        calcView(new Rectangle2D.Double(x, y, w, h));
+        double offx = (mouseX * 0.9) - mouseX;
+        double offy = (mouseY * 0.9) - mouseY;
+        System.out.println(offx+" "+offy);
+        calcView(new Rectangle2D.Double(-offx, -offy, w, h));
     }
 
     /**
@@ -288,11 +294,12 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
      * @param MouseX X coordinate from mouse on component
      * @param MouseY Y coordinate from mouse on component
      */
-    public void zoomOut(double MouseX, double MouseY) {
-        double x = MouseX * 0.1;
-        double y = MouseY * 0.1;
+    public void zoomOut(double mouseX, double mouseY) {
         double w = c.getWidth() * 1.1;
         double h = c.getHeight() * 1.1;
-        calcView(new Rectangle2D.Double(x, y, w, h));
+        double offx = (mouseX * 1.1) - mouseX;
+        double offy = (mouseY * 1.1) - mouseY;
+        System.out.println(offx+" "+offy);
+        calcView(new Rectangle2D.Double(-offx, -offy, w, h));
     }
 }

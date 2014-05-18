@@ -9,10 +9,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import model.Road;
-import view.Canvas;
 
 public class Pathfinder {
-/*
+
     private ArrayList<Double> distTo;          // distTo[v] = distance  of shortest s->v path
     private PriorityQueue<Integer> pq;
     private ArrayList<ArrayList<Road>> graph;
@@ -50,11 +49,16 @@ public class Pathfinder {
 
         Comparator<Integer> comp = new Comparator<Integer>() {
             @Override
-            public int compare(Integer o, Integer t) //Doesnt work with A-Stary
-            {
-                if (distTo.get(o) < distTo.get(t)) {
+            public int compare(Integer o, Integer t) {
+                Road or = graph.get(o).get(0);
+                Road tr = graph.get(t).get(0);
+                Road er = graph.get(e).get(0);
+                double length1 = Math.sqrt(Math.pow(or.midX - er.midX, 2) + Math.pow(or.midY - er.midY, 2)); //fulgeflugt længde til slut punkt
+                double length2 = Math.sqrt(Math.pow(tr.midX - er.midX, 2) + Math.pow(tr.midY - er.midY, 2)); //fugleflugt længde til slut punkt
+
+                if (distTo.get(o)+length1 < distTo.get(t)+length2) {
                     return -1;
-                } else if (distTo.get(o) == distTo.get(t)) {
+                } else if (distTo.get(o)+length1 == distTo.get(t)+length2) {
                     return 0;
                 } else {
                     return 1;
@@ -131,21 +135,19 @@ public class Pathfinder {
     }
 
     private void setRoute() {
-       ArrayList<Road> path = new ArrayList<>();
+        ArrayList<Road> path = new ArrayList<>();
         int cNode = e;
         int i = 0;
-        Road temp = edgeTo.get(cNode);;
+        Road temp = edgeTo.get(cNode);
         while (temp != null) {
             path.add(temp);
             if (temp.getFn().getKDV() == cNode) {
-               cNode = temp.getTn().getKDV();
+                cNode = temp.getTn().getKDV();
             } else {
-               cNode = temp.getFn().getKDV();
+                cNode = temp.getFn().getKDV();
             }
             temp = edgeTo.get(cNode);
-            System.out.println(""+i++);
         }
-        Canvas.path = path;
     }
 
     /*public double distTo(int v) {

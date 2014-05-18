@@ -17,7 +17,8 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class SAXHandler extends DefaultHandler {
 
-    private HashMap<Integer, NodeData> nodes = new HashMap<>();
+    //private HashMap<Integer, NodeData> nodes = new HashMap<>();
+    private ArrayList<NodeData> nodes = new ArrayList<>();
     private List<Way> ways = new ArrayList<>();
     private NodeData cNode = null;
     private Way cWay = null;
@@ -81,7 +82,7 @@ public class SAXHandler extends DefaultHandler {
         String key = localName;
         switch (key) {
             case "node":
-                nodes.put(cNode.getKDV(), cNode);
+                nodes.add(cNode);
                 break;
             case "way":
                 if (cWay.getSpeed() == 0) cWay.setSpeed(50);

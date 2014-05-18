@@ -26,7 +26,7 @@ public class OSMParser {
 
     public static List<EdgeData> edges = new ArrayList<>();
     public static List<Way> ways;
-    public static HashMap<Integer, NodeData> nodes;
+    public static ArrayList<NodeData> nodes;
     public static Rectangle2D bounds;
     private StartMap sm;
 
@@ -86,10 +86,9 @@ public class OSMParser {
         
         QuadTree[] qts = new QuadTree[]{qtlvl1, qtlvl2, qtlvl3, qtlvl4};
         sm.setData(qts);
-
     }
 
-    public static void setData(List<Way> ways, HashMap<Integer, NodeData> nodes, Rectangle2D bounds) {
+    public static void setData(List<Way> ways, ArrayList<NodeData> nodes, Rectangle2D bounds) {
         OSMParser.ways = ways;
         OSMParser.nodes = nodes;
         OSMParser.bounds = bounds;

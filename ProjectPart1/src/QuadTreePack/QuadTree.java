@@ -8,7 +8,7 @@ import model.Road;
  * @author Gruppe A
  */
 
-public class QuadTree implements QuadTreeInterace
+public class QuadTree implements QuadTreeInterface
 {
 
     private QuadTree northeast, northwest, southeast, southwest;
@@ -42,32 +42,30 @@ public class QuadTree implements QuadTreeInterace
     @Override
     public void insert(Road rd)
     {
-        if (checkBounds(rd))
+        if (checkBounds(rd))                            //1
         {
-            if (northeast != null)
+            if (northeast != null)                      //2
             {
-                if (northeast.checkBounds(rd))
+                if (northeast.checkBounds(rd))          //3
                 {
                     northeast.insert(rd);
-                } else if (northwest.checkBounds(rd))
+                } else if (northwest.checkBounds(rd))   //4
                 {
                     northwest.insert(rd);
-                } else if (southeast.checkBounds(rd))
+                } else if (southeast.checkBounds(rd))   //5
                 {
                     southeast.insert(rd);
-                } else if (southwest.checkBounds(rd))
+                } else    
                 {
                     southwest.insert(rd);
                 }
-
-            } else if (currentRoads == sizeLimit - 1)
+            } else if (currentRoads == sizeLimit - 1)   //6
             {
                 divide();
-            } else if (currentRoads < sizeLimit)
+            } else        
             {
                 roadList[++currentRoads] = rd;
             }
-
         }
     }
 

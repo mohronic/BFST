@@ -1,6 +1,7 @@
 package model;
 
 import QuadTreePack.QuadTree;
+import QuadTreePack.QuadTreeInterface;
 import ctrl.StartMap;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import view.ObservableC;
 public class CurrentData extends ObservableC {
 
     private static CurrentData instance = null;
-    private final QuadTree qtlvl1, qtlvl2, qtlvl3, qtlvl4;
+    private final QuadTreeInterface qtlvl1, qtlvl2, qtlvl3, qtlvl4;
     private double xmin = 0, ymin = 0, xmax = 0, ymax = 0;
     private double oldx = 0, oldy = 0;
     private List<Road> roads = new ArrayList<>();
@@ -41,7 +42,7 @@ public class CurrentData extends ObservableC {
     /* Constructor for CurrentData, gets the quadtree and instaciates view.
      */
     private CurrentData() {
-        QuadTree[] qtlist = StartMap.getQuadTree();
+        QuadTreeInterface[] qtlist = StartMap.getQuadTree();
         qtlvl1 = qtlist[0];
         qtlvl2 = qtlist[1];
         qtlvl3 = qtlist[2];
@@ -66,8 +67,8 @@ public class CurrentData extends ObservableC {
      */
     public void updateArea(Rectangle2D r) {
         view = r;
-        oldy = view.getMinY();
-        oldx = view.getMinX();
+        oldy = r.getMinY();
+        oldx = r.getMinX();
         setChanged();
         notifyObservers();
 
@@ -147,7 +148,7 @@ public class CurrentData extends ObservableC {
      *
      * @return Quadtree qt.
      */
-    public QuadTree getQT() {
+    public QuadTreeInterface getQT() {
         return qtlvl3;
     }
 

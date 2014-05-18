@@ -1,6 +1,8 @@
 package ctrl;
 
+import krakloader.KrakParser;
 import QuadTreePack.QuadTree;
+import QuadTreePack.QuadTreeInterface;
 import SearchEngine.CityNameParser;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -29,7 +31,7 @@ public class StartMap {
 
     private JFrame frame;
     private CurrentData cd;
-    private static QuadTree[] qts = new QuadTree[4];
+    private static QuadTreeInterface[] qts = new QuadTreeInterface[4];
     public final static ArrayList<Road> allRoads = new ArrayList<>();
     public final static ArrayList<ArrayList<Road>> adj = new ArrayList<>();
     public static Rectangle2D bounds;
@@ -108,7 +110,7 @@ public class StartMap {
      *
      * @return The root of the Quadtree.
      */
-    public static QuadTree[] getQuadTree() {
+    public static QuadTreeInterface[] getQuadTree() {
         return StartMap.qts;
     }
 
@@ -122,7 +124,6 @@ public class StartMap {
          int choose = JOptionPane.showConfirmDialog(null,
                                  "Do you wish to use Open Street Map or krak datasets?\nFor osm press yes, for krak press no", "Please select",
                                  JOptionPane.YES_NO_OPTION);
-         System.out.println(choose);
         boolean osm;
         if(choose == 1) osm = false;
         else osm = true;
