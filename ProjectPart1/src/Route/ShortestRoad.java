@@ -43,8 +43,8 @@ public class ShortestRoad extends DijkstraSP
                 tmp2 = distTo.get(t2);
 
                 Point2D.Double first, second;
-                first = tmp.getEdge().from();
-                second = tmp2.getEdge().from();
+                first = tmp.getEdge().to();
+                second = tmp2.getEdge().to();
 
                 double length1, length2;
                 length1 = Math.sqrt(Math.pow(first.getX() - t.from().getX(), 2) + Math.pow(first.getY() - t.from().getY(), 2)); //fulgeflugt længde til slut punkt
