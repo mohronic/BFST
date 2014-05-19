@@ -76,15 +76,6 @@ public class SearchTrie
         return instance;
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
     //    public ArrayList<Road> searchRoad(String prefix)
 //    {
 //        return null;

@@ -52,10 +52,10 @@ public class KL implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == 10 && !c.hasFocus()) //10 = keycode for Enter-button
-        {
-            
-        }
+//        if (e.getKeyCode() == 10 && !c.hasFocus()) //10 = keycode for Enter-button
+//        {
+//            
+//        }
 
         if (e.getKeyCode() == 38 && c.hasFocus()) //Arrowkey up
         {
