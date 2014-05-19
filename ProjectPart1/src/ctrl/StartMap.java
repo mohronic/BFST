@@ -1,16 +1,14 @@
 package ctrl;
 
+import krakloader.KrakParser;
 import QuadTreePack.QuadTree;
-import Route.test;
+import QuadTreePack.QuadTreeInterface;
 import SearchEngine.CityNameParser;
-import SearchEngine.SearchTrie;
-//import SearchEngine.SearchTrie;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -32,7 +30,7 @@ public class StartMap {
 
     private JFrame frame;
     private CurrentData cd;
-    private static QuadTree[] qts = new QuadTree[4];
+    private static QuadTreeInterface[] qts = new QuadTreeInterface[4];
     public final static ArrayList<Road> allRoads = new ArrayList<>();
     public final static ArrayList<ArrayList<Road>> adj = new ArrayList<>();
     public static Rectangle2D bounds;
@@ -54,21 +52,11 @@ public class StartMap {
             kp.setData();
             kp = null;
         }
-        Collections.sort(allRoads);
-//        
-//        String longestStreetName = "a";
-//        for(Road r : allRoads)
-//        {
-//            if(r.getEd().VEJNAVN.length() > longestStreetName.length())
-//                longestStreetName = r.getEd().VEJNAVN;
-//        }
-//        System.out.println("allRoads size: " + allRoads.size());
-//        System.out.println("Longest Street name: " + longestStreetName);
-        //SearchTrie searchTrie = new SearchTrie();
+        //Collections.sort(allRoads);
         
         CityNameParser cityNameParser = new CityNameParser();
         zipToCityHashMap = cityNameParser.getZipToCityHashMap();
-        
+
         cd = CurrentData.getInstance();
         cd.setXmax(bounds.getMaxX());
         cd.setXmin(bounds.getMinX());
@@ -122,7 +110,7 @@ public class StartMap {
      *
      * @return The root of the Quadtree.
      */
-    public static QuadTree[] getQuadTree() {
+    public static QuadTreeInterface[] getQuadTree() {
         return StartMap.qts;
     }
 
@@ -136,7 +124,6 @@ public class StartMap {
          int choose = JOptionPane.showConfirmDialog(null,
                                  "Do you wish to use Open Street Map or krak datasets?\nFor osm press yes, for krak press no", "Please select",
                                  JOptionPane.YES_NO_OPTION);
-         System.out.println(choose);
         if(choose == 1) osm = false;
         else osm = true;
         StartMap sm = new StartMap(osm);
