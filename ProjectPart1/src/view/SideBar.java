@@ -1,4 +1,3 @@
-//**********************Adams serverversion:*********************
 package view;
 
 import Route.DijkstraSP;
@@ -67,19 +66,10 @@ public class SideBar
         rFastest.setActionCommand("Fastest");
         rShortest.setActionCommand("Shortest");
 
-        JRadioButton rKrak = new JRadioButton("Krak Kortdata");
-        JRadioButton rOSM = new JRadioButton("Open Streetmaps");
-        rKrak.setSelected(true);
-        rKrak.setActionCommand("Krak");
-        rOSM.setActionCommand("OSM");
-
         final ButtonGroup route = new ButtonGroup();
-        final ButtonGroup data = new ButtonGroup();
 
         route.add(rFastest);
         route.add(rShortest);
-        data.add(rOSM);
-        data.add(rKrak);
 
         final JTextArea area = new JTextArea();
         final JScrollPane scrollPane = new JScrollPane(area);
@@ -94,8 +84,6 @@ public class SideBar
         sideBar.add(slTo);
         sideBar.add(rFastest);
         sideBar.add(rShortest);
-        sideBar.add(rKrak);
-        sideBar.add(rOSM);
         sideBar.add(scrollPane);
         sideBar.add(bSearch);
 
@@ -125,7 +113,6 @@ public class SideBar
                     {
 
                         ButtonModel routeAnswer = route.getSelection();
-                        ButtonModel dataAnswer = data.getSelection();
                         if (routeAnswer.getActionCommand().equals("Fastest")) // Fastest route
                         {
                             DijkstraSP SP = new FastestRoad(StartMap.allRoads);
@@ -228,14 +215,6 @@ public class SideBar
                                 }
                             }
                         }
-
-                        if (dataAnswer.getActionCommand().equals("OSM"))
-                        {
-                            System.out.println("Open Street Maps");
-                        } else
-                        {
-                            System.out.println("Krak");
-                        }
                     }
                 }
                 Canvas.getInstance(null).repaint();
@@ -254,7 +233,6 @@ public class SideBar
     public static ArrayList<Linked> getRoute()
     {
         return roadRoute;
-
     }
 
     public static SearchLabel getSlTo()
