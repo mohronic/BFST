@@ -14,6 +14,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import krakloader.NodeData;
 import model.CurrentData;
 import model.Road;
 import view.Canvas;
@@ -176,20 +177,42 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         ArrayList<Road> rl = CurrentData.getInstance().getQT().search(eX - 0.5, eX + 1, eY - 0.5, eY + 1);
         if (rl.size() > 0) {
             //We use pythagoras to calculate distance:
-            double dist = Math.sqrt((Math.pow(rl.get(0).midX - eX, 2)) + (Math.pow(rl.get(0).midY - eY, 2)));
-
+            //double dist = Math.sqrt((Math.pow(rl.get(0).midX - eX, 2)) + (Math.pow(rl.get(0).midY - eY, 2)));
+            NodeData fN = rl.get(0).getFn();
+            NodeData tN = rl.get(0).getTn();
+            double v = Math.abs((tN.getX_COORD() - fN.getX_COORD()) * (fN.getY_COORD() - eY) - (fN.getX_COORD() - eX) * (tN.getY_COORD() - fN.getY_COORD()));
+            double vR = Math.sqrt(Math.pow((tN.getX_COORD() - fN.getX_COORD()), 2) + Math.pow(tN.getY_COORD() - fN.getY_COORD(), 2));
+            double dist = v / vR;
             closestRoad = rl.get(0);
             for (Road road : rl) {
                 if (closestRoad.getEd().VEJNAVN.isEmpty() && !road.getEd().VEJNAVN.isEmpty()) {
                     closestRoad = road;
-                    dist = Math.sqrt((Math.pow(road.midX - eX, 2)) + (Math.pow(road.midY - eY, 2)));
+                    fN = road.getFn();
+                    tN = road.getTn();
+                    v = Math.abs((tN.getX_COORD() - fN.getX_COORD()) * (fN.getY_COORD() - eY) - (fN.getX_COORD() - eX) * (tN.getY_COORD() - fN.getY_COORD()));
+                    vR = Math.sqrt(Math.pow((tN.getX_COORD() - fN.getX_COORD()), 2) + Math.pow(tN.getY_COORD() - fN.getY_COORD(), 2));
+                    dist = v / vR;
+                    continue;
+                    //dist = Math.sqrt((Math.pow(road.midX - eX, 2)) + (Math.pow(road.midY - eY, 2)));
                 }
-                double distX, distY;
-                distX = Math.abs(road.midX - eX);
-                distY = Math.abs(road.midY - eY);
-                if (Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2)) < dist && !road.getEd().VEJNAVN.isEmpty()) {
-                    dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
-                    closestRoad = road;
+                /*double distX, distY;
+                 distX = Math.abs(road.midX - eX);
+                 distY = Math.abs(road.midY - eY);
+                 if (Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2)) < dist && !road.getEd().VEJNAVN.isEmpty()) {
+                 dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+                 closestRoad = road;
+                 }*/
+
+                if (!road.getEd().VEJNAVN.isEmpty()) {
+                    fN = road.getFn();
+                    tN = road.getTn();
+                    v = Math.abs((tN.getX_COORD() - fN.getX_COORD()) * (fN.getY_COORD() - eY) - (fN.getX_COORD() - eX) * (tN.getY_COORD() - fN.getY_COORD()));
+                    vR = Math.sqrt(Math.pow((tN.getX_COORD() - fN.getX_COORD()), 2) + Math.pow(tN.getY_COORD() - fN.getY_COORD(), 2));
+                    double temp = v/vR;
+                    if(temp < dist){
+                        closestRoad = road;
+                        dist = temp;
+                    }
                 }
 
             }
@@ -283,7 +306,7 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         double h = c.getHeight() * 0.9;
         double offx = (mouseX * 0.9) - mouseX;
         double offy = (mouseY * 0.9) - mouseY;
-        System.out.println(offx+" "+offy);
+        System.out.println(offx + " " + offy);
         calcView(new Rectangle2D.Double(-offx, -offy, w, h));
     }
 
@@ -299,7 +322,7 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         double h = c.getHeight() * 1.1;
         double offx = (mouseX * 1.1) - mouseX;
         double offy = (mouseY * 1.1) - mouseY;
-        System.out.println(offx+" "+offy);
+        System.out.println(offx + " " + offy);
         calcView(new Rectangle2D.Double(-offx, -offy, w, h));
     }
 }
