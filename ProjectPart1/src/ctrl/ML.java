@@ -38,6 +38,7 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
     private boolean mousePressed;
     private Rectangle2D currentView;
     private final Rectangle2D originalView;
+    private long time = -501;
 
     /**
      * Constructor for ML, setting the current view and the original view. It
@@ -80,36 +81,41 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
                 cd.updateArea(originalView);
                 currentView.setRect(originalView);
             } else {
-                double startx = mouseStart.getX();
-                double starty = mouseStart.getY();
-                double endx = mouseEnd.getX();
-                double endy = mouseEnd.getY();
-
-                double tmp;
-
-                if (startx > endx) {
-                    tmp = startx;
-                    startx = endx;
-                    endx = tmp;
-                }
-
-                if (starty > endy) {
-                    tmp = starty;
-                    starty = endy;
-                    endy = tmp;
-                }
-
-                double w = endx - startx;
-                double h = endy - starty;
-                if (w > h) {
-                    h = w;
+                if (c.getScale() <= 1.1) {
+                    cd.updateArea(new Rectangle2D.Double(cd.getOldx(), cd.getOldy(), c.getWidth(), c.getHeight()));
                 } else {
-                    w = h;
+                    double startx = mouseStart.getX();
+                    double starty = mouseStart.getY();
+                    double endx = mouseEnd.getX();
+                    double endy = mouseEnd.getY();
+
+                    double tmp;
+
+                    if (startx > endx) {
+                        tmp = startx;
+                        startx = endx;
+                        endx = tmp;
+                    }
+
+                    if (starty > endy) {
+                        tmp = starty;
+                        starty = endy;
+                        endy = tmp;
+                    }
+
+                    double w = endx - startx;
+                    double h = endy - starty;
+                    if (w > h) {
+                        double ratio = (double) c.getHeight() / (double) c.getWidth();
+                        h = w * ratio;
+                    } else {
+                        double ratio = (double) c.getWidth() / (double) c.getHeight();
+                        w = h * ratio;
+                    }
+
+                    currentView = new Rectangle2D.Double(startx, starty, w, h);
+                    calcView(currentView);
                 }
-
-                currentView = new Rectangle2D.Double(startx, starty, w, h);
-                calcView(currentView);
-
             }
         }
         c.setDragbool(false);
@@ -208,8 +214,8 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
                     tN = road.getTn();
                     v = Math.abs((tN.getX_COORD() - fN.getX_COORD()) * (fN.getY_COORD() - eY) - (fN.getX_COORD() - eX) * (tN.getY_COORD() - fN.getY_COORD()));
                     vR = Math.sqrt(Math.pow((tN.getX_COORD() - fN.getX_COORD()), 2) + Math.pow(tN.getY_COORD() - fN.getY_COORD(), 2));
-                    double temp = v/vR;
-                    if(temp < dist){
+                    double temp = v / vR;
+                    if (temp < dist) {
                         closestRoad = road;
                         dist = temp;
                     }
@@ -286,11 +292,15 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        if (e.getPreciseWheelRotation() < 0) {
-            zoomIn(e.getX(), e.getY());
-        }
-        if (e.getPreciseWheelRotation() > 0) {
-            zoomOut(e.getX(), e.getY());
+        if ((System.currentTimeMillis()-time)> 10) {
+            if (e.getPreciseWheelRotation() < 0) {
+                zoomIn(e.getX(), e.getY());
+                time = System.currentTimeMillis();
+            }
+            if (e.getPreciseWheelRotation() > 0) {
+                zoomOut(e.getX(), e.getY());
+                time = System.currentTimeMillis();
+            }
         }
     }
 
@@ -306,7 +316,6 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         double h = c.getHeight() * 0.9;
         double offx = (mouseX * 0.9) - mouseX;
         double offy = (mouseY * 0.9) - mouseY;
-        System.out.println(offx + " " + offy);
         calcView(new Rectangle2D.Double(-offx, -offy, w, h));
     }
 
@@ -322,7 +331,6 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         double h = c.getHeight() * 1.1;
         double offx = (mouseX * 1.1) - mouseX;
         double offy = (mouseY * 1.1) - mouseY;
-        System.out.println(offx + " " + offy);
         calcView(new Rectangle2D.Double(-offx, -offy, w, h));
     }
 }

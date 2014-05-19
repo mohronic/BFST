@@ -253,6 +253,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
         }
         if (scale < 1) {
             scale = 1;
+            this.view = new Rectangle2D.Double(cd.getOldx(), cd.getOldy(), this.getWidth(), this.getHeight());
         }
     }
 
