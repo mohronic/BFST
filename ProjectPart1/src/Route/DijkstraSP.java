@@ -80,7 +80,7 @@ public abstract class DijkstraSP
         Linked source = new Linked();
         source.setLength(0.0);
         source.setDrivetime(0.0);
-        source.setEdge(sourceRoad);
+        source.setEdge(sourceRoad, null);
         distTo.set(sourceRoad.getFn().getKDV(), source);
         relax(sourceRoad.getFn().getKDV());
         while (!pq.isEmpty())
@@ -192,7 +192,7 @@ public abstract class DijkstraSP
         }
     }
 
-    public ArrayList<Linked> getDistTo() //testing
+    public ArrayList<Linked> getDistTo() 
     {
         return distTo;
     }

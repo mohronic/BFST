@@ -8,6 +8,7 @@ import Route.DijkstraSP;
 import Route.FastestRoad;
 import Route.Linked;
 import Route.ShortestRoad;
+import Route.Turn;
 import ctrl.StartMap;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -138,6 +139,10 @@ public class RouteJUnit
         assertEquals(1, l2.getFrom());
         assertEquals(3, l1.getDrivetime(), 0);
 
+        //g in report
+        assertEquals(Turn.RIGHT, l1.getTurn());
+        assertEquals(Turn.RIGHT, l2.getTurn());
+        
         //e in report
         assertEquals(null, StartMap.adj.get(7));
     }
@@ -163,6 +168,11 @@ public class RouteJUnit
         assertEquals(1, l3.getFrom());
         assertEquals(6, l1.getLength(), 0);
 
+        //f in report
+        assertEquals(Turn.LEFT, l1.getTurn());
+        assertEquals(Turn.LEFT, l2.getTurn());
+        assertEquals(Turn.FORWARD, l3.getTurn());
+        
         ArrayList<Linked> distTo = SP.getDistTo();
 
         //c in report
