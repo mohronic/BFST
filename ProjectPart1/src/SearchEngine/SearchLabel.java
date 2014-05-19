@@ -86,6 +86,13 @@ public class SearchLabel extends JTextField implements FocusListener
         currentString = super.getText();
     }
 
+        @Override
+    public String getText()
+    {
+        if(showingHint) return "";
+        else return super.getText();
+    }   
+    
     @Override
     public void focusGained(FocusEvent e)
     {
@@ -107,11 +114,4 @@ public class SearchLabel extends JTextField implements FocusListener
         }
         Canvas.getInstance(null).setFocus(true);     
     }
-
-    @Override
-    public String getText()
-    {
-        if(showingHint) return "";
-        else return super.getText();
-    }   
 }

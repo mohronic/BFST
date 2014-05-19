@@ -38,7 +38,7 @@ public class SearchTrie
         Road temp = null;
         for (Road road : roadList)
         {
-            if (road.getEd().VEJNAVN.startsWith(prefix)) //Overvej contains(prefix);
+            if (road.getEd().VEJNAVN.startsWith(prefix))
             {
                 temp = road;
                 break;
@@ -50,13 +50,20 @@ public class SearchTrie
     public Road searchRoad(String prefix, int zipCode)
     {
         Road temp = null;
-        for (Road road : roadList)
+        if(!StartMap.osm)
         {
-            if (road.getEd().VEJNAVN.startsWith(prefix) && road.getEd().V_POSTNR == zipCode) //Overvej contains(prefix);
+            for (Road road : roadList)
             {
-                temp = road;
-                break;
+                if (road.getEd().VEJNAVN.startsWith(prefix) && road.getEd().V_POSTNR == zipCode)
+                {
+                    temp = road;
+                    break;
+                }
             }
+        }
+        else //OSM
+        {
+            temp = searchRoad(prefix);
         }
         return temp;
     }

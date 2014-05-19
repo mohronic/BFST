@@ -22,12 +22,6 @@ public class AlphabetParser
 {
     static HashMap<Character, Integer> letterToIndex = new HashMap<>();
     
-//    public static void main(String[] args)
-//    {
-//        AlphabetParser ap = new AlphabetParser();
-//        System.out.println(letterToIndex.toString());
-//    }
-    
     public AlphabetParser()
     {
         String dir = "./data/";

@@ -54,25 +54,25 @@ public class KL implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == 10 && !c.hasFocus()) //10 = keycode for Enter-button
         {
-
+            
         }
 
-        if (e.getKeyCode() == 38 && c.hasFocus()) //Op
+        if (e.getKeyCode() == 38 && c.hasFocus()) //Arrowkey up
         {
             keyPanUp();
         }
 
-        if (e.getKeyCode() == 40 && c.hasFocus()) //Ned
+        if (e.getKeyCode() == 40 && c.hasFocus()) //Arrowkey down
         {
             keyPanDown();
         }
 
-        if (e.getKeyCode() == 39 && c.hasFocus()) //Højre
+        if (e.getKeyCode() == 39 && c.hasFocus()) //Arrowkey right
         {
             keyPanRight();
         }
 
-        if (e.getKeyCode() == 37 && c.hasFocus()) //Venstre
+        if (e.getKeyCode() == 37 && c.hasFocus()) //Arrowkey left
         {
             keyPanLeft();
         }

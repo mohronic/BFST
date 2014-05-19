@@ -21,9 +21,9 @@ public class AutoCompleter
     
     private AutoCompleter()
     {   
-        String address = "Nørregårdsvej 134, 2610 Rødovre"; //Test, adresse skal gives
+        String address = "Rued Langgaards Vej,"; //Test, adresse skal gives
     
-        String [] addressArray = AdressParser.parse(address);
+        String [] addressArray = AddressParser.parse(address);
         
         for(String s : addressArray) System.out.print(s + " | "); //Test
         System.out.println("");
@@ -38,7 +38,7 @@ public class AutoCompleter
     public String autoCompleteUserInput(String userInput)
     {
         System.out.println("User input" + userInput);
-        String[] addressArray = AdressParser.parse(userInput);
+        String[] addressArray = AddressParser.parse(userInput);
 
         String autoCompletedAddress = "";
 
@@ -84,7 +84,7 @@ public class AutoCompleter
     public Road searchRoad(String userInput)
     {
         System.out.println("User input" + userInput);
-        String[] addressArray = AdressParser.parse(userInput);
+        String[] addressArray = AddressParser.parse(userInput);
 
         Road found = null;
 
