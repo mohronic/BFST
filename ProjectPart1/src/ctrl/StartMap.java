@@ -36,6 +36,7 @@ public class StartMap {
     public final static ArrayList<ArrayList<Road>> adj = new ArrayList<>();
     public static Rectangle2D bounds;
     public static HashMap<Integer, String> zipToCityHashMap;
+    public static boolean osm;
 
     /**
      * Constructor for the StartMap object.
@@ -124,7 +125,6 @@ public class StartMap {
          int choose = JOptionPane.showConfirmDialog(null,
                                  "Do you wish to use Open Street Map or krak datasets?\nFor osm press yes, for krak press no", "Please select",
                                  JOptionPane.YES_NO_OPTION);
-        boolean osm;
         if(choose == 1) osm = false;
         else osm = true;
         StartMap sm = new StartMap(osm);
