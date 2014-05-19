@@ -217,7 +217,9 @@ public class SideBar
                         }
                     }
                 }
-                Canvas.getInstance(null).repaint();
+                Canvas c = Canvas.getInstance(null);
+                c.newGrid();
+                c.repaint();
             }
 
         }
