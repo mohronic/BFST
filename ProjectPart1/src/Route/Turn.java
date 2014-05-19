@@ -22,10 +22,5 @@ public enum Turn
     /**
      * Next turn is to the left
      */
-    LEFT,
-
-    /**
-     * Dont take a turn
-     */
-    FORWARD
+    LEFT
 }
