@@ -64,7 +64,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
      * Returns the instance of Canvas
      *
      * @param cd
-     * @return
+     * @return Canvas
      */
     public static Canvas getInstance(CurrentData cd) {
         if (instance == null) {
@@ -216,8 +216,6 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
      * Overrides update from Observer pattern, to get the data from CurrentData
      * and repaint.
      *
-     * @param o
-     * @param arg
      */
     @Override
     public void update() {

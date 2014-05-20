@@ -25,7 +25,7 @@ public class FastestRoad extends DijkstraSP
     /**
      * Makes the Comparator used by the priorityqueue. Compares the DriveTime
      *
-     * @return Comparator<Road>
+     * @return Comparator<Integer>
      */
     @Override
     protected Comparator<Integer> getComparator()
