@@ -317,8 +317,8 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
      * Zooms in 10% (width and height becomes 10% smaller) when mousewheel
      * scrolls up. New picture is dependant on mouse position.
      *
-     * @param MouseX
-     * @param MouseY
+     * @param mouseX
+     * @param mouseY
      */
     public void zoomIn(double mouseX, double mouseY) {
         double w = c.getWidth() * 0.9;

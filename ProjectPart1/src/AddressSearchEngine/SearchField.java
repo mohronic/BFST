@@ -66,7 +66,7 @@ public class SearchField extends JTextField implements FocusListener
     /**
      * Returns road if road with recieved string is in RoadList
      *
-     * @param roadName String roadname
+     * @param String roadname
      * @return Boolean found
      */
     public Road searchRoad(String searchQuery)

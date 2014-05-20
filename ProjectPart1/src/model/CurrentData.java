@@ -63,7 +63,7 @@ public class CurrentData extends ObservableC {
      * Updates the area to be drawn and gets a new list of relevant roads, from
      * the Quadtree.
      *
-     * @param r, Rectangle2D which is the area to be drawn.
+     * @param r Rectangle2D which is the area to be drawn.
      */
     public void updateArea(Rectangle2D r) {
         view = r;
@@ -174,7 +174,7 @@ public class CurrentData extends ObservableC {
     /**
      * Updates the road label.
      *
-     * @param s, String containing the new text.
+     * @param s String containing the new text.
      */
     public static void setCurrentRoadLabel(String s) {
         crl.setText(s);

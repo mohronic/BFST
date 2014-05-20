@@ -21,9 +21,9 @@ public class Road implements Comparable<Road>
     /**
      * Contructor for the road object.
      *
-     * @param ed, EdgeData for the road
-     * @param fn, the start NodeData (from node)
-     * @param tn, the end NodeData (to node)
+     * @param ed EdgeData for the road
+     * @param fn the start NodeData (from node)
+     * @param tn the end NodeData (to node)
      */
     public Road(EdgeData ed, NodeData fn, NodeData tn)
     {

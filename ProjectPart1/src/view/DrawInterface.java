@@ -15,10 +15,10 @@ public interface DrawInterface {
     /**
      * Draws a line between two points, with double values.
      *
-     * @param x1, x coordinate of first point.
-     * @param y1, y coordinate of first point.
-     * @param x2, x coordinate of second point.
-     * @param y2, y coordinate of second point.
+     * @param x1 x coordinate of first point.
+     * @param y1 y coordinate of first point.
+     * @param x2 x coordinate of second point.
+     * @param y2 y coordinate of second point.
      */
     public void drawLine(double x1, double y1, double x2, double y2);
 
@@ -26,10 +26,10 @@ public interface DrawInterface {
      * Draws a rectangle, with the upper left corner at (x1, y1), with double
      * values
      *
-     * @param x1, x coordinate of upper left corner.
-     * @param y1, y coordinate of upper left corner.
-     * @param width, width of the rectangle.
-     * @param height, height of the rectangle.
+     * @param x1 x coordinate of upper left corner.
+     * @param y1 y coordinate of upper left corner.
+     * @param width width of the rectangle.
+     * @param height height of the rectangle.
      */
     public void drawRect(double x1, double y1, double width, double height);
 
