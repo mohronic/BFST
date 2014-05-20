@@ -15,7 +15,6 @@ import model.Road;
  */
 public abstract class DijkstraSP
 {
-
     /**
      * Used in A* to compare to the target coordinates.
      *
