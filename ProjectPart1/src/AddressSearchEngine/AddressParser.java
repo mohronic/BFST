@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package SearchEngine;
+package AddressSearchEngine;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,11 +21,10 @@ public class AddressParser {
      * @param adr input adress String.
      * @return String[] address array which contains:
      * [Street name, Building number, Building letter, Floor, PostCode, City].
-     * Arrayspots = null if no such string was reconized by regex.
+     * Arrayspots = null if no such String was reconized by regex.
      */
-    public static String[] parse(String adr){
-        //String[] addressArray = new String[6];
-
+    public static String[] parse(String adr)
+    {
         String streetName = parseStreetName(adr);
         String buildingNumber = parseBuildingNumber(adr);
         String buildingLetter = parseBuildingLetter(adr);
@@ -46,9 +45,9 @@ public class AddressParser {
     }
     
     /**
-     * 
-     * @param adr full address string
-     * @return 
+     * Parses the streetname from input address.
+     * @param adr full address String
+     * @return String containing only streetname and null if not reconized.
      */
     private static String parseStreetName(String adr)
     {
@@ -87,6 +86,11 @@ public class AddressParser {
         return streetName;
     }
     
+    /**
+     * Parses the building number from input address.
+     * @param adr full address String
+     * @return String containing only buildingnumber and null if not reconized.
+     */
     private static String parseBuildingNumber(String adr)
     {
         String number = null;
@@ -100,6 +104,12 @@ public class AddressParser {
         return number;
     }
     
+    /**
+     * Parses the building letter from input address.
+     * @param adr full address String
+     * @return String containing only building letter and null if not 
+     * reconized.
+     */
     private static String parseBuildingLetter(String adr)
     {
         String buildingLetter = null;
@@ -112,6 +122,11 @@ public class AddressParser {
         return buildingLetter;
     }
     
+    /**
+     * Parses the floor number from input address.
+     * @param adr full address String
+     * @return String containing only floor number and null if not reconized.
+     */
     public static String parseFloor(String adr)
     {
         String floor = null;
@@ -124,6 +139,11 @@ public class AddressParser {
         return floor;
     }
     
+    /**
+     * Parses the zip from input address. (NB: Only 4-digit zip is supporten)
+     * @param adr full address String
+     * @return String containing only zip and null if not reconized.
+     */
     public static String parseZip(String adr)
     {
         String zip = null;
@@ -136,6 +156,11 @@ public class AddressParser {
         return zip;
     }
     
+    /**
+     * Parses the city from input address.
+     * @param adr full address String
+     * @return String containing only city and null if not reconized.
+     */
     public static String parseCity(String adr)
     {
         String city = null;

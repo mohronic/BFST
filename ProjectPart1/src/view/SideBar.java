@@ -4,8 +4,7 @@ import Route.DijkstraSP;
 import Route.FastestRoad;
 import Route.Linked;
 import Route.ShortestRoad;
-import SearchEngine.SearchLabel;
-import SearchEngine.SearchTrie;
+import AddressSearchEngine.SearchField;
 import ctrl.KL;
 import ctrl.StartMap;
 import java.awt.Dimension;
@@ -34,9 +33,8 @@ public class SideBar
     private JPanel sideBar;
     private final static String newline = "\n";
     private static ArrayList<Linked> roadRoute;
-    private static SearchLabel slTo, slFrom;
+    private static SearchField slTo, slFrom;
     private static JLabel info;
-    private static SearchTrie searchTrie = SearchTrie.getInstance();
 
     public SideBar()
     {
@@ -48,13 +46,13 @@ public class SideBar
         info.setFont(new Font("Plain", 0, 11));
         info.setText("Adress format: 'Streetname Number, ZipCode Cityname'");
 
-        slTo = new SearchLabel(StartMap.allRoads, "From");
+        slTo = new SearchField(StartMap.allRoads, "From");
         KL klTo = new KL();
         klTo.setSearchLabel(slTo);
         slTo.addKeyListener(klTo);
         slTo.setColumns(25);
 
-        slFrom = new SearchLabel(StartMap.allRoads, "To");
+        slFrom = new SearchField(StartMap.allRoads, "To");
         KL klFrom = new KL();
         klFrom.setSearchLabel(slFrom);
         slFrom.addKeyListener(klFrom);
@@ -235,12 +233,12 @@ public class SideBar
         return roadRoute;
     }
 
-    public static SearchLabel getSlTo()
+    public static SearchField getSlTo()
     {
         return slTo;
     }
 
-    public static SearchLabel getSlFrom()
+    public static SearchField getSlFrom()
     {
         return slFrom;
     }

@@ -3,13 +3,12 @@ package ctrl;
 import krakloader.KrakParser;
 import QuadTreePack.QuadTree;
 import QuadTreePack.QuadTreeInterface;
-import SearchEngine.CityNameParser;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
@@ -34,7 +33,6 @@ public class StartMap {
     public final static ArrayList<Road> allRoads = new ArrayList<>();
     public final static ArrayList<ArrayList<Road>> adj = new ArrayList<>();
     public static Rectangle2D bounds;
-    public static HashMap<Integer, String> zipToCityHashMap;
     public static boolean osm;
 
     /**
@@ -52,11 +50,9 @@ public class StartMap {
             kp.setData();
             kp = null;
         }
-        //Collections.sort(allRoads);
+        Collections.sort(allRoads); 
+        //We sort to make linear search-as-you-type functionality work.
         
-        CityNameParser cityNameParser = new CityNameParser();
-        zipToCityHashMap = cityNameParser.getZipToCityHashMap();
-
         cd = CurrentData.getInstance();
         cd.setXmax(bounds.getMaxX());
         cd.setXmin(bounds.getMinX());
@@ -94,7 +90,6 @@ public class StartMap {
         frame.add(SB.getSideBar(), BorderLayout.WEST);
         frame.setVisible(true);
         cd.updateArea(StartMap.bounds);
-
     }
 
     public void setData(QuadTree[] qts) {

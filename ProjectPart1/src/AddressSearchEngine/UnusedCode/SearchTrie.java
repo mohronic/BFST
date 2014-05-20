@@ -4,13 +4,11 @@
  * and open the template in the editor.
  */
 
-package SearchEngine;
+package AddressSearchEngine.UnusedCode;
 
 import ctrl.StartMap;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import model.Road;
 
 /**
@@ -19,73 +17,16 @@ import model.Road;
  */
 public class SearchTrie
 {
-    private static SearchTrie instance = null;
-    public ArrayList<Road> roadList = StartMap.allRoads; //Soon to be sorted
-    //public HashMap<String, int> stringToInt = AlphabetParser.get;
-    //public LinkedList<String , >
-    public AlphabetParser alphabetParser = new AlphabetParser();
-    public HashMap<Character, Integer> charToIndex = alphabetParser.getHashMap();
-    private int alphabetSize = charToIndex.size();
+    private final ArrayList<Road> roadList = StartMap.allRoads;
+    private final AlphabetParser alphabetParser = new AlphabetParser();
+    private final HashMap<Character, Integer> charToIndex = alphabetParser.getHashMap();
+    private final int alphabetSize = charToIndex.size();
     private Trie root;
     
     private SearchTrie()
     {
-        //makeSearchTrie();
+        makeSearchTrie();
     }
-    
-    public Road searchRoad(String prefix)
-    {
-        Road temp = null;
-        for (Road road : roadList)
-        {
-            if (road.getEd().VEJNAVN.startsWith(prefix))
-            {
-                temp = road;
-                break;
-            }
-        }
-        return temp;
-    }
-    
-    public Road searchRoad(String prefix, int zipCode)
-    {
-        Road temp = null;
-        if(!StartMap.osm)
-        {
-            for (Road road : roadList)
-            {
-                if (road.getEd().VEJNAVN.startsWith(prefix) && road.getEd().V_POSTNR == zipCode)
-                {
-                    temp = road;
-                    break;
-                }
-            }
-        }
-        else //OSM
-        {
-            temp = searchRoad(prefix);
-        }
-        return temp;
-    }
-    
-    public static SearchTrie getInstance()
-    {
-        if (instance == null) {
-            instance = new SearchTrie();
-        }
-        return instance;
-    }
-    
-    //    public ArrayList<Road> searchRoad(String prefix)
-//    {
-//        return null;
-//    }
-    
-//    public ArrayList<Road> searchRoad(String prefix, int zipCode)
-//    {
-//        return null;
-//    }
-    
     
     private void makeSearchTrie()
     {
@@ -94,7 +35,7 @@ public class SearchTrie
         int roadListIndex = 0;
         for(Road road : roadList)
         {
-            if(road.getEd().VEJNAVN.length()>0) //Ignore roads with no name
+            if(road.getEd().VEJNAVN.length() > 0) //Ignore roads with no name
             {
                 char[] roadNameArr = road.getEd().VEJNAVN.toLowerCase().toCharArray();
                 ArrayList<Character> roadNameAL = new ArrayList<>(0);
@@ -104,8 +45,6 @@ public class SearchTrie
                 }
                 root.insert(roadNameAL, 0, roadListIndex++);
             }    
-            //Trie trie = new Trie(roadNameArr, roadNameAL, roadListIndex++);
-            //root.insert(trie);
         }
     }
     
@@ -114,7 +53,6 @@ public class SearchTrie
         char letter;
         ArrayList<Integer> indexArr;
         Trie[] trieArr;
-        //Trie[] trieArr;
         
         public Trie(ArrayList<Character> roadNameAL, int roadNameCharIndex, int roadListIndex)
         {
@@ -145,20 +83,6 @@ public class SearchTrie
                 trieArr[charToIndex.get(trie.letter)] = trie;
             }
         }
-        
-        
-//        public void insert(Trie trie)
-//        {
-//            int indexOfChar = charToIndex.get(trie.letter);
-//            if(trieArr[indexOfChar] != null)
-//            {
-//                trieArr[indexOfChar] = trie;
-//            }
-//            else
-//            {
-//                trieArr[indexOfChar].insert(trie);
-//            }
-//        }
         
         public ArrayList<Integer> getRoadIndexes()
         {

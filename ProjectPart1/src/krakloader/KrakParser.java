@@ -13,12 +13,7 @@ import static ctrl.StartMap.allRoads;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
-import krakloader.EdgeData;
-import krakloader.KrakLoader;
-import krakloader.LoadCoast;
-import krakloader.NodeData;
 import model.Road;
-import pathFind.Pathfinder;
 
 /**
  *

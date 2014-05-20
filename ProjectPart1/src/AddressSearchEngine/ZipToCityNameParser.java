@@ -1,12 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
-
-//Test hvis vi ikke har nogen fil med bynavne
- */
-
-package SearchEngine;
+package AddressSearchEngine;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -17,20 +9,26 @@ import java.util.HashMap;
 import krakloader.DataLine;
 
 /**
- *
+ * 
  * @author Peter Ø. Clausen <pvcl@itu.dk>
  */
-public class CityNameParser
+public class ZipToCityNameParser
 {
-    static HashMap<Integer, String> zipToCity = new HashMap<>();
-    //static HashMap<String, Integer> cityToZip = new HashMap<>();
+    private static ZipToCityNameParser instance = null;
+    private final HashMap<Integer, String> zipToCity = new HashMap<>();
     
-    public CityNameParser()
+    private ZipToCityNameParser()
     {
         String dir = "./data/";
         ArrayList<String> input = readFile(dir+"bynavne.txt");
         makeZipToCityHashMap(input);
-        //makeCityToZipHashMap(input);
+    }
+    
+    public static ZipToCityNameParser getInstance() {
+        if (instance == null) {
+            instance = new ZipToCityNameParser();
+        }
+        return instance;
     }
     
     private ArrayList<String> readFile(String fileName)
@@ -62,7 +60,7 @@ public class CityNameParser
     {
         for(String s : input)
         {
-            if(s.matches("^[0-9]{4}(?=[-]).+")) //XXXX-Y...Y hvor X er numre og Y er tegn
+            if(s.matches("^[0-9]{4}(?=[-]).+"))
             {
                 String postalcode = s.substring(0,9);
                 String[] split = postalcode.split("-");
@@ -86,7 +84,7 @@ public class CityNameParser
         }
     }
     
-    public static HashMap<Integer, String> getZipToCityHashMap()
+    public HashMap<Integer, String> getZipToCityHashMap()
     {
         return zipToCity;
     }

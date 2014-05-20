@@ -3,31 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SearchEngine;
+package AddressSearchEngine;
 
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import javax.swing.JTextField;
-import model.CurrentData;
 import model.Road;
 import ctrl.StartMap;
 import java.awt.event.FocusEvent;
 import view.Canvas;
-//import java.util.Collections; Overvej at sorterer RoadList.
 
 /**
- * Class SearchLabel, extends JTextField, used to search for Roads from a
- * string.
+ * Class SearchField, extends JTextField, used to search for Roads from a
+ string.
  *
  * @author Peter Ø. Clausen <pvcl@itu.dk>
  */
-public class SearchLabel extends JTextField implements FocusListener
+public class SearchField extends JTextField implements FocusListener
 {
-    public CurrentData currentData;
     public String currentString;
     private final String hint;
     private boolean showingHint;
-    private final AutoCompleter autoCompleter = AutoCompleter.getInstance();
+    private final AutoCompleter autoCompleter = new AutoCompleter();
     public ArrayList<Road> roadList = StartMap.allRoads; //Soon to be sorted
     public int oldtext = 0;
 
@@ -38,7 +35,7 @@ public class SearchLabel extends JTextField implements FocusListener
      * @param roadList Recieves a roadList for road name searching
      * @param hint The guiding text
      */
-    public SearchLabel(ArrayList<Road> roadList, String hint)
+    public SearchField(ArrayList<Road> roadList, String hint)
     {
         super(hint);
         this.hint = hint;

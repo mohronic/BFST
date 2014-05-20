@@ -5,7 +5,7 @@
  */
 package ctrl;
 
-import SearchEngine.SearchLabel;
+import AddressSearchEngine.SearchField;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
@@ -20,14 +20,14 @@ import view.Canvas;
  */
 public class KL implements KeyListener {
 
-    private SearchLabel searchLabel;
+    private SearchField searchLabel;
     private final CurrentData cd = CurrentData.getInstance();
     private final Canvas c;
 
     /**
      * Constructor for KL, setting up current searchlabel and canvas.
      *
-     * @param searchLabel SearchLabel which key listener is connected to.
+     * @param searchLabel SearchField which key listener is connected to.
      * @param canvas Canvas which it is connected to.
      */
     public KL() {
@@ -142,7 +142,7 @@ public class KL implements KeyListener {
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
     }
 
-    public void setSearchLabel(SearchLabel sl) {
+    public void setSearchLabel(SearchField sl) {
         searchLabel = sl;
     }
 }
