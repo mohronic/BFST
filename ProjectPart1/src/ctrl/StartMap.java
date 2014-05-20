@@ -85,7 +85,7 @@ public class StartMap {
         c.addMouseWheelListener(ml);
         c.addKeyListener(kl);
         cd.addObserver(c);
-        CanvasML cml = new CanvasML();
+        CanvasFocusML cml = new CanvasFocusML();
         c.addMouseListener(cml);
 
         frame.setLayout(new BorderLayout());
@@ -121,9 +121,14 @@ public class StartMap {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-         int choose = JOptionPane.showConfirmDialog(null,
-                                 "Do you wish to use Open Street Map or krak datasets?\nFor osm press yes, for krak press no", "Please select",
-                                 JOptionPane.YES_NO_OPTION);
+        int choose = JOptionPane.showOptionDialog(null, 
+        "Do you want OpenStreetMaps (osm), or Krak data?\n Osm loads slower but has more detail.", 
+        "Dataset", 
+        JOptionPane.OK_CANCEL_OPTION, 
+        JOptionPane.INFORMATION_MESSAGE, 
+        null, 
+        new String[]{"OSM", "Krak"},
+        "default");
         if(choose == 1) osm = false;
         else osm = true;
         StartMap sm = new StartMap(osm);

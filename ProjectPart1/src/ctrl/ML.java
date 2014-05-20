@@ -53,11 +53,16 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         c = Canvas.getInstance(cd);
     }
 
+    
     @Override
     public void mouseClicked(MouseEvent me) {
-        //Unused
+        //Do nothing
     }
 
+    /**
+     * Sets variables which define what mousebutton is pressed and that the mousebutton is held down
+     * @param me 
+     */
     @Override
     public void mousePressed(MouseEvent me) {
         mouseStart = me.getPoint();
@@ -172,7 +177,7 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         mouseStart = currentMouse;
     }
 
-    /* Method for finding the closest road, by distance to the midpoint.
+    /* Method for finding the closest road, by distance to roadsegments.
      */
     private void getClosestRoad(MouseEvent e) {
         double eX, eY;
@@ -233,7 +238,7 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         }
     }
 
-    /* Draws the rectangle which is to zoomed in to.
+    /* Draws the rectangle which is zoomed in to.
      */
     private void drawZoomArea() {
         Graphics2D g = (Graphics2D) c.getGraphics();
@@ -290,6 +295,10 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         //does nothing
     }
 
+    /**
+     * 
+     * @param e 
+     */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         if ((System.currentTimeMillis()-time)> 10) {

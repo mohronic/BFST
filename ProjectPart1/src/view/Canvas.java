@@ -85,6 +85,8 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
         grid = new int[xGrid][yGrid];
         routeND = SideBar.getRoute();
     }
+    
+    
 
     private void drawMap(Graphics2D g2) {
         tempImg = new Rectangle2D.Double(oView.getX() / scale, oView.getY() / scale, oView.getWidth() / scale, oView.getHeight() / scale);
