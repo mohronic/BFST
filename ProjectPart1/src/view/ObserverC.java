@@ -9,7 +9,7 @@ package view;
 /**
  * Simple replacement for java.util.Observer which contained confusing
  * functionality.
- * @author Archigo
+ * @author gruppe A
  */
 public interface ObserverC {
     
