@@ -96,7 +96,7 @@ public class ShortestRoad extends DijkstraSP
                 to.setFrom(p);
                 to.setLength(from.getLength() + r.getLength());
                 to.setDrivetime(from.getDrivetime() + r.getDrivetime());
-                to.setEdge(r);
+                to.setEdge(r, distTo.get(p).getEdge());
                 distTo.set(q, to);
                 if (!pq.contains(q))                                        
                 {

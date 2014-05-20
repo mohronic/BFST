@@ -36,8 +36,8 @@ public class QuadTree implements QuadTreeInterface {
     }
 
     /**
-     * Insets a new road object into the proper place in the quadtree. Will
-     * divide if a quad gets too big.
+     * Inserts a new road object into the proper place in the quadtree. Will
+     * divide if a quad gets too big. Divide happens on sizeLimit +1.
      *
      * @param Road rd
      */
@@ -84,7 +84,7 @@ public class QuadTree implements QuadTreeInterface {
     }
 
     /**
-     * Fills the pointer given by "search" with the elements contained in quads
+     * Fills the list given by "search" with the elements contained in quads
      * which intersects with the given rectangle
      *
      * @param x1
@@ -136,19 +136,12 @@ public class QuadTree implements QuadTreeInterface {
     }
 
     /**
-     * Calls Boundary.containsPoint to check whether a road's center is within a
-     * the quad.
-     *
+     * Calls Boundary.containsPoint to check whether a road's center is within
+     * a quad.
      * @param rd
      * @return
      */
     private boolean checkBounds(Road rd) {
         return boundary.containsPoint(rd.midX, rd.midY);
-    }
-
-    public QuadTree getNortheast() {
-        return northeast;
-    }
-    
-    
+    } 
 }

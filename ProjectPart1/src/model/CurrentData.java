@@ -71,7 +71,6 @@ public class CurrentData extends ObservableC {
         oldx = r.getMinX();
         setChanged();
         notifyObservers();
-
     }
 
     public List<Road> getTile(Rectangle2D r) {

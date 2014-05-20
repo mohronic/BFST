@@ -72,8 +72,13 @@ public class QuadTreeTest {
         for (Road road : rdl) {
             qt.insert(road);
         }
+        
+        
         assertTrue(qt.search(0, 500, 0, 500).size() == 500 && qt.search(500, 1000, 0, 500).size() == 500 && qt.search(0, 500, 500, 1000).size() == 500 && qt.search(500, 1000, 500, 1000).size() == 500);
-
+        assertTrue(checkroads(250, 250, qt.search(0, 500, 0, 500)));
+        assertTrue(checkroads(750, 250, qt.search(500, 1000, 0, 500)));
+        assertTrue(checkroads(250, 750, qt.search(0, 500, 500, 1000)));
+        assertTrue(checkroads(750, 750, qt.search(500, 1000, 500, 1000)));
     }
 
     @Test
@@ -141,5 +146,14 @@ public class QuadTreeTest {
                 x = 750;
             }
         }
+    }
+    
+    public boolean checkroads(int x, int y, ArrayList<Road> roadlist){
+        for(Road road: roadlist){
+            if(road.midX != x) return false;
+            if(road.midY != y) return false;
+            
+        }
+        return true;
     }
 }

@@ -78,10 +78,14 @@ public class Linked
      *
      * @param r
      */
-    public void setEdge(Road r)
+    public void setEdge(Road r, Road prev)
     {
         edge = r;
-        calTurn();
+        if (prev != null)
+        {
+            calTurn(prev);
+        }
+
     }
 
     /**
@@ -134,52 +138,60 @@ public class Linked
         return turn;
     }
 
-    private void calTurn()
+    /**
+     * Calculates the turn be calculating the angle between the two vectors
+     *
+     */
+    private void calTurn(Road prev)
     {
 
         if (from != -1)
         {
-            Point2D.Double toNode;
-            Point2D.Double fromNode;
+
+            Point2D.Double C;
+            Point2D.Double B;
+            Point2D.Double A;
 
             if (from == edge.getFn().getKDV())
             {
-                toNode = edge.to();
+                B = edge.from();
+                C = edge.to();
             } else
             {
-                toNode = edge.from();
+                C = edge.from();
+                B = edge.to();
             }
 
-            ArrayList<Road> roads = StartMap.adj.get(from);
-            Road r = roads.get(0);
-
-            if (r.getFn().getKDV() == from)
+            if (from == prev.getTn().getKDV())
             {
-                fromNode = r.from();
+                A = prev.from();
             } else
             {
-                fromNode = r.to();
+                A = prev.to();
             }
 
-            if (fromNode.getY() < toNode.getY())
+            Point2D.Double AB = new Point2D.Double(A.getX() - B.getX(), A.getY() - B.getY());
+            Point2D.Double CB = new Point2D.Double(C.getX() - B.getX(), C.getY() - B.getY());
+
+            double theta = Math.atan2(AB.getY(), AB.getX()) - Math.atan2(CB.getY(), CB.getX());
+
+            //Normalize angle
+            if (theta < 0)
             {
-                if (fromNode.getX() < toNode.getX())
-                {
-                    turn = Turn.LEFT;
-                } else
-                {
-                    turn = Turn.RIGHT;
-                }
+                theta += 2 * Math.PI;
+            }
+
+            if (theta == 0)
+            {
+                turn = Turn.FORWARD;
+            } else if (theta < Math.PI)
+            {
+                turn = Turn.LEFT;
             } else
             {
-                if (fromNode.getX() < toNode.getX())
-                {
-                    turn = Turn.LEFT;
-                } else
-                {
-                    turn = Turn.RIGHT;
-                }
+                turn = Turn.RIGHT;
             }
+
         }
     }
 }

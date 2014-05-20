@@ -142,7 +142,11 @@ public class KL implements KeyListener {
         cd.updateArea(new Rectangle2D.Double(x, y, w, h));
     }
 
-    public void setSearchLabel(SearchField sl) {
+    /**
+     * Setter method to set searchLabel
+     * @param sl 
+     */
+    public void setSearchField(SearchField sl) {
         searchLabel = sl;
     }
 }

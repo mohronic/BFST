@@ -48,13 +48,13 @@ public class SideBar
 
         slTo = new SearchField(StartMap.allRoads, "From");
         KL klTo = new KL();
-        klTo.setSearchLabel(slTo);
+        klTo.setSearchField(slTo);
         slTo.addKeyListener(klTo);
         slTo.setColumns(25);
 
         slFrom = new SearchField(StartMap.allRoads, "To");
         KL klFrom = new KL();
-        klFrom.setSearchLabel(slFrom);
+        klFrom.setSearchField(slFrom);
         slFrom.addKeyListener(klFrom);
         slFrom.setColumns(25);
 
@@ -78,8 +78,8 @@ public class SideBar
         area.setEditable(false);
 
         sideBar.add(info);
-        sideBar.add(slFrom);
         sideBar.add(slTo);
+        sideBar.add(slFrom);
         sideBar.add(rFastest);
         sideBar.add(rShortest);
         sideBar.add(scrollPane);
@@ -215,7 +215,9 @@ public class SideBar
                         }
                     }
                 }
-                Canvas.getInstance(null).repaint();
+                Canvas c = Canvas.getInstance(null);
+                c.newGrid();
+                c.repaint();
             }
 
         }

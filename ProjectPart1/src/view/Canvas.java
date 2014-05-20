@@ -20,8 +20,8 @@ import model.CurrentData;
 import model.Road;
 
 /**
- * The class Canvas extends JComponent and implements Observer. It is used to
- * draw the data in the class CurrentData.
+ * The class Canvas extends JComponent and implements ObserverC and
+ * FocusListener. It is used to draw the map data from the class CurrentData.
  *
  * @author Gruppe A
  */
@@ -45,8 +45,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
     public static ArrayList<Road> lrs;
 
     /**
-     * Constructor for Canvas, getting the data to draw and instantiates the
-     * DrawInterface.
+     * Constructor for Canvas, sets up fields and gets the starting area.
      *
      * @param cd
      */
@@ -61,6 +60,12 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
         isFocus = true;
     }
 
+    /**
+     * Returns the instance of Canvas
+     *
+     * @param cd
+     * @return
+     */
     public static Canvas getInstance(CurrentData cd) {
         if (instance == null) {
             instance = new Canvas(cd);
@@ -68,22 +73,27 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
         return instance;
     }
 
+    /**
+     * Creates the grid for the bufferedImages.
+     */
     private void createGrid() {
+        grid = null;
+        tiles.clear();
+        tileNr = 1;
         int xGrid = (int) Math.ceil(tempImg.getWidth() / tSize);
         int yGrid = (int) Math.ceil(tempImg.getHeight() / tSize);
         grid = new int[xGrid][yGrid];
+        routeND = SideBar.getRoute();
     }
+    
+    
 
     private void drawMap(Graphics2D g2) {
         tempImg = new Rectangle2D.Double(oView.getX() / scale, oView.getY() / scale, oView.getWidth() / scale, oView.getHeight() / scale);
         tempView = new Rectangle2D.Double(view.getX() / scale, view.getY() / scale, view.getWidth() / scale, view.getHeight() / scale);
         if (newGrid) {
-            grid = null;
-            tiles.clear();
-            tileNr = 1;
             createGrid();
             newGrid = false;
-            routeND = SideBar.getRoute();
         }
         if (tiles.size() > 400) {
             tiles.clear();
@@ -104,14 +114,10 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
                     drawRoute(temp, tileArea);
                     tiles.put(tileNr, temp);
                     grid[i][j] = tileNr++;
-                    Rectangle2D tile = new Rectangle2D.Double(i * tSize - (tempView.getX() - tempImg.getX()), j * tSize - (tempView.getY() - tempImg.getY()), tSize, tSize);
-                    g2.draw(tile);
                     int xOut = (int) (i * tSize - Math.round(tempView.getX() - tempImg.getX()));
                     int yOut = (int) (j * tSize - Math.round(tempView.getY() - tempImg.getY()));
                     g2.drawImage(temp, xOut, yOut, this);
                 } else {
-                    Rectangle2D tile = new Rectangle2D.Double(i * tSize - (tempView.getX() - tempImg.getX()), j * tSize - (tempView.getY() - tempImg.getY()), tSize, tSize);
-                    g2.draw(tile);
                     int xOut = (int) (i * tSize - Math.round(tempView.getX() - tempImg.getX()));
                     int yOut = (int) (j * tSize - Math.round(tempView.getY() - tempImg.getY()));
                     g2.drawImage(tiles.get(grid[i][j]), xOut, yOut, this);
@@ -167,7 +173,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
             ArrayList<Linked> tRoute = new ArrayList<>();
             g2 = temp.createGraphics();
             g2.setColor(Color.orange);
-            g2.setStroke(new BasicStroke(2));
+            g2.setStroke(new BasicStroke(3));
             for (Linked l : routeND) {
                 Road r = l.getEdge();
                 if (tileArea.contains(r.midX, r.midY)) {
@@ -247,12 +253,13 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
         double scaley = view.getHeight() / (double) this.getHeight();
         double scalex = view.getWidth() / (double) this.getWidth();
         if (scaley > scalex) {
-            scale = view.getHeight() / (double) this.getHeight();
+            scale = scaley;
         } else {
-            scale = view.getWidth() / (double) this.getWidth();
+            scale = scalex;
         }
         if (scale < 1) {
             scale = 1;
+            this.view = new Rectangle2D.Double(cd.getOldx(), cd.getOldy(), this.getWidth(), this.getHeight());
         }
     }
 
@@ -273,5 +280,9 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
 
     public void setFocus(boolean b) {
         isFocus = b;
+    }
+
+    public void newGrid() {
+        createGrid();
     }
 }
