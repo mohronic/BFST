@@ -63,12 +63,6 @@ public class KrakParser {
         for (NodeData n : nodes) {
             n.recalc(kl.ymax, kl.xmin);
         }
-        for (EdgeData ed : edges) {
-            Road rd = new Road(ed, nodes.get(ed.FNODE - 1), nodes.get(ed.TNODE - 1));
-            roads.add(rd);
-            allRoads.add(rd);
-            DijkstraSP.addEdgeToAdj(rd);
-        }
 
         sm.setBounds(new Rectangle2D.Double(0, 0, xmax, ymax));
 
@@ -76,7 +70,12 @@ public class KrakParser {
         QuadTree qtlvl2 = new QuadTree(ROOT, null);
         QuadTree qtlvl3 = new QuadTree(ROOT, null);
         QuadTree qtlvl4 = new QuadTree(ROOT, null);
-        for (Road r : roads) {
+
+        for (EdgeData ed : edges) {
+            Road r = new Road(ed, nodes.get(ed.FNODE - 1), nodes.get(ed.TNODE - 1));
+            roads.add(r);
+            allRoads.add(r);
+            DijkstraSP.addEdgeToAdj(r);
             int typ = r.getEd().TYP;
             if (typ == 1 || typ == 3 || typ == 2 || typ == 48 || typ == 80 || typ == 42 || typ == 41) {
                 qtlvl1.insert(r);
