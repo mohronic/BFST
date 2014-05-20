@@ -173,18 +173,18 @@ public class Linked
             Point2D.Double AB = new Point2D.Double(A.getX() - B.getX(), A.getY() - B.getY());
             Point2D.Double CB = new Point2D.Double(C.getX() - B.getX(), C.getY() - B.getY());
 
-            double delta = Math.atan2(AB.getY(), AB.getX()) - Math.atan2(CB.getY(), CB.getX());
+            double theta = Math.atan2(AB.getY(), AB.getX()) - Math.atan2(CB.getY(), CB.getX());
 
             //Normalize angle
-            if (delta < 0)
+            if (theta < 0)
             {
-                delta += 2 * Math.PI;
+                theta += 2 * Math.PI;
             }
 
-            if (delta == 0)
+            if (theta == 0)
             {
                 turn = Turn.FORWARD;
-            } else if (delta < Math.PI)
+            } else if (theta < Math.PI)
             {
                 turn = Turn.LEFT;
             } else
