@@ -45,7 +45,6 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
      * takes a Canvas 'c' as parameter, which it uses to calculate the scale.
      *
      *
-     * @param c Canvas which it is connected too.
      */
     public ML() {
         currentView = new Rectangle2D.Double(cd.getXmin(), cd.getYmin(), cd.getXmax() - cd.getXmin(), cd.getYmax() - cd.getYmin());
@@ -332,8 +331,8 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
      * Zooms out 10% (width and height becomes 10% bigger) when mousewheel
      * scrolls down. New picture is dependant on mouse position.
      *
-     * @param MouseX X coordinate from mouse on component
-     * @param MouseY Y coordinate from mouse on component
+     * @param mouseX X coordinate from mouse on component
+     * @param mouseY Y coordinate from mouse on component
      */
     public void zoomOut(double mouseX, double mouseY) {
         double w = c.getWidth() * 1.1;
