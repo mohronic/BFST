@@ -27,7 +27,7 @@ public class ShortestRoad extends DijkstraSP
      * Makes the Comparator used by the priorityqueue. Compares the accumulated
      * length. A* inspired comparison
      *
-     * @return Comparator<Road>
+     * @return Comparator<Integer>
      */
     @Override
     protected Comparator<Integer> getComparator()

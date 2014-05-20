@@ -24,7 +24,8 @@ import javax.swing.JTextArea;
 import model.Road;
 
 /**
- *
+ *The sidebar from the gui which contains the route search propeties
+ * 
  * @author Adam Engsig (adae@itu.dk)
  */
 public class SideBar
@@ -36,6 +37,9 @@ public class SideBar
     private static SearchField slTo, slFrom;
     private static JLabel info;
 
+    /**
+     * Initializes the sidebar
+     */
     public SideBar()
     {
         sideBar = new JPanel();
@@ -225,21 +229,41 @@ public class SideBar
 
     }
 
+    /**
+     * Returns the sidebar
+     * 
+     * @return JPanel sidebar
+     */
     public JPanel getSideBar()
     {
         return sideBar;
     }
 
+    /**
+     * Returns the route from fastest/shortest road
+     * 
+     * @return ArrayList<Linked>
+     */
     public static ArrayList<Linked> getRoute()
     {
         return roadRoute;
     }
 
+    /**
+     * SearchField
+     * 
+     * @return SearchField
+     */
     public static SearchField getSlTo()
     {
         return slTo;
     }
 
+    /**
+     * SearchField
+     * 
+     * @return SearchField
+     */
     public static SearchField getSlFrom()
     {
         return slFrom;

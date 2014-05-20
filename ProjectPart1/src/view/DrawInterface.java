@@ -64,9 +64,19 @@ public interface DrawInterface {
      */
     public void setGraphics(Graphics g);
     
+    /**
+     *
+     * @return
+     */
     public BufferedImage getImage();
     
+    /**
+     *
+     */
     public void startDraw();
     
+    /**
+     *
+     */
     public void endDraw();
 }

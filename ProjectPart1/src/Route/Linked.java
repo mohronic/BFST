@@ -1,8 +1,6 @@
 package Route;
 
-import ctrl.StartMap;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import model.Road;
 
 /**
@@ -77,6 +75,7 @@ public class Linked
      * Set the corresponding edge, and calculates which way the turn is
      *
      * @param r
+     * @param prev
      */
     public void setEdge(Road r, Road prev)
     {

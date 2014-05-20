@@ -11,7 +11,6 @@ import model.Road;
  * class has 2 childs, one which finds the shortest road, and one which finds
  * the fastest road.
  *
- * @author Adam Engsig (adae@itu.dk)
  */
 public abstract class DijkstraSP
 {
@@ -191,6 +190,10 @@ public abstract class DijkstraSP
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Linked> getDistTo() 
     {
         return distTo;
