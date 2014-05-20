@@ -191,8 +191,9 @@ public abstract class DijkstraSP
     }
 
     /**
-     *
-     * @return
+     * Used in testing
+     * 
+     * @return ArrayList<Linked>
      */
     public ArrayList<Linked> getDistTo() 
     {

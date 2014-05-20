@@ -66,7 +66,7 @@ public interface DrawInterface {
     
     /**
      *
-     * @return
+     * @return BufferedImage
      */
     public BufferedImage getImage();
     

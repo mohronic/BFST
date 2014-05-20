@@ -28,8 +28,9 @@ public class Graphics2DDraw implements DrawInterface {
     }
 
     /**
-     *
-     * @return
+     * Singleton
+     * 
+     * @return Graphics2DDraw
      */
     public static Graphics2DDraw getInstance() {
         if (instance == null) {
@@ -87,7 +88,7 @@ public class Graphics2DDraw implements DrawInterface {
 
     /**
      *
-     * @return
+     * @return BufferedImage
      */
     @Override
     public BufferedImage getImage() {
