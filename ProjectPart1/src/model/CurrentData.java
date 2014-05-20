@@ -1,6 +1,5 @@
 package model;
 
-import QuadTreePack.QuadTree;
 import QuadTreePack.QuadTreeInterface;
 import ctrl.StartMap;
 import java.awt.geom.Rectangle2D;
@@ -11,8 +10,9 @@ import view.Canvas;
 import view.ObservableC;
 
 /**
- * Class containing the current data, which is to be drawn by Canvas. It
+ * Class containing the current area, which is to be drawn by Canvas. It
  * implements Observable. It is also follows the singleton design pattern.
+ * It also contains methods to get data from the QuadTree.
  *
  * @author Gruppe A
  */
@@ -22,7 +22,7 @@ public class CurrentData extends ObservableC {
     private final QuadTreeInterface qtlvl1, qtlvl2, qtlvl3, qtlvl4;
     private double xmin = 0, ymin = 0, xmax = 0, ymax = 0;
     private double oldx = 0, oldy = 0;
-    private List<Road> roads = new ArrayList<>();
+    private List<Road> rds = new ArrayList<>();
     private Rectangle2D view;
     private static JLabel crl = new JLabel("Ingen vej fundet");
 
@@ -51,18 +51,7 @@ public class CurrentData extends ObservableC {
     }
 
     /**
-     * Return the roads contained in CurrentData.
-     *
-     * @return The list of roads in CurrentData.
-     */
-    public List<Road> getRoads() {
-        return roads;
-    }
-
-    /**
-     * Updates the area to be drawn and gets a new list of relevant roads, from
-     * the Quadtree.
-     *
+     * Updates the area to be drawn.
      * @param r Rectangle2D which is the area to be drawn.
      */
     public void updateArea(Rectangle2D r) {
@@ -72,15 +61,20 @@ public class CurrentData extends ObservableC {
         setChanged();
         notifyObservers();
     }
-
+    
+    /**
+     * Return an List of Road object relevant to the tile defined 
+     * by Rectangle2D r.
+     * @param r
+     * @return 
+     */
     public List<Road> getTile(Rectangle2D r) {
-        List<Road> rds;
+        rds = new ArrayList<>();
         Canvas c = Canvas.getInstance(null);
         double maxScale = xmax / (double) c.getWidth();
         if (maxScale < ymax / (double) c.getHeight()) {
             maxScale = (ymax - ymin) / (double) c.getHeight();
         }
-        //r.getX()*0.95, (r.getX() + r.getWidth())*1.1, r.getY()*0.95, (r.getY() + r.getHeight())*1.10
         rds = qtlvl1.search(r.getX(), (r.getX() + r.getWidth()), r.getY(), (r.getY() + r.getHeight()));
 
         if (c.getScale() < maxScale * 0.75 && c.getScale() > maxScale * 0.05) {
@@ -143,15 +137,6 @@ public class CurrentData extends ObservableC {
     }
 
     /**
-     * Returns the Quadtree used in CurrentData
-     *
-     * @return Quadtree qt.
-     */
-    public QuadTreeInterface getQT() {
-        return qtlvl3;
-    }
-
-    /**
      * Returns the value x value of the upper left corner, of the area which is
      * drawn.
      *
@@ -189,19 +174,35 @@ public class CurrentData extends ObservableC {
     public static JLabel getCurrentRoadLabel() {
         return crl;
     }
-
+    
+    /**
+     * Sets the minimum x value for the bounds of the map
+     * @param xmin 
+     */
     public void setXmin(double xmin) {
         this.xmin = xmin;
     }
-
+    
+     /**
+     * Sets the minimum y value for the bounds of the map
+     * @param ymin 
+     */
     public void setYmin(double ymin) {
         this.ymin = ymin;
     }
-
+    
+    /**
+     * Returns the maximum x value for the bounds of the map
+     * @return 
+     */
     public double getXmin() {
         return xmin;
     }
-
+    
+    /**
+     * Returns the minimum y value for the bounds of the map
+     * @return 
+     */
     public double getYmin() {
         return ymin;
     }

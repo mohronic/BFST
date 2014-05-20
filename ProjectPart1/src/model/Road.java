@@ -1,6 +1,5 @@
 package model;
 
-import ctrl.StartMap;
 import java.awt.geom.Point2D;
 import krakloader.NodeData;
 import krakloader.EdgeData;
@@ -43,17 +42,29 @@ public class Road implements Comparable<Road>
     {
         return ed;
     }
-
+    
+    /**
+     * Returns the coordinates of the from node (fn) as a Point2D object
+     * @return 
+     */
     public Point2D.Double from()
     {
         return new Point2D.Double(fn.getX_COORD(), fn.getY_COORD());
     }
-
+    
+    /**
+     * Returns the coordinates of the to node (tn) as a Point2D object
+     * @return 
+     */
     public Point2D.Double to()
     {
         return new Point2D.Double(tn.getX_COORD(), tn.getY_COORD());
     }
-
+    
+    /**
+     * Returns the length of the road
+     * @return 
+     */
     public double getLength()
     {
         return ed.LENGTH;

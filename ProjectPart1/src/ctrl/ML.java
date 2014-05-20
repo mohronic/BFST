@@ -14,6 +14,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.List;
 import krakloader.NodeData;
 import model.CurrentData;
 import model.Road;
@@ -52,15 +53,16 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         c = Canvas.getInstance(cd);
     }
 
-    
     @Override
     public void mouseClicked(MouseEvent me) {
         //Do nothing
     }
 
     /**
-     * Sets variables which define what mousebutton is pressed and that the mousebutton is held down
-     * @param me 
+     * Sets variables which define what mousebutton is pressed and that the
+     * mousebutton is held down
+     *
+     * @param me
      */
     @Override
     public void mousePressed(MouseEvent me) {
@@ -157,7 +159,6 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
     public void mouseMoved(MouseEvent e) {
         currentMouse = e.getPoint();
         getClosestRoad(e);
-
         e.consume();//Stops the event when not in use, makes program run faster
 
     }
@@ -184,10 +185,8 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         eY = (e.getPoint().getY() * c.getScale()) + cd.getOldy();
         Road closestRoad = null;
 
-        ArrayList<Road> rl = CurrentData.getInstance().getQT().search(eX - 0.5, eX + 1, eY - 0.5, eY + 1);
+        List<Road> rl = CurrentData.getInstance().getTile(new Rectangle2D.Double(eX - 0.5, eY - 0.5, eX + 1, eY + 1));
         if (rl.size() > 0) {
-            //We use pythagoras to calculate distance:
-            //double dist = Math.sqrt((Math.pow(rl.get(0).midX - eX, 2)) + (Math.pow(rl.get(0).midY - eY, 2)));
             NodeData fN = rl.get(0).getFn();
             NodeData tN = rl.get(0).getTn();
             double v = Math.abs((tN.getX_COORD() - fN.getX_COORD()) * (fN.getY_COORD() - eY) - (fN.getX_COORD() - eX) * (tN.getY_COORD() - fN.getY_COORD()));
@@ -203,15 +202,7 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
                     vR = Math.sqrt(Math.pow((tN.getX_COORD() - fN.getX_COORD()), 2) + Math.pow(tN.getY_COORD() - fN.getY_COORD(), 2));
                     dist = v / vR;
                     continue;
-                    //dist = Math.sqrt((Math.pow(road.midX - eX, 2)) + (Math.pow(road.midY - eY, 2)));
                 }
-                /*double distX, distY;
-                 distX = Math.abs(road.midX - eX);
-                 distY = Math.abs(road.midY - eY);
-                 if (Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2)) < dist && !road.getEd().VEJNAVN.isEmpty()) {
-                 dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
-                 closestRoad = road;
-                 }*/
 
                 if (!road.getEd().VEJNAVN.isEmpty()) {
                     fN = road.getFn();
@@ -224,7 +215,6 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
                         dist = temp;
                     }
                 }
-
             }
 
             if (!closestRoad.getEd().VEJNAVN.isEmpty()) {
@@ -236,7 +226,7 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
 
         }
     }
-
+    
     /* Draws the rectangle which is zoomed in to.
      */
     private void drawZoomArea() {
@@ -295,12 +285,12 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
     }
 
     /**
-     * 
-     * @param e 
+     *
+     * @param e
      */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        if ((System.currentTimeMillis()-time)> 10) {
+        if ((System.currentTimeMillis() - time) > 10) {
             if (e.getPreciseWheelRotation() < 0) {
                 zoomIn(e.getX(), e.getY());
                 time = System.currentTimeMillis();

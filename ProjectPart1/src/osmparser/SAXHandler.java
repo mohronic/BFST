@@ -3,7 +3,6 @@ package osmparser;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import krakloader.NodeData;
 import org.xml.sax.Attributes;
@@ -11,13 +10,12 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * brug Attributes atts.getValue("maxlon") f.eks.;
+ * SaxHandler for reading the modified OpenStreetMap data
  *
- * @author z3ss
+ * @author Group A
  */
 public class SAXHandler extends DefaultHandler {
 
-    //private HashMap<Integer, NodeData> nodes = new HashMap<>();
     private ArrayList<NodeData> nodes = new ArrayList<>();
     private List<Way> ways = new ArrayList<>();
     private NodeData cNode = null;
@@ -97,6 +95,11 @@ public class SAXHandler extends DefaultHandler {
         OSMParser.setData(ways, nodes, rect);
     }
 
+    /**
+     * Converts the file URL to a format Java can use.
+     * @param filename
+     * @return 
+     */
     public static String convertToFileURL(String filename) {
         String path = new File(filename).getAbsolutePath();
         if (File.separatorChar != '/') {
@@ -109,6 +112,9 @@ public class SAXHandler extends DefaultHandler {
         return "file:" + path;
     }
 
+    /*
+     * Changes the type from string to integer
+     */
     private int toTyp(String typ) {
         int type;
         switch (typ) {
