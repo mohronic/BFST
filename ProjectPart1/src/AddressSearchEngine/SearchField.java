@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package AddressSearchEngine;
 
 import java.awt.event.FocusListener;
@@ -17,7 +12,7 @@ import view.Canvas;
  * Class SearchField, extends JTextField, used to search for Roads from a
  string.
  *
- * @author Peter Ø. Clausen <pvcl@itu.dk>
+ * @author Gruppe A.
  */
 public class SearchField extends JTextField implements FocusListener
 {
@@ -33,7 +28,7 @@ public class SearchField extends JTextField implements FocusListener
      * starttext and selects it.
      *
      * @param roadList Recieves a roadList for road name searching
-     * @param hint The guiding text
+     * @param hint Guiding test (From or To)
      */
     public SearchField(ArrayList<Road> roadList, String hint)
     {
@@ -64,10 +59,11 @@ public class SearchField extends JTextField implements FocusListener
     }
     
     /**
-     * Returns road if road with recieved string is in RoadList
+     * Returns Road object if Road object with recieved String is found in
+     * in autoCompleter.
      *
-     * @param roadName String roadname
-     * @return Boolean found
+     * @param roadName String searchQuery
+     * @return Road object if found, and null if not.
      */
     public Road searchRoad(String searchQuery)
     {
@@ -83,13 +79,21 @@ public class SearchField extends JTextField implements FocusListener
         currentString = super.getText();
     }
 
-        @Override
+    /**
+     * getText is overwritten from JTextField's getText method
+     * @return String what is written in searchField
+     */
+    @Override
     public String getText()
     {
         if(showingHint) return "";
         else return super.getText();
     }   
     
+    /**
+     * Called when SearchField is clicked upon.
+     * @param e FocusEvent
+     */
     @Override
     public void focusGained(FocusEvent e)
     {
@@ -101,6 +105,10 @@ public class SearchField extends JTextField implements FocusListener
         Canvas.getInstance(null).setFocus(false);
     }
 
+    /**
+     * Called when another component is clicked upon.
+     * @param e FocusEvent
+     */
     @Override
     public void focusLost(FocusEvent e)
     {

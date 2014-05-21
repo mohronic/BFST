@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package AddressSearchEngine;
 
 import java.util.regex.Matcher;
@@ -11,13 +7,15 @@ import java.util.regex.Pattern;
  * AddressParser parses an address input string into an address array using
  * regular expressions.
  * 
- * @author pvcl@itu.dk
+ * @author Gruppe A.
  */
 public class AddressParser {
     private static Pattern p;
     private static Matcher m;
+    
     /**
      * Parses input String address, returns address array.
+     * Numbers in code is used in whiteboxtest refferences.
      * @param adr input adress String.
      * @return String[] address array which contains:
      * [Street name, Building number, Building letter, Floor, PostCode, City].

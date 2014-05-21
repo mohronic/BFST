@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package AddressSearchEngine;
 
 import java.util.HashMap;
@@ -17,7 +11,7 @@ import model.Road;
  * as-you-type functionallity in SearchLabel. Contains method for road name
  * searching.
  * 
- * @author Peter Ø. Clausen <pvcl@itu.dk>
+ * @author Gruppe A.
  */
 public class AutoCompleter
 {
@@ -85,7 +79,8 @@ public class AutoCompleter
     }
     
     /**
-     * Switch between Road object search, if streetname and or zip is typed 
+     * Switch between Road object search, if streetname or Streetname and zip 
+     * is typed in.
      * in input address.
      * @param userInput
      * @return Road object that was searched for or null if no such Road was 

@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package AddressSearchEngine.UnusedCode;
 
+import AddressSearchEngine.ZipToCityNameParser;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,18 +10,39 @@ import java.util.HashMap;
 import krakloader.DataLine;
 
 /**
- *
- * @author Peter Ø. Clausen <pvcl@itu.dk>
+ * Alphabet parser is used to parse alphabet.txt into HashMap of Character to
+ * Integer values. E.G. a maps to 0, b maps to 1 and so on.
+ * The class was supposed to be used in SearchTrie, but is now never
+ * instatiated.
+ * @author Gruppe A
  */
 public class AlphabetParser
 {
     static HashMap<Character, Integer> letterToIndex = new HashMap<>();
+    private static AlphabetParser instance = null;    
     
-    public AlphabetParser()
+    /**
+     * Private constructor is only called once to avoid parsing textfile
+     * more than once.
+     * To get an instance of this class. Call 
+     * AlphabetParser.getInstance().
+     */
+    private AlphabetParser()
     {
         String dir = "./data/";
         ArrayList<Character> input = readFile(dir+"alphabet.txt");
         makeLetterToIndexHashMap(input);
+    }
+    
+    /**
+     * Call this method to get an instance of AlphabetParser.
+     * @return AlphabetParser instance
+     */
+    public static AlphabetParser getInstance() {
+        if (instance == null) {
+            instance = new AlphabetParser();
+        }
+        return instance;
     }
     
     private ArrayList<Character> readFile(String fileName) 

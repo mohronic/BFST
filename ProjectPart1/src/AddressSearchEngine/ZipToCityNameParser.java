@@ -9,14 +9,24 @@ import java.util.HashMap;
 import krakloader.DataLine;
 
 /**
- * 
- * @author Peter Ø. Clausen <pvcl@itu.dk>
+ * The class ZipToCityNameParser is used to parse bynavne.txt to a 
+ * HashMap which maps zip to city name.
+ * ZipToCityNameParser is a Singelton, meaning only one instantiation of this
+ * class can exist. This is done so that bynavne.txt is not parsed more than
+ * once.
+ * @author Gruppe A
  */
 public class ZipToCityNameParser
 {
     private static ZipToCityNameParser instance = null;
     private final HashMap<Integer, String> zipToCity = new HashMap<>();
     
+    /**
+     * Private constructor is only called once to avoid parsing textfile
+     * more than once.
+     * To get an instance of this class. Call 
+     * ZipToCityNameParser.getInstance().
+     */
     private ZipToCityNameParser()
     {
         String dir = "./data/";
@@ -24,6 +34,10 @@ public class ZipToCityNameParser
         makeZipToCityHashMap(input);
     }
     
+    /**
+     * Call this method to get an instance of ZipToCityNameParser.
+     * @return ZipToCityNameParser instance
+     */
     public static ZipToCityNameParser getInstance() {
         if (instance == null) {
             instance = new ZipToCityNameParser();
@@ -31,6 +45,13 @@ public class ZipToCityNameParser
         return instance;
     }
     
+    /**
+     * Reads from input text file, each line becomes a String,
+     * returns ArrayLists of Strings.
+     * Used to parse bynavn.txt to an ArrayList
+     * @param fileName String directory to file
+     * @return ArrayList of parsed Strings
+     */
     private ArrayList<String> readFile(String fileName)
     {
         ArrayList<String> arr = new ArrayList<>();
@@ -56,11 +77,17 @@ public class ZipToCityNameParser
         return arr;
     }
     
+    /**
+     * Creates a HashMap with zip mapping to City name.
+     * @param input ArrayList with Strings of data in format:
+     * "zip  cityname" E.G: "5320  Agedrup" or.
+     * "zipfrom-zipto  cityname" E.G: "1000-1499  København K"
+     */
     private void makeZipToCityHashMap(ArrayList<String> input)
     {
         for(String s : input)
         {
-            if(s.matches("^[0-9]{4}(?=[-]).+"))
+            if(s.matches("^[0-9]{4}(?=[-]).+")) //Input matches "zipfrom-zipto  cityname"
             {
                 String postalcode = s.substring(0,9);
                 String[] split = postalcode.split("-");
@@ -75,7 +102,7 @@ public class ZipToCityNameParser
                 }
             }
             
-            else
+            else //Input matches "zip  cityname"
             {
                 int postalcode = Integer.parseInt(s.substring(0,4));
                 String cityName = s.substring(6);
@@ -84,6 +111,10 @@ public class ZipToCityNameParser
         }
     }
     
+    /**
+     * Returns HashMap of Integer zip mapping to String city name.
+     * @return HashMap<Integer, String> zip mapping to city name.
+     */
     public HashMap<Integer, String> getZipToCityHashMap()
     {
         return zipToCity;

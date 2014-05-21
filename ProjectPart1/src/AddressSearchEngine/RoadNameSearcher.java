@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package AddressSearchEngine;
 
 import ctrl.StartMap;
@@ -11,13 +5,22 @@ import java.util.ArrayList;
 import model.Road;
 
 /**
- *
- * @author Peter Ø. Clausen <pvcl@itu.dk>
+ * The RoadNameSearcher class is used for linear search through allRoads 
+ * ArrayList to return Road objects with seachquery of street name, or
+ * street name and zip.
+ * @author Gruppe A.
  */
 public class RoadNameSearcher
 {
     public ArrayList<Road> roadList = StartMap.allRoads;
     
+    /**
+     * SearchRoad is used for linear search through allRoads using street 
+     * name prefix.
+     * One of two overloaded methods.
+     * @param roadNamePrefix prefix of street name
+     * @return Road object with street name prefix as VEJNAVN.
+     */
     public Road searchRoad(String roadNamePrefix)
     {
         Road temp = null;
@@ -32,6 +35,14 @@ public class RoadNameSearcher
         return temp;
     }
     
+    /**
+     * SearchRoad is used for linear search through allRoads using
+     * street name prefix and zip.
+     * @param roadNamePrefix
+     * @param zipCode
+     * @return Road object with street name as VEJNAVN, and zip as
+     * V_POSTNR
+     */
     public Road searchRoad(String roadNamePrefix, int zipCode)
     {
         Road temp = null;
@@ -47,7 +58,7 @@ public class RoadNameSearcher
             }
         }
         else //OSM
-                {
+        {
             temp = searchRoad(roadNamePrefix);
         }
         return temp;

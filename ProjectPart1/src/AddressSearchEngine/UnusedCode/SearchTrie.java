@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package AddressSearchEngine.UnusedCode;
 
 import ctrl.StartMap;
@@ -12,26 +6,52 @@ import java.util.HashMap;
 import model.Road;
 
 /**
- *
- * @author Peter Ø. Clausen <pvcl@itu.dk>
+ * Class SearchTrie is a non-finished class of the known datastructure of a Trie.
+ * It was supposed to map VEJNAVN to an arrayList of indexvalues for
+ * Road objects with the searched VEJNAVN.
+ * The class is never instatiated.
+ * The class is a singelston, to only get instantiated once (but never is).
+ * 
+ * We have choosen to include this class in our project because it is almost 
+ * done, and we want to talk about it for the exams if the oppotunity
+ * strikes.
+ * @author Gruppe A
  */
 public class SearchTrie
 {
     private final ArrayList<Road> roadList = StartMap.allRoads;
-    private final AlphabetParser alphabetParser = new AlphabetParser();
+    private final AlphabetParser alphabetParser = AlphabetParser.getInstance();
     private final HashMap<Character, Integer> charToIndex = alphabetParser.getHashMap();
     private final int alphabetSize = charToIndex.size();
-    private Trie root;
+    private Node root;
+    private static SearchTrie instance = null;
     
+    /**
+     * Constructor is only called once to make structure of Trie.
+     */
     private SearchTrie()
     {
         makeSearchTrie();
     }
     
+    /**
+     * Call this method to get an instance of SearchTrie.
+     * @return SearchTrie instance
+     */
+    public static SearchTrie getInstance() {
+        if (instance == null) {
+            instance = new SearchTrie();
+        }
+        return instance;
+    }
+    
+    /**
+     * Builds searchTrie
+     */
     private void makeSearchTrie()
     {
         ArrayList<Character> emptyAL = new ArrayList<>(0);
-        root = new Trie(emptyAL, 0 , -1);
+        root = new Node(emptyAL, 0 , -1);
         int roadListIndex = 0;
         for(Road road : roadList)
         {
@@ -48,15 +68,24 @@ public class SearchTrie
         }
     }
     
-    private class Trie
+    /**
+     * Innerclass of Nodes in Trie.
+     */
+    private class Node
     {
         char letter;
         ArrayList<Integer> indexArr;
-        Trie[] trieArr;
+        Node[] nextNodeArr;
         
-        public Trie(ArrayList<Character> roadNameAL, int roadNameCharIndex, int roadListIndex)
+        /**
+         * Constructor for a new Node in Trie.
+         * @param roadNameAL ArrayList of the full Street name with each Character on a new index
+         * @param roadNameCharIndex int value that maps to place in roadNameAL how far it has ben parsed
+         * @param roadListIndex int value for allList Road index, of inserted Road object.
+         */
+        public Node(ArrayList<Character> roadNameAL, int roadNameCharIndex, int roadListIndex)
         {
-            trieArr = new Trie[alphabetSize];
+            nextNodeArr = new Node[alphabetSize];
             if(roadNameAL.size() > roadNameCharIndex) //Not root
             {
                 insert(roadNameAL , roadNameCharIndex, roadListIndex);
@@ -69,29 +98,44 @@ public class SearchTrie
             }
         }
         
+        /**
+         * Inserts a new Road into Trie.
+         * @param roadNameAL ArrayList of the full Street name with each Character on a new index
+         * @param roadNameCharIndex int value that maps to place in roadNameAL how far it has ben parsed
+         * @param roadListIndex int value for allList Road index, of inserted Road object.
+         */
         public void insert(ArrayList<Character> roadNameAL, int roadNameCharIndex, int roadListIndex)
         {
             letter = roadNameAL.get(roadNameCharIndex);
-            Trie nextTrie = trieArr[charToIndex.get(letter)];
+            Node nextTrie = nextNodeArr[charToIndex.get(letter)];
             if(nextTrie != null) //Such Trie already exists
             {
                 nextTrie.insert(roadNameAL, ++roadNameCharIndex, roadListIndex);
             }
             else //Such Trie does not exist
-            {
-                Trie trie = new Trie(roadNameAL, ++roadNameCharIndex, roadListIndex);
-                trieArr[charToIndex.get(trie.letter)] = trie;
+                                                {
+                Node trie = new Node(roadNameAL, ++roadNameCharIndex, roadListIndex);
+                nextNodeArr[charToIndex.get(trie.letter)] = trie;
             }
         }
         
+        /**
+         * Returns Nodes RoadIndexes.
+         * @return ArrayList of Integers mapping to indexes in allRoads.
+         */
         public ArrayList<Integer> getRoadIndexes()
         {
             return indexArr;
         }
         
-        public Trie getSubTrie(char c)
+        /**
+         * Is called to move to Node with Character letter.
+         * @param c SubNode with this char
+         * @return Node subNode.
+         */
+        public Node getSubTrie(char c)
         {
-            return trieArr[charToIndex.get(c)];
+            return nextNodeArr[charToIndex.get(c)];
         }
     }
 }
