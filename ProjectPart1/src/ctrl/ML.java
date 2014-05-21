@@ -16,8 +16,8 @@ import view.Canvas;
 import view.Graphics2DDraw;
 
 /**
- * Implements: MouseListener, MouseMotionListener and MouseWheelListener, 
- * used to zoom, pan and find nearest road.
+ * Implements: MouseListener, MouseMotionListener and MouseWheelListener, used
+ * to zoom, pan and find nearest road.
  *
  * @author Group A
  */
@@ -180,29 +180,17 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
 
         List<Road> rl = CurrentData.getInstance().getTile(new Rectangle2D.Double(eX - 0.5, eY - 0.5, eX + 1, eY + 1));
         if (rl.size() > 0) {
-            NodeData fN = rl.get(0).getFn();
-            NodeData tN = rl.get(0).getTn();
-            double v = Math.abs((tN.getX_COORD() - fN.getX_COORD()) * (fN.getY_COORD() - eY) - (fN.getX_COORD() - eX) * (tN.getY_COORD() - fN.getY_COORD()));
-            double vR = Math.sqrt(Math.pow((tN.getX_COORD() - fN.getX_COORD()), 2) + Math.pow(tN.getY_COORD() - fN.getY_COORD(), 2));
-            double dist = v / vR;
+            double dist = calcDist(rl.get(0), eX, eY);
             closestRoad = rl.get(0);
             for (Road road : rl) {
                 if (closestRoad.getEd().VEJNAVN.isEmpty() && !road.getEd().VEJNAVN.isEmpty()) {
                     closestRoad = road;
-                    fN = road.getFn();
-                    tN = road.getTn();
-                    v = Math.abs((tN.getX_COORD() - fN.getX_COORD()) * (fN.getY_COORD() - eY) - (fN.getX_COORD() - eX) * (tN.getY_COORD() - fN.getY_COORD()));
-                    vR = Math.sqrt(Math.pow((tN.getX_COORD() - fN.getX_COORD()), 2) + Math.pow(tN.getY_COORD() - fN.getY_COORD(), 2));
-                    dist = v / vR;
+                    dist = calcDist(road, eX, eY);
                     continue;
                 }
 
                 if (!road.getEd().VEJNAVN.isEmpty()) {
-                    fN = road.getFn();
-                    tN = road.getTn();
-                    v = Math.abs((tN.getX_COORD() - fN.getX_COORD()) * (fN.getY_COORD() - eY) - (fN.getX_COORD() - eX) * (tN.getY_COORD() - fN.getY_COORD()));
-                    vR = Math.sqrt(Math.pow((tN.getX_COORD() - fN.getX_COORD()), 2) + Math.pow(tN.getY_COORD() - fN.getY_COORD(), 2));
-                    double temp = v / vR;
+                    double temp = calcDist(road, eX, eY);;
                     if (temp < dist) {
                         closestRoad = road;
                         dist = temp;
@@ -220,6 +208,17 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
         }
     }
     
+    /*
+     * Calculates the shortest distance from the Road r to the point (eX, eY)
+     */
+    private double calcDist(Road r, double eX, double eY) {
+        NodeData fN = r.getFn();
+        NodeData tN = r.getTn();
+        double v = Math.abs((tN.getX_COORD() - fN.getX_COORD()) * (fN.getY_COORD() - eY) - (fN.getX_COORD() - eX) * (tN.getY_COORD() - fN.getY_COORD()));
+        double vR = Math.sqrt(Math.pow((tN.getX_COORD() - fN.getX_COORD()), 2) + Math.pow(tN.getY_COORD() - fN.getY_COORD(), 2));
+        return v/vR;
+    }
+
     /* Draws the rectangle which is zoomed in to.
      */
     private void drawZoomArea() {
@@ -279,6 +278,7 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
 
     /**
      * Register if the mousewheel is moved and in which direction.
+     *
      * @param e
      */
     @Override
