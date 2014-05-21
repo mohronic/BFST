@@ -8,7 +8,7 @@ import krakloader.EdgeData;
  * Class able to contain the data of a road, consisting of an EdgeData and two
  * NodeData. It also calculates a midpoint for the Road object.
  *
- * @author Gruppe A
+ * @author Group A
  */
 public class Road implements Comparable<Road>
 {
@@ -69,12 +69,20 @@ public class Road implements Comparable<Road>
     {
         return ed.LENGTH;
     }
-
+    
+    /**
+     * Returns the name of the road
+     * @return 
+     */
     public String getName()
     {
         return ed.VEJNAVN;
     }
-
+    
+    /**
+     * Returns the drivetime of the road
+     * @return 
+     */
     public double getDrivetime()
     {
         return ed.DRIVETIME;
@@ -99,12 +107,20 @@ public class Road implements Comparable<Road>
     {
         return tn;
     }
-
+    
+    /**
+     * Sets the from node
+     * @param nodedata 
+     */
     public void setFn(NodeData nodedata)
     {
         fn = nodedata;
     }
-
+    
+    /**
+     * Sets the to node and calculates the mid points (fn have to be sat beforehand)
+     * @param nodedata 
+     */
     public void setTn(NodeData nodedata)
     {
         tn = nodedata;
@@ -112,7 +128,12 @@ public class Road implements Comparable<Road>
         midX = (fn.getX_COORD() + tn.getX_COORD()) / 2;
         midY = (fn.getY_COORD() + tn.getY_COORD()) / 2;
     }
-
+    
+    /**
+     * Overrided method compareTo from comparable
+     * @param o
+     * @return 
+     */
     @Override
     public int compareTo(Road o)
     {

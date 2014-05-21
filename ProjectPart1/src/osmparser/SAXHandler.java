@@ -27,7 +27,15 @@ public class SAXHandler extends DefaultHandler {
     @Override
     public void startDocument() throws SAXException {
     }
-
+    
+    /**
+     * Handles the new started element.
+     * @param namespaceURI
+     * @param localName
+     * @param qName
+     * @param atts
+     * @throws SAXException 
+     */
     @Override
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
         String key = localName;
@@ -74,7 +82,14 @@ public class SAXHandler extends DefaultHandler {
                 break;
         }
     }
-
+    
+    /**
+     * Saves the element which has ended.
+     * @param namespaceURI
+     * @param localName
+     * @param qName
+     * @throws SAXException 
+     */
     @Override
     public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
         String key = localName;
@@ -88,7 +103,11 @@ public class SAXHandler extends DefaultHandler {
                 break;
         }
     }
-
+    
+    /**
+     * Sends data to OSMParser as the document ends
+     * @throws SAXException 
+     */
     @Override
     public void endDocument() throws SAXException {
         Rectangle2D rect = new Rectangle2D.Double(minx, miny, maxx - minx, maxy - miny);

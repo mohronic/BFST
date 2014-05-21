@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package krakloader;
 
 import static QuadTreePack.NSEW.ROOT;
@@ -16,20 +11,25 @@ import java.util.ArrayList;
 import model.Road;
 
 /**
- *
- * @author KristianMohr
+ * Class for parsing and converting Krak data to the right format.
+ * 
+ * @author Group A
  */
 public class KrakParser {
 
     public static double xmax, ymax, xmin, ymin;
     private StartMap sm;
-
+    
+    /**
+     * Constructor with pointer to StartMap as parameter
+     * @param sm 
+     */
     public KrakParser(StartMap sm) {
         this.sm = sm;
     }
 
     /*
-     * Loads the data with the use of the krakloader package, recalculates the
+     * Loads the data with the use of KrakLoader and LoadCoast, recalculates the
      * coordinates and inserts the data into the Quadtree.
      * @throws IOException 
      */
@@ -96,7 +96,13 @@ public class KrakParser {
         sm.setData(qts);
 
     }
-
+    
+    /**
+     * Configures the coast data and recalculates bounds.
+     * @param kl
+     * @param lc
+     * @param coastList 
+     */
     private void loadCoastHelper(KrakLoader kl, LoadCoast lc, ArrayList<Road> coastList) {
         if (kl.xmin > lc.xmin) {
             xmin = lc.xmin;
@@ -121,11 +127,11 @@ public class KrakParser {
 
         for (Road r : coastList) {
             NodeData tnd = r.getFn();
-            tnd.recalcCoast(kl.ymax, kl.xmin);
+            tnd.recalc(kl.ymax, kl.xmin);
             r.setFn(tnd);
 
             NodeData tnd2 = r.getTn();
-            tnd2.recalcCoast(kl.ymax, kl.xmin);
+            tnd2.recalc(kl.ymax, kl.xmin);
             r.setTn(tnd2);
         }
     }

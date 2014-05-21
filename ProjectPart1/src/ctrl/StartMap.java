@@ -20,8 +20,8 @@ import view.Canvas;
 import view.SideBar;
 
 /**
- * Class containing main method. It loads the data from the Krak files and
- * creates the GUI.
+ * Class containing main method. It loads the data from either Krak files or
+ * the OpenSteetMap file and creates the GUI.
  *
  * @author Gruppe A
  */
@@ -36,8 +36,8 @@ public class StartMap {
     public static boolean osm;
 
     /**
-     * Constructor for the StartMap object.
-     *
+     * Constructor for the StartMap object. Creates the instance and get the data.
+     * 
      * @throws IOException
      */
     public StartMap(boolean osm) throws IOException, SAXException, ParserConfigurationException {
@@ -91,11 +91,19 @@ public class StartMap {
         frame.setVisible(true);
         cd.updateArea(StartMap.bounds);
     }
-
+    
+    /**
+     * Sets the QuadTrees, this method is called from the parser running.
+     * @param qts 
+     */
     public void setData(QuadTree[] qts) {
         StartMap.qts = qts;
     }
-
+    
+    /**
+     * Sets the bounds of the map, this method is called from the parser running
+     * @param bounds 
+     */
     public void setBounds(Rectangle2D bounds) {
         StartMap.bounds = bounds;
     }
@@ -110,7 +118,7 @@ public class StartMap {
     }
 
     /**
-     * Creates an instance of StartMap.
+     * Promps for which dataset to use and creates an instance of StartMap.
      *
      * @param args
      * @throws IOException

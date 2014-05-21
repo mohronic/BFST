@@ -2,6 +2,7 @@ package krakloader;
 
 /**
  * Represents the raw data from a line in kdv_unload.txt.
+ * It has been modified by group A.
  */
 public class EdgeData {
 
@@ -49,7 +50,11 @@ public class EdgeData {
                 + "'" + F_TURN + "',"
                 + "'" + T_TURN + "',";
     }
-
+    
+    /**
+     * Overloaded constructor for use with KrakLoader and DataLine.
+     * @param line 
+     */
     public EdgeData(String line) {
         DataLine dl = new DataLine(line);
         FNODE = dl.getInt();
@@ -86,9 +91,11 @@ public class EdgeData {
         String AENDR_DATO = dl.getString();
         int TJEK_ID = dl.getInt();
     }
-
+    
+    /**
+     * Overloaded constructor to use with LoadCoast (for coastline data).
+     */
     public EdgeData() {
-
         FNODE = 0;
         TNODE = 0;
         LENGTH = 0;
@@ -111,7 +118,18 @@ public class EdgeData {
         F_TURN = "";
         T_TURN = "";
     }
-
+    
+    /**
+     * Overloaded constructor for OSMParser, taking data as multiple parameters
+     * instead of an dataline.
+     * @param refOne
+     * @param refTwo
+     * @param name
+     * @param typ
+     * @param speed
+     * @param dTime
+     * @param length 
+     */
     public EdgeData(int refOne, int refTwo, String name, int typ, int speed, double dTime, double length) {
         FNODE = refOne;
         TNODE = refTwo;
@@ -135,7 +153,7 @@ public class EdgeData {
         F_TURN = "";
         T_TURN = "";
     }
-    
+    /*
     // FOR TESTING)
     public EdgeData(int FN, int TN, double length, double dTime, String way) {
         FNODE = FN;
@@ -159,5 +177,5 @@ public class EdgeData {
         ONE_WAY = way;
         F_TURN = "";
         T_TURN = "";
-    }
+    }*/
 }

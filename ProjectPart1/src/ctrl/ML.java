@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ctrl;
 
 import java.awt.Graphics2D;
@@ -13,7 +8,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.List;
 import krakloader.NodeData;
 import model.CurrentData;
@@ -22,10 +16,10 @@ import view.Canvas;
 import view.Graphics2DDraw;
 
 /**
- * A mouseListener and mouseMotionListener, used to zoom, pan and find nearest
- * road.
+ * Implements: MouseListener, MouseMotionListener and MouseWheelListener, 
+ * used to zoom, pan and find nearest road.
  *
- * @author Gruppe A
+ * @author Group A
  */
 public class ML implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -44,7 +38,6 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
     /**
      * Constructor for ML, setting the current view and the original view. It
      * takes a Canvas 'c' as parameter, which it uses to calculate the scale.
-     *
      *
      */
     public ML() {
@@ -285,7 +278,7 @@ public class ML implements MouseListener, MouseMotionListener, MouseWheelListene
     }
 
     /**
-     *
+     * Register if the mousewheel is moved and in which direction.
      * @param e
      */
     @Override

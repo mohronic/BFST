@@ -14,7 +14,7 @@ import view.ObservableC;
  * implements Observable. It is also follows the singleton design pattern.
  * It also contains methods to get data from the QuadTree.
  *
- * @author Gruppe A
+ * @author Group A
  */
 public class CurrentData extends ObservableC {
 
