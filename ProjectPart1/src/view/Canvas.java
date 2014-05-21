@@ -23,7 +23,7 @@ import model.Road;
  * The class Canvas extends JComponent and implements ObserverC and
  * FocusListener. It is used to draw the map data from the class CurrentData.
  *
- * @author Gruppe A
+ * @author Group A
  */
 public class Canvas extends JComponent implements ObserverC, FocusListener {
 
@@ -64,7 +64,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
      * Returns the instance of Canvas
      *
      * @param cd
-     * @return
+     * @return Canvas
      */
     public static Canvas getInstance(CurrentData cd) {
         if (instance == null) {
@@ -74,7 +74,7 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
     }
 
     /**
-     * Creates the grid for the bufferedImages.
+     * Creates the grid for the tiles.
      */
     private void createGrid() {
         grid = null;
@@ -87,7 +87,11 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
     }
     
     
-
+    
+    /*
+     * Calculates what tiles to draw, and draws them.
+     * 
+     */
     private void drawMap(Graphics2D g2) {
         tempImg = new Rectangle2D.Double(oView.getX() / scale, oView.getY() / scale, oView.getWidth() / scale, oView.getHeight() / scale);
         tempView = new Rectangle2D.Double(view.getX() / scale, view.getY() / scale, view.getWidth() / scale, view.getHeight() / scale);
@@ -127,7 +131,10 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
             i++;
         }
     }
-
+    
+    /*
+     * Draws a tile from the given data.
+     */
     private BufferedImage drawTile(List<Road> rds) {
         BufferedImage bimg = new BufferedImage((int) tSize, (int) tSize, BufferedImage.TYPE_INT_ARGB);
         Graphics2D big = bimg.createGraphics();
@@ -166,7 +173,11 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
         return bimg;
 
     }
-
+    
+    /*
+     * draws the part of the route relevant for the given tilearea, to the
+     * BufferedImage at the tile.
+     */
     private void drawRoute(BufferedImage temp, Rectangle2D tileArea) {
         Graphics2D g2 = null;
         if (routeND != null) {
@@ -215,9 +226,6 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
     /**
      * Overrides update from Observer pattern, to get the data from CurrentData
      * and repaint.
-     *
-     * @param o
-     * @param arg
      */
     @Override
     public void update() {
@@ -234,21 +242,28 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
     public double getScale() {
         return scale;
     }
-
+    
+    /**
+     * Sets the rectangle the user has dragged with the mouse.
+     * @param rect 
+     */
     public void setDragrect(Rectangle2D rect) {
         dragrect = rect;
     }
-
+    
+    /**
+     * Sets the current status for if the user is dragging with right mouse button
+     * @param bool 
+     */
     public void setDragbool(boolean bool) {
         dragbool = bool;
     }
-
-    public void updateRoute() {
-        newGrid = true;
-        repaint();
-    }
-
-    public void calcScale(Rectangle2D view) {
+    
+    /*´
+     * Calculates the scale for the new zoom level.
+     * 
+     */
+    private void calcScale(Rectangle2D view) {
         oldScale = scale;
         double scaley = view.getHeight() / (double) this.getHeight();
         double scalex = view.getWidth() / (double) this.getWidth();
@@ -262,26 +277,45 @@ public class Canvas extends JComponent implements ObserverC, FocusListener {
             this.view = new Rectangle2D.Double(cd.getOldx(), cd.getOldy(), this.getWidth(), this.getHeight());
         }
     }
-
+    
+    /**
+     * Return if the Canvas has focus
+     * @return 
+     */
     @Override
     public boolean hasFocus() {
         return isFocus;
     }
-
+    
+    /**
+     * Sets if Canvas has focus to be true
+     * @param fe 
+     */
     @Override
     public void focusGained(FocusEvent fe) {
         isFocus = true;
     }
-
+    
+    /**
+     * sets if Canvas has focus to be false.
+     * @param fe 
+     */
     @Override
     public void focusLost(FocusEvent fe) {
         isFocus = false;
     }
-
+    
+    /**
+     * Sets if Canvas has focus to boolean b
+     * @param b 
+     */
     public void setFocus(boolean b) {
         isFocus = b;
     }
-
+    
+    /**
+     * creates a new creates a new grid in Canvas so tiles has to be repainted.
+     */
     public void newGrid() {
         createGrid();
     }

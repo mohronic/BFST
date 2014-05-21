@@ -14,7 +14,7 @@ import model.Road;
 
 /**
  *
- * @author Archigo
+ * @author Gruppe A
  */
 public class LoadCoast {
     

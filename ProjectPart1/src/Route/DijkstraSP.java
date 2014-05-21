@@ -11,11 +11,9 @@ import model.Road;
  * class has 2 childs, one which finds the shortest road, and one which finds
  * the fastest road.
  *
- * @author Adam Engsig (adae@itu.dk)
  */
 public abstract class DijkstraSP
 {
-
     /**
      * Used in A* to compare to the target coordinates.
      *
@@ -192,6 +190,11 @@ public abstract class DijkstraSP
         }
     }
 
+    /**
+     * Used in testing
+     * 
+     * @return ArrayList<Linked>
+     */
     public ArrayList<Linked> getDistTo() 
     {
         return distTo;

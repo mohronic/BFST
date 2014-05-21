@@ -39,7 +39,13 @@ public class NodeData {
         X_COORD = dl.getDouble();
         Y_COORD = dl.getDouble();
     }
-
+    
+    /**
+     * Overloaded constructor to use with OSMParser.
+     * @param id
+     * @param x
+     * @param y 
+     */
     public NodeData(int id, double x, double y) {
         KDV = id;
         X_COORD = x;
@@ -66,20 +72,27 @@ public class NodeData {
         X_COORD = X_COORD - xmin;
         Y_COORD = (-Y_COORD) + ymax;
     }
-
-    public void recalcCoast(double ymax, double xmin) {
-        X_COORD = X_COORD - xmin;
-        Y_COORD = (-Y_COORD) + ymax;
-    }
-
+    
+    /**
+     * returns x coordinate of this node
+     * @return 
+     */
     public double getX_COORD() {
         return X_COORD;
     }
-
+    
+    /**
+     * returns y coordinate of this node
+     * @return 
+     */
     public double getY_COORD() {
         return Y_COORD;
     }
-
+    
+    /**
+     * returns KDV which is the ID of the node
+     * @return 
+     */
     public int getKDV() {
         return KDV;
     }

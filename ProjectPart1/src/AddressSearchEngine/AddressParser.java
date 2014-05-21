@@ -32,10 +32,11 @@ public class AddressParser {
         
         String[] addressArray = {streetName, buildingNumber, buildingLetter, 
             floor, zip, city};
-
+        
+        System.out.print("|");
         for(String qwe : addressArray)
         {
-            System.out.print(qwe + "#");
+            System.out.print(qwe + "|");
         }
         System.out.println("\n");
         

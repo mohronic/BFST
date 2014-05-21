@@ -27,6 +27,11 @@ public class Graphics2DDraw implements DrawInterface {
     private Graphics2DDraw() {
     }
 
+    /**
+     * Singleton
+     * 
+     * @return Graphics2DDraw
+     */
     public static Graphics2DDraw getInstance() {
         if (instance == null) {
             instance = new Graphics2DDraw();
@@ -81,17 +86,27 @@ public class Graphics2DDraw implements DrawInterface {
         bg.setStroke(new BasicStroke(2));
     }
 
+    /**
+     *
+     * @return BufferedImage
+     */
     @Override
     public BufferedImage getImage() {
         return bi;
     }
 
+    /**
+     *
+     */
     @Override
     public void startDraw() {
         bi = new BufferedImage(256,256, BufferedImage.TYPE_INT_ARGB);
         bg = bi.createGraphics();
     }
 
+    /**
+     *
+     */
     @Override
     public void endDraw() {
         bg.dispose();

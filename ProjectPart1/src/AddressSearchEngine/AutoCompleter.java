@@ -29,7 +29,7 @@ public class AutoCompleter
      */
     public String autoCompleteUserInput(String userInput)
     {
-        System.out.println("User input" + userInput);
+        System.out.println("User input: " + userInput);
         String[] addressArray = AddressParser.parse(userInput);
 
         String autoCompletedAddress = "";

@@ -19,8 +19,8 @@ public class Boundary {
      * direction and Boundary. Direction represents which quad out of the given
      * boundary the new boundary needs to represent.
      *
-     * @param enum direction
-     * @param Boundary bd
+     * @param direction
+     * @param bd
      */
     public Boundary(NSEW direction, Boundary bd) {
         if(direction != NSEW.TEST){

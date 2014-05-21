@@ -12,7 +12,7 @@ import view.Canvas;
 
 /**
  * Mouselistener which makes all click actions request focus.
- * @author archigo
+ * @author gruppe A
  */
 public class CanvasFocusML implements MouseListener{
 

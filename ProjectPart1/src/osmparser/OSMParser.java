@@ -7,7 +7,6 @@ import ctrl.StartMap;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -19,8 +18,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 /**
- *
- * @author z3ss
+ * Class for loading and converting the OpenStreetMap data to the right format.
+ * @author Group A
  */
 public class OSMParser {
 
@@ -30,10 +29,20 @@ public class OSMParser {
     public static Rectangle2D bounds;
     private StartMap sm;
 
+    /**
+     * Constructor for OSMParser, takes an pointer to StartMap as an parameter.
+     * @param sm 
+     */
     public OSMParser(StartMap sm) {
         this.sm = sm;
     }
 
+    /**
+     * Loads and sends the OpenStreetMap data to StartMap
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException 
+     */
     public void parseOSM() throws ParserConfigurationException, SAXException, IOException {
         String filename = "./data/osm.osm";
         SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -44,7 +53,10 @@ public class OSMParser {
         xmlReader.parse(SAXHandler.convertToFileURL(filename));
         setupData();
     }
-
+    
+    /*
+     * Changes the OpenStreetMap data to the right format.
+     */
     private void setupData() {
         sm.setBounds(OSMParser.bounds);
         QuadTree qtlvl1 = new QuadTree(ROOT, null);
@@ -87,7 +99,13 @@ public class OSMParser {
         QuadTree[] qts = new QuadTree[]{qtlvl1, qtlvl2, qtlvl3, qtlvl4};
         sm.setData(qts);
     }
-
+    
+    /**
+     * Sets data used in setupData, called from SaxHandler.
+     * @param ways
+     * @param nodes
+     * @param bounds 
+     */
     public static void setData(List<Way> ways, ArrayList<NodeData> nodes, Rectangle2D bounds) {
         OSMParser.ways = ways;
         OSMParser.nodes = nodes;

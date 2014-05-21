@@ -22,8 +22,8 @@ public class QuadTree implements QuadTreeInterface {
      * elements. In the case of a completely new quadtree, should be called with
      * direction "NSEW ROOT" and bd "null"
      *
-     * @param NSEW direction
-     * @param Boundary bd
+     * @param direction
+     * @param bd
      */
     public QuadTree(NSEW direction, Boundary bd) {
         if (direction == NSEW.ROOT) {
@@ -39,7 +39,6 @@ public class QuadTree implements QuadTreeInterface {
      * Inserts a new road object into the proper place in the quadtree. Will
      * divide if a quad gets too big. Divide happens on sizeLimit +1.
      *
-     * @param Road rd
      */
     @Override
     public void insert(Road rd) {
@@ -139,7 +138,7 @@ public class QuadTree implements QuadTreeInterface {
      * Calls Boundary.containsPoint to check whether a road's center is within
      * a quad.
      * @param rd
-     * @return
+     * @return boolean
      */
     private boolean checkBounds(Road rd) {
         return boundary.containsPoint(rd.midX, rd.midY);

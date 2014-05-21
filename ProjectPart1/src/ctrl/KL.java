@@ -22,8 +22,6 @@ public class KL implements KeyListener {
     /**
      * Constructor for KL, setting up current searchlabel and canvas.
      *
-     * @param searchLabel SearchField which key listener is connected to.
-     * @param canvas Canvas which it is connected to.
      */
     public KL() {
         this.c = Canvas.getInstance(cd);

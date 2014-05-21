@@ -34,7 +34,6 @@ public abstract class KrakLoader {
      *
      * @param nodeFile
      * @param edgeFile
-     * @return
      * @throws IOException if there is a problem reading data or the files dont
      * exist
      */

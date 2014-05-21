@@ -46,7 +46,6 @@ public class SearchField extends JTextField implements FocusListener
     {
         updateCurrentString();
         oldtext = getText().length();
-        System.out.println("After update: " + currentString);
         if(currentString.length() > 0)
         {
             String autoCompletedAddress = autoCompleter.autoCompleteUserInput(currentString);

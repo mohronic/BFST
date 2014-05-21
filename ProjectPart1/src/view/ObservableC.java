@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Simple observable superclass without confusing functionality, for use instead
  * of the standard java.utill library
- * @author Archigo
+ * @author gruppe A
  */
 public class ObservableC {
 

@@ -112,7 +112,7 @@ public class DataLine {
 
 	/**
 	 * Returns the next token as a string
-	 * @return
+	 * @return String
 	 */
 	public String getString(){
 		return intern(nextToken());
